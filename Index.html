@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>স্মার্ট IE ও লাইন ব্যালেন্সিং সিমুলেটর | বারিধি গার্মেন্টস লিমিটেড</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Hind Siliguri', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px 24px;
+      margin-bottom: 20px;
+      gap: 15px;
+    }
+
+    .brand h1 {
+      font-size: 1.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand span.badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      font-size: 0.78rem;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .brand p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 15px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0f172a;
+    }
+    .btn-primary:hover { background: #7dd3fc; }
+
+    .btn-success {
+      background: var(--success);
+      color: #052e16;
+    }
+    .btn-success:hover { opacity: 0.9; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+    .btn-outline:hover { background: #334155; }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 5px 10px;
+      font-size: 0.8rem;
+    }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.3); }
+
+    /* Grid Layout */
+    .grid-top {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 980px) {
+      .grid-top { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .field input, .field select {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 11px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+    }
+
+    /* KPI Boxes */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .kpi-box {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .kpi-box .label {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .kpi-box .value {
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-top: 4px;
+      color: #fff;
+    }
+
+    .kpi-box .sub {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    /* Live Forecast Banner */
+    .forecast-panel {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      border-left: 4px solid var(--accent);
+    }
+
+    .forecast-inputs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .forecast-result {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .status-good {
+      background: rgba(34, 197, 94, 0.15);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .status-warn {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .status-bad {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    /* Table & Balancing */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+      background: #0f172a;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    td input {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      width: 100%;
+      font-size: 0.88rem;
+    }
+
+    .bar-bg {
+      width: 100%;
+      height: 10px;
+      background: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .bottleneck-row {
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    .tag-bn {
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    .tag-ok {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-weight: 600;
+    }
+
+    .alert-box {
+      margin-top: 15px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fde68a;
+      font-size: 0.9rem;
+    }
+
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      .card, header, .kpi-box { background: #fff; border: 1px solid #ccc; color: #000; }
+      .header-actions, .btn-danger, #addProcessBtn { display: none !important; }
+      input { border: none !important; color: #000 !important; background: transparent !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>স্মার্ট IE ও লাইন ব্যালেন্সিং সিমুলেটর <span class="badge">Industry Automation • BGL</span></h1>
+        <p>বারিধি গার্মেন্টস লিমিটেড (বিটপী গ্রুপ) — প্রোডাকশন ক্যাপাসিটি, বটলনেক ও এফিশিয়েন্সি টুল</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-outline" onclick="loadSampleData()">স্যাম্পল ডেটা রিসেট</button>
+        <button class="btn-success" onclick="copyWhatsAppReport()">হোয়াটসঅ্যাপ রিপোর্ট কপি</button>
+        <button class="btn-primary" onclick="window.print()">প্রিন্ট / PDF সেভ</button>
+      </div>
+    </header>
+
+    <!-- Top Section -->
+    <div class="grid-top">
+      <!-- Left: Style & Line Setup -->
+      <div class="card">
+        <div class="card-title">
+          <span>১. স্টাইল ও লাইন সেটআপ তথ্য</span>
+          <span style="font-size:0.82rem; color:var(--muted);" id="taktBadge">ট্যাক্ট টাইম: -- সেকেন্ড</span>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label>লাইন নম্বর</label>
+            <input type="text" id="lineNo" value="লাইন - ০৭" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>বায়ার / স্টাইল নাম</label>
+            <input type="text" id="styleName" value="Decathlon - নিট পোলো" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>মোট গার্মেন্টস SMV</label>
+            <input type="number" id="smv" value="14.5" step="0.1" min="0.5" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>অপারেটর সংখ্যা (OP)</label>
+            <input type="number" id="operators" value="28" min="1" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>হেল্পার সংখ্যা (HP)</label>
+            <input type="number" id="helpers" value="6" min="0" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>দৈনিক কর্মঘণ্টা (Hours)</label>
+            <input type="number" id="workHours" value="10" step="0.5" min="1" max="24" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>টার্গেট এফিশিয়েন্সি (%)</label>
+            <input type="number" id="targetEff" value="68" min="10" max="100" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>অনুপস্থিতি / Absent (%)</label>
+            <input type="number" id="absenteeism" value="0" min="0" max="50" oninput="calculateAll()" />
+          </div>
+          <div class="field">
+            <label>শিফট শুরুর সময়</label>
+            <input type="text" id="shiftTime" value="সকাল ০৮:০০" oninput="calculateAll()" />
+          </div>
+        </div>
+
+        <!-- Live Shift Forecast -->
+        <div class="forecast-panel">
+          <div style="font-size:0.92rem; font-weight:700; color:#fff;">লাইভ আওয়ারলি শিফট ফোরকাস্ট (টার্গেট ট্র্যাকার)</div>
+          <div class="forecast-inputs">
+            <div class="field">
+              <label>অতিবাহিত ঘণ্টা</label>
+              <input type="number" id="hoursElapsed" value="4" step="0.5" min="0" max="24" oninput="calculateAll()" />
+            </div>
+            <div class="field">
+              <label>বর্তমান আউটপুট (পিস)</label>
+              <input type="number" id="actualOutput" value="350" min="0" oninput="calculateAll()" />
+            </div>
+            <div class="field">
+              <label>মোট অল্টার / ডিফেক্ট (পিস)</label>
+              <input type="number" id="defectPcs" value="14" min="0" oninput="calculateAll()" />
+            </div>
+          </div>
+          <div id="forecastResult" class="forecast-result status-good">হিসাব করা হচ্ছে...</div>
+        </div>
+      </div>
+
+      <!-- Right: Output KPIs -->
+      <div class="card">
+        <div class="card-title">
+          <span>২. লাইন ক্যাপাসিটি ও টার্গেট ফলাফল</span>
+          <span style="font-size:0.82rem; color:var(--success);" id="activeMpBadge">সক্রিয় জনবল: ৩৪ জন</span>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="label">দৈনিক টার্গেট (@ টার্গেট এফিশিয়েন্সি)</div>
+            <div class="value" id="kpiDailyTarget" style="color: var(--success);">0 পিস</div>
+            <div class="sub" id="kpiDaily100">১০০% ক্যাপাসিটি: 0 পিস</div>
+          </div>
+          <div class="kpi-box">
+            <div class="label">প্রতি ঘণ্টার টার্গেট</div>
+            <div class="value" id="kpiHourlyTarget" style="color: var(--accent);">0 পিস/ঘণ্টা</div>
+            <div class="sub" id="kpiHourly100">১০০% আওয়ারলি: 0 পিস/ঘণ্টা</div>
+          </div>
+          <div class="kpi-box">
+            <div class="label">বটলনেক লাইন ক্যাপাসিটি</div>
+            <div class="value" id="kpiBottleneckCap">0 পিস/ঘণ্টা</div>
+            <div class="sub" id="kpiBottleneckName">প্রসেস: --</div>
+          </div>
+          <div class="kpi-box">
+            <div class="label">লাইন ব্যালেন্স এফিশিয়েন্সি</div>
+            <div class="value" id="kpiBalanceEff">0%</div>
+            <div class="sub" id="kpiDhu">বর্তমান DHU: 0.0%</div>
+          </div>
+        </div>
+
+        <div class="alert-box" id="ieRecommendation">
+          <strong>IE পরামর্শ:</strong> প্রসেস ব্যালেন্স বিশ্লেষণ করা হচ্ছে...
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section: Process-Wise Line Balancing -->
+    <div class="card">
+      <div class="card-title">
+        <span>৩. প্রসেস অনুযায়ী লাইন ব্যালেন্সিং ও বটলনেক বিশ্লেষণ</span>
+        <button class="btn-primary" id="addProcessBtn" onclick="addProcessRow()">+ নতুন প্রসেস যোগ করুন</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:5%;">#</th>
+              <th style="width:26%;">অপারেশন / প্রসেসের নাম</th>
+              <th style="width:13%;">মেশিন টাইপ</th>
+              <th style="width:11%;">SAM (মিনিট)</th>
+              <th style="width:10%;">জনবল (MP)</th>
+              <th style="width:12%;">ঘণ্টায় ক্ষমতা</th>
+              <th style="width:15%;">লোড ও অবস্থা</th>
+              <th style="width:8%;">অ্যাকশন</th>
+            </tr>
+          </thead>
+          <tbody id="processTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let processes = [];
+
+    const defaultProcesses = [
+      { name: "শোল্ডার জয়েন (Shoulder Join)", machine: "4T OL", sam: 0.65, mp: 1 },
+      { name: "প্ল্যাকেট বক্স ও টপস্টিচ (Placket)", machine: "SNLS", sam: 1.85, mp: 3 },
+      { name: "কলার জয়েন ও ক্লোজ (Collar Join)", machine: "SNLS", sam: 1.60, mp: 3 },
+      { name: "স্লিভ জয়েন (Sleeve Join)", machine: "4T OL", sam: 1.15, mp: 2 },
+      { name: "সাইড সিম ও স্লিট (Side Seam)", machine: "4T OL", sam: 1.40, mp: 2 },
+      { name: "স্লিভ ও বটম হেম (Bottom Hem)", machine: "Flatlock", sam: 1.10, mp: 2 },
+      { name: "বাটন হোল ও অ্যাটাচ (BH / BA)", machine: "BH / BA", sam: 0.80, mp: 2 },
+      { name: "থ্রেড ট্রিমিং ও ফাইনাল QC", machine: "Manual", sam: 1.30, mp: 2 }
+    ];
+
+    function loadSampleData() {
+      processes = JSON.parse(JSON.stringify(defaultProcesses));
+      renderTable();
+      calculateAll();
+    }
+
+    function addProcessRow() {
+      processes.push({ name: "নতুন অপারেশন", machine: "SNLS", sam: 0.80, mp: 1 });
+      renderTable();
+      calculateAll();
+    }
+
+    function removeProcess(index) {
+      if (processes.length <= 1) return;
+      processes.splice(index, 1);
+      renderTable();
+      calculateAll();
+    }
+
+    function updateProcess(index, field, value) {
+      if (field === 'sam' || field === 'mp') {
+        processes[index][field] = parseFloat(value) || 0;
+      } else {
+        processes[index][field] = value;
+      }
+      calculateAll();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('processTableBody');
+      tbody.innerHTML = '';
+      processes.forEach((p, idx) => {
+        const tr = document.createElement('tr');
+        tr.id = `row-${idx}`;
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td><input type="text" value="${p.name}" oninput="updateProcess(${idx}, 'name', this.value)" /></td>
+          <td><input type="text" value="${p.machine}" oninput="updateProcess(${idx}, 'machine', this.value)" /></td>
+          <td><input type="number" step="0.05" min="0.05" value="${p.sam}" oninput="updateProcess(${idx}, 'sam', this.value)" /></td>
+          <td><input type="number" step="1" min="1" value="${p.mp}" oninput="updateProcess(${idx}, 'mp', this.value)" /></td>
+          <td id="cap-${idx}" style="font-weight:700;">0 পিস/ঘণ্টা</td>
+          <td>
+            <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:3px;">
+              <span id="loadTxt-${idx}">0%</span>
+              <span id="statusBadge-${idx}"></span>
+            </div>
+            <div class="bar-bg"><div class="bar-fill" id="bar-${idx}" style="width:0%;"></div></div>
+          </td>
+          <td><button class="btn-danger" onclick="removeProcess(${idx})">মুছুন</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function calculateAll() {
+      const smv = parseFloat(document.getElementById('smv').value) || 1;
+      const op = parseFloat(document.getElementById('operators').value) || 0;
+      const hp = parseFloat(document.getElementById('helpers').value) || 0;
+      const hours = parseFloat(document.getElementById('workHours').value) || 1;
+      const targetEff = (parseFloat(document.getElementById('targetEff').value) || 0) / 100;
+      const abs = (parseFloat(document.getElementById('absenteeism').value) || 0) / 100;
+
+      const rawMp = op + hp;
+      const activeMp = Math.max(1, Math.round(rawMp * (1 - abs)));
+      document.getElementById('activeMpBadge').innerText = `সক্রিয় জনবল: ${activeMp} জন (OP: ${op}, HP: ${hp})`;
+
+      const totalMinutes = activeMp * hours * 60;
+      const cap100Daily = Math.floor(totalMinutes / smv);
+      const targetDaily = Math.floor(cap100Daily * targetEff);
+      const cap100Hourly = Math.round(cap100Daily / hours);
+      const targetHourly = Math.round(targetDaily / hours);
+
+      const taktSec = targetHourly > 0 ? (3600 / targetHourly).toFixed(1) : 0;
+      document.getElementById('taktBadge').innerText = `ট্যাক্ট টাইম: ${taktSec} সেকেন্ড/পিস`;
+
+      document.getElementById('kpiDailyTarget').innerText = `${targetDaily.toLocaleString()} পিস`;
+      document.getElementById('kpiDaily100').innerText = `১০০% ক্যাপাসিটি: ${cap100Daily.toLocaleString()} পিস`;
+      document.getElementById('kpiHourlyTarget').innerText = `${targetHourly} পিস/ঘণ্টা`;
+      document.getElementById('kpiHourly100').innerText = `১০০% আওয়ারলি: ${cap100Hourly} পিস/ঘণ্টা`;
+
+      // Process Balancing Calculation
+      let minCap = Infinity;
+      let bottleneckOp = null;
+      let sumSam = 0;
+      let sumMp = 0;
+
+      processes.forEach((p) => {
+        const hourlyCap = p.sam > 0 ? Math.floor((60 / p.sam) * p.mp) : 0;
+        sumSam += p.sam;
+        sumMp += p.mp;
+        if (hourlyCap < minCap) {
+          minCap = hourlyCap;
+          bottleneckOp = p;
+        }
+      });
+
+      if (minCap === Infinity) minCap = 0;
+
+      // Update Table Rows
+      processes.forEach((p, idx) => {
+        const hourlyCap = p.sam > 0 ? Math.floor((60 / p.sam) * p.mp) : 0;
+        const loadPct = hourlyCap > 0 && targetHourly > 0 ? Math.round((targetHourly / hourlyCap) * 100) : 0;
+
+        const rowEl = document.getElementById(`row-${idx}`);
+        const capEl = document.getElementById(`cap-${idx}`);
+        const loadTxt = document.getElementById(`loadTxt-${idx}`);
+        const barEl = document.getElementById(`bar-${idx}`);
+        const badgeEl = document.getElementById(`statusBadge-${idx}`);
+
+        if (!rowEl) return;
+
+        capEl.innerText = `${hourlyCap} পিস/ঘণ্টা`;
+        loadTxt.innerText = `${loadPct}% লোড`;
+
+        const barWidth = Math.min(100, loadPct);
+        barEl.style.width = `${barWidth}%`;
+
+        if (hourlyCap === minCap || loadPct > 100) {
+          rowEl.classList.add('bottleneck-row');
+          barEl.style.background = 'var(--danger)';
+          badgeEl.innerHTML = `<span class="tag-bn">বটলনেক</span>`;
+        } else if (loadPct >= 85) {
+          rowEl.classList.remove('bottleneck-row');
+          barEl.style.background = 'var(--warning)';
+          badgeEl.innerHTML = `<span class="tag-ok">ব্যালেন্সড</span>`;
+        } else {
+          rowEl.classList.remove('bottleneck-row');
+          barEl.style.background = 'var(--success)';
+          badgeEl.innerHTML = `<span class="tag-ok">স্বাভাবিক</span>`;
+        }
+      });
+
+      // Line Balance Efficiency
+      const balanceEff = (sumMp > 0 && minCap > 0)
+        ? Math.min(100, ((sumSam * minCap) / (sumMp * 60)) * 100).toFixed(1)
+        : 0;
+
+      document.getElementById('kpiBottleneckCap').innerText = `${minCap} পিস/ঘণ্টা`;
+      document.getElementById('kpiBottleneckName').innerText = bottleneckOp ? `প্রসেস: ${bottleneckOp.name}` : 'প্রসেস: --';
+      document.getElementById('kpiBalanceEff').innerText = `${balanceEff}%`;
+
+      // IE Recommendation
+      const recBox = document.getElementById('ieRecommendation');
+      if (bottleneckOp && minCap < targetHourly) {
+        const gap = targetHourly - minCap;
+        recBox.innerHTML = `<strong>IE অ্যাকশন অ্যালার্ট:</strong> <b>"${bottleneckOp.name}"</b> প্রসেসে বটলনেক (${minCap} পিস/ঘণ্টা) থাকার কারণে ঘণ্টায় <b>${gap} পিস</b> ঘাটতি হচ্ছে। এই প্রসেসে ১ জন অতিরিক্ত অপারেটর/হেল্পার দিন অথবা কম লোডের প্রসেসের সাথে কাজ ভাগ করে দিন।`;
+      } else if (bottleneckOp) {
+        recBox.innerHTML = `<strong>IE স্ট্যাটাস ভালো:</strong> বটলনেক প্রসেস <b>"${bottleneckOp.name}"</b> (${minCap} পিস/ঘণ্টা) আপনার ঘণ্টাপ্রতি টার্গেট (${targetHourly} পিস/ঘণ্টা) পূরণে সক্ষম। লাইন ব্যালেন্স এফিশিয়েন্সি <b>${balanceEff}%</b>।`;
+      }
+
+      // Live Hourly Forecast
+      const elapsed = parseFloat(document.getElementById('hoursElapsed').value) || 0;
+      const actual = parseFloat(document.getElementById('actualOutput').value) || 0;
+      const defects = parseFloat(document.getElementById('defectPcs').value) || 0;
+
+      const dhu = actual > 0 ? ((defects / actual) * 100).toFixed(1) : '0.0';
+      document.getElementById('kpiDhu').innerText = `বর্তমান DHU: ${dhu}% (${defects} পিস)`;
+
+      const forecastEl = document.getElementById('forecastResult');
+      if (elapsed <= 0) {
+        forecastEl.className = 'forecast-result status-warn';
+        forecastEl.innerText = 'দিনশেষের ফোরকাস্ট দেখতে অতিবাহিত ঘণ্টা ইনপুট দিন।';
+      } else {
+        const currentRate = actual / elapsed;
+        const projectedEod = Math.round(currentRate * hours);
+        const remainingHours = Math.max(0, hours - elapsed);
+        const remainingPcs = Math.max(0, targetDaily - actual);
+        const reqRate = remainingHours > 0 ? Math.ceil(remainingPcs / remainingHours) : 0;
+        const currentEff = ((actual * smv) / (activeMp * elapsed * 60) * 100).toFixed(1);
+
+        if (projectedEod >= targetDaily) {
+          forecastEl.className = 'forecast-result status-good';
+          forecastEl.innerHTML = `টার্গেট অনুযায়ী চলছে: বর্তমান গতি ${Math.round(currentRate)} পিস/ঘণ্টা (এফিশিয়েন্সি: ${currentEff}%)। দিনশেষে সম্ভাব্য আউটপুট: <b>${projectedEod.toLocaleString()} পিস</b> (টার্গেট: ${targetDaily.toLocaleString()} পিস)।`;
+        } else {
+          forecastEl.className = 'forecast-result status-bad';
+          forecastEl.innerHTML = `টার্গেটের চেয়ে পিছিয়ে: বর্তমান গতিতে দিনশেষে আউটপুট হবে <b>${projectedEod.toLocaleString()} পিস</b> (ঘাটতি: ${(targetDaily - projectedEod).toLocaleString()} পিস)। বাকি ${remainingHours} ঘণ্টায় প্রয়োজন: <b>${reqRate} পিস/ঘণ্টা</b>।`;
+        }
+      }
+    }
+
+    function copyWhatsAppReport() {
+      const line = document.getElementById('lineNo').value;
+      const style = document.getElementById('styleName').value;
+      const targetDaily = document.getElementById('kpiDailyTarget').innerText;
+      const targetHourly = document.getElementById('kpiHourlyTarget').innerText;
+      const bnCap = document.getElementById('kpiBottleneckCap').innerText;
+      const bnName = document.getElementById('kpiBottleneckName').innerText;
+      const balEff = document.getElementById('kpiBalanceEff').innerText;
+      const actual = document.getElementById('actualOutput').value;
+      const elapsed = document.getElementById('hoursElapsed').value;
+      const dhu = document.getElementById('kpiDhu').innerText;
+
+      const text = `*বারিধি গার্মেন্টস লিমিটেড - IE ও লাইন স্ট্যাটাস*\n` +
+        `📍 *লাইন:* ${line} | *স্টাইল:* ${style}\n` +
+        `🎯 *দৈনিক টার্গেট:* ${targetDaily} (${targetHourly})\n` +
+        `⚙️ *বটলনেক প্রসেস:* ${bnName.replace('প্রসেস: ', '')} (${bnCap})\n` +
+        `📊 *লাইন ব্যালেন্স এফিশিয়েন্সি:* ${balEff}\n` +
+        `⏱️ *বর্তমান আউটপুট (${elapsed} ঘণ্টায়):* ${actual} পিস | ${dhu}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('হোয়াটসঅ্যাপ রিপোর্ট ক্লিপবোর্ডে কপি হয়েছে!');
+      });
+    }
+
+    // Initialize
+    loadSampleData();
+  </script>
+</body>
+</html>
