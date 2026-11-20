@@ -165,6 +165,9 @@ dialog::backdrop{background:rgba(10,15,25,.45)}
 .hide{display:none!important}
 .foot{max-width:1320px;margin:0 auto;padding:0 16px calc(28px + env(safe-area-inset-bottom,0px));color:var(--ink-3);font-size:.8rem}
 .printhead{display:none}
+.motto{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;border-left:4px solid var(--thread);background:var(--panel);border-radius:0 var(--radius-s) var(--radius-s) 0;padding:8px 14px;margin-bottom:14px}
+.motto b{font-size:1.05rem;color:var(--denim)}
+.motto span{font-size:.85rem;color:var(--ink-2)}
 @media (max-width:600px){
   .summary{grid-template-columns:repeat(3,minmax(0,1fr))}
   .summary>div{padding:10px}
@@ -208,7 +211,13 @@ dialog::backdrop{background:rgba(10,15,25,.45)}
 <script>
 const I18N = {
 bn:{
-  brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ",
+  brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ, এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা।", group:"বিটপী গ্রুপ", addr:"এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"মূল্যবোধ", values:"সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ",
+  styleStart:"স্টাইল শুরুর তারিখ", run_day:"রান ডে", dhuTarget:"DHU লক্ষ্য %",
+  h_var:"ভ্যারিয়েন্স", h_prob:"সমস্যার ধরন", h_action:"অ্যাকশন প্ল্যান", h_who:"দায়িত্বে", h_tts:"সমাধানের সময়", h_status:"অবস্থা", st_pending:"বাকি", st_done:"সমাধান",
+  pt_sup:"সুপারভাইজারের দুর্বল ফলোআপ", pt_mc:"মেশিন নষ্ট", pt_input:"ইনপুট ঘাটতি", pt_abs:"অনুপস্থিতি", pt_quality:"কোয়ালিটি সমস্যা", pt_balance:"লাইন ব্যালেন্সিং", pt_power:"বিদ্যুৎ বিভ্রাট", pt_change:"স্টাইল পরিবর্তন", pt_acc:"এক্সেসরিজ ঘাটতি", pt_other:"অন্যান্য",
+  k_yday_eff:"গতকালের এফিশিয়েন্সি", k_yday_ach:"গতকালের অর্জন", k_mtd:"MTD এফিশিয়েন্সি", k_lastm:"গত মাসের এফিশিয়েন্সি", hist_title:"আগের দিন ও মাসের ফলাফল",
+  q_title:"কোয়ালিটি ও অডিট", q_defects:"আজকের শীর্ষ ৩ ডিফেক্ট", q_def_name:"ডিফেক্টের নাম", q_count:"সংখ্যা", q_audit:"লট / অডিট ফলাফল", q_feedback:"বায়ারের মতামত", q_dhu_vs:"DHU {v}%, লক্ষ্য {t}% এর নিচে",
+  issues_title:"অ্যাকশন ট্র্যাকার", issues_sub:"আজ সব লাইনে লেখা সমস্যা আর প্রতিটির সমাধানের অবস্থা।", issues_none:"আজ কোনো সমস্যা লেখা হয়নি।", open_n:"{n}টি খোলা সমস্যা",
   tab_floor:"ফ্লোর বোর্ড", tab_line:"লাইন ব্যালেন্সিং", tab_hourly:"আওয়ারলি প্রোডাকশন", tab_operators:"অপারেটর ও স্কিল", tab_styles:"স্টাইল / OB লাইব্রেরি", tab_report:"রিপোর্ট",
   sync_cloud:"সবার সাথে সিঙ্ক", sync_local:"শুধু এই ডিভাইসে", sync_loading:"লোড হচ্ছে…",
   local_banner:"শেয়ার্ড ডেটাবেস পাওয়া যায়নি, তাই ডেটা শুধু এই ব্রাউজারে সেভ হচ্ছে। claude.ai তে লগইন করে খুললে ৩৬ লাইনের ডেটা সবার সাথে শেয়ার হবে।",
@@ -243,7 +252,7 @@ bn:{
   ai_title:"Claude এর IE বিশ্লেষণ", ai_btn:"বিশ্লেষণ করুন", ai_wait:"ভাবছে…", ai_err:"এই মুহূর্তে বিশ্লেষণ পাওয়া যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
   hourly_title:"আওয়ারলি প্রোডাকশন বোর্ড", hourly_sub:"প্রতি ঘণ্টার আউটপুট, অল্টার আর ডাউনটাইম লিখুন। হিসাব সাথে সাথে আপডেট হবে।",
   mode_one:"একটি লাইন", mode_all:"সব লাইন, এক ঘণ্টা",
-  h_hour:"ঘণ্টা", h_time:"সময়", h_tgt:"টার্গেট", h_out:"আউটপুট", h_def:"অল্টার/ডিফেক্ট", h_npt:"ডাউনটাইম (মি.)", h_note:"কারণ / মন্তব্য", h_cum:"ক্রমযোগ", h_eff:"এফি.",
+  h_hour:"ঘণ্টা", h_time:"সময়", h_tgt:"টার্গেট", h_out:"আউটপুট", h_def:"অল্টার/ডিফেক্ট", h_npt:"ডাউনটাইম (মি.)", h_cum:"ক্রমযোগ", h_eff:"এফি.",
   hour_n:"{n} নং ঘণ্টা",
   fc_title:"দিনশেষের পূর্বাভাস", fc_ok:"এই গতিতে দিনশেষে <b>{p} পিস</b> হবে, টার্গেট {t}। ঠিক পথে আছে।", fc_bad:"এই গতিতে দিনশেষে <b>{p} পিস</b> হবে, ঘাটতি {g}। বাকি {h} ঘণ্টায় ঘণ্টাপ্রতি <b>{r} পিস</b> লাগবে।", fc_none:"প্রথম ঘণ্টার আউটপুট লিখলে পূর্বাভাস দেখা যাবে।",
   chart_hourly:"ঘণ্টাভিত্তিক আউটপুট বনাম টার্গেট",
@@ -265,7 +274,7 @@ bn:{
   quota:"ডেটাবেস ভরে গেছে। পুরনো দিনের ডেটা মুছতে হবে।",
   confirm_del:"এটি মুছে ফেলবেন?", cancel:"বাতিল", ok:"ঠিক আছে",
   tpl_name:"স্টাইলের নাম",
-  wa_head:"*বারিধি গার্মেন্টস লিমিটেড, IE রিপোর্ট*",
+  wa_head:"*বারিধি গার্মেন্টস লিমিটেড (বিটপী গ্রুপ), IE রিপোর্ট*",
   status_ok:"টার্গেটে আছে", status_warn:"একটু পিছিয়ে", status_bad:"পিছিয়ে",
   floor_n:"ফ্লোর {n}", lines_n:"{n}টি লাইন",
   hrs_logged:"{n} ঘণ্টা এন্ট্রি",
@@ -273,7 +282,13 @@ bn:{
   roles_info:"ভূমিকা: IE টিমকে Editor, সুপারভাইজারকে Contributor, ম্যানেজমেন্টকে Viewer হিসেবে শেয়ার করুন।"
 },
 en:{
-  brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, Industrial Engineering Department",
+  brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, a Bitopi Group company. Industrial Engineering Department, S.F.B-07 & 08, Cumilla EPZ, Cumilla.", group:"Bitopi Group", addr:"S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"Values", values:"Honesty and integrity, trust and respect, discipline, responsibility",
+  styleStart:"Style start date", run_day:"Run day", dhuTarget:"DHU target %",
+  h_var:"Variance", h_prob:"Problem type", h_action:"Action plan", h_who:"Who", h_tts:"Time to solve", h_status:"Status", st_pending:"Pending", st_done:"Solved",
+  pt_sup:"Supervisor poor follow-up", pt_mc:"Machine breakdown", pt_input:"Input shortage", pt_abs:"Absenteeism", pt_quality:"Quality issue", pt_balance:"Line balancing", pt_power:"Power failure", pt_change:"Style changeover", pt_acc:"Accessories shortage", pt_other:"Other",
+  k_yday_eff:"Yesterday’s efficiency", k_yday_ach:"Yesterday’s achievement", k_mtd:"MTD efficiency", k_lastm:"Last month’s efficiency", hist_title:"Previous day and month",
+  q_title:"Quality and audit", q_defects:"Today’s top 3 defects", q_def_name:"Defect name", q_count:"Count", q_audit:"Lot / audit findings", q_feedback:"Buyer feedback", q_dhu_vs:"DHU {v}%, target below {t}%",
+  issues_title:"Action tracker", issues_sub:"Problems logged on every line today and where each one stands.", issues_none:"No problems logged today.", open_n:"{n} open issues",
   tab_floor:"Floor board", tab_line:"Line balancing", tab_hourly:"Hourly production", tab_operators:"Operators & skills", tab_styles:"Style / OB library", tab_report:"Reports",
   sync_cloud:"Synced for everyone", sync_local:"This device only", sync_loading:"Loading…",
   local_banner:"No shared database is available, so data is saved in this browser only. Open it signed in on claude.ai to share all 36 lines with your team.",
@@ -308,7 +323,7 @@ en:{
   ai_title:"IE analysis by Claude", ai_btn:"Analyse this line", ai_wait:"Thinking…", ai_err:"Couldn’t get an analysis right now. Try again in a moment.",
   hourly_title:"Hourly production board", hourly_sub:"Enter each hour’s output, alterations and downtime. Figures update as you type.",
   mode_one:"One line", mode_all:"All lines, one hour",
-  h_hour:"Hour", h_time:"Time", h_tgt:"Target", h_out:"Output", h_def:"Alter/defect", h_npt:"Downtime (min)", h_note:"Reason / note", h_cum:"Cumulative", h_eff:"Eff.",
+  h_hour:"Hour", h_time:"Time", h_tgt:"Target", h_out:"Output", h_def:"Alter/defect", h_npt:"Downtime (min)", h_cum:"Cumulative", h_eff:"Eff.",
   hour_n:"Hour {n}",
   fc_title:"End-of-day forecast", fc_ok:"At this pace the line ends at <b>{p} pcs</b> against a target of {t}. On track.", fc_bad:"At this pace the line ends at <b>{p} pcs</b>, short by {g}. The remaining {h} hours need <b>{r} pcs/hr</b>.", fc_none:"Enter the first hour’s output to see the forecast.",
   chart_hourly:"Hourly output vs target",
@@ -330,7 +345,7 @@ en:{
   quota:"The database is full. Old days’ data needs deleting.",
   confirm_del:"Delete this?", cancel:"Cancel", ok:"OK",
   tpl_name:"Style name",
-  wa_head:"*Baridhi Garments Limited, IE report*",
+  wa_head:"*Baridhi Garments Limited (Bitopi Group), IE report*",
   status_ok:"On target", status_warn:"Slightly behind", status_bad:"Behind",
   floor_n:"Floor {n}", lines_n:"{n} lines",
   hrs_logged:"{n} hours entered",
@@ -339,6 +354,7 @@ en:{
 }};
 "use strict";
 const LINE_COUNT = 36;
+const PROBLEMS = ["sup","mc","input","abs","quality","balance","power","change","acc","other"];
 const MACHINES = ["SNLS","DNLS","4T OL","5T OL","Flatlock","BH / BA","Bartack","Kansai","Manual"];
 const SAMPLE_OB = [
   {name:"শোল্ডার জয়েন (Shoulder join)",machine:"4T OL",sam:0.65,mp:1},
@@ -377,7 +393,7 @@ const S = {
 };
 function t(k, vars){ let s = (I18N[S.lang] && I18N[S.lang][k]) ?? I18N.en[k] ?? k; if (vars) for (const [a,b] of Object.entries(vars)) s = s.split("{"+a+"}").join(b); return s; }
 function fmt(n, d=0){ if (n == null || !isFinite(n)) return "–"; return Number(n).toLocaleString(S.lang==="bn"?"bn-BD":"en-US",{minimumFractionDigits:d,maximumFractionDigits:d}); }
-function defaultLine(n){ return {no:n, floor:Math.ceil(n/12), buyer:"", style:"", smv:0, op:0, hp:0, hours:10, targetEff:65, absent:0, shift:"08:00", processes:[]}; }
+function defaultLine(n){ return {no:n, floor:Math.ceil(n/12), buyer:"", style:"", smv:0, op:0, hp:0, hours:10, targetEff:65, absent:0, shift:"08:00", styleStart:"", dhuTarget:5, processes:[]}; }
 function getLine(n){ const id = lineId(n); return S.lines[id] || (S.lines[id] = defaultLine(n)); }
 function getProd(n){ const id = lineId(n); return S.prod[id] || {hours:[]}; }
 
@@ -476,8 +492,9 @@ const Store = {
     for (const [d,day] of Object.entries(b.prod || {})) for (const [ln,v] of Object.entries(day)) ops.push(["prod/"+d+"_"+ln, {...v, date:d, line:ln}]);
     for (let k=0; k<ops.length; k+=8) await Promise.all(ops.slice(k,k+8).map(([p,v]) => this.db.doc(p).set(JSON.parse(JSON.stringify(v)))));
   },
-  async trend(days=7){
-    const from = addDays(S.date, -(days-1)); const out = {};
+  async trend(days=7){ return this.range(addDays(S.date, -(days-1))); },
+  async range(from){
+    const out = {};
     if (S.mode === "local") { for (const d in (this.localProd||{})) if (d >= from && d <= S.date) out[d] = this.localProd[d]; out[S.date] = S.prod; return out; }
     try {
       const snap = await this.db.collection("prod").where("date",">=",from).get();
@@ -532,6 +549,9 @@ function calcLine(line, prod){
   r.ach = r.tgtSoFar > 0 ? out / r.tgtSoFar * 100 : null;
   r.dhu = out > 0 ? def / out * 100 : null;
   r.forecast = logged > 0 ? Math.round(out / logged * r.hours) : null;
+  r.issues = hrs.filter(h => h && h.p).length; r.open = hrs.filter(h => h && h.p && h.s !== "done").length;
+  r.dhuT = num(line.dhuTarget) || 5;
+  r.runDay = line.styleStart ? Math.max(1, Math.floor((new Date(S.date+"T12:00:00") - new Date(line.styleStart+"T12:00:00"))/864e5) + 1) : null;
   r.status = r.ach == null ? "idle" : r.ach >= 95 ? "ok" : r.ach >= 85 ? "warn" : "bad";
   return r;
 }
@@ -558,6 +578,31 @@ function shiftClock(line, i){
   const f = x => pad2(Math.floor(x/60)%24)+":"+pad2(x%60);
   return f(start)+"–"+f(start+60);
 }
+
+/* previous-day / month-to-date / last-month figures for one line, from the stored hourly data */
+let histCache = {key:"", at:0, data:null};
+async function getHistory(){
+  const d = new Date(S.date+"T12:00:00"); const from = d.getFullYear()+"-"+pad2(d.getMonth()===0?12:d.getMonth())+"-01";
+  const fromFixed = d.getMonth()===0 ? (d.getFullYear()-1)+"-12-01" : from;
+  if (histCache.key === S.date+S.mode && Date.now() - histCache.at < 60000) return histCache.data;
+  const data = await Store.range(fromFixed); histCache = {key:S.date+S.mode, at:Date.now(), data}; return data;
+}
+function lineHistory(n, data){
+  const id = lineId(n), l = getLine(n), month = S.date.slice(0,7);
+  const pm = (() => { const d = new Date(S.date.slice(0,7)+"-15T12:00:00"); d.setMonth(d.getMonth()-1); return d.getFullYear()+"-"+pad2(d.getMonth()+1); })();
+  const agg = () => ({sm:0, av:0});
+  const mtd = agg(), lm = agg(); let yday = null, ydate = "";
+  Object.keys(data).sort().forEach(dt => {
+    const p = data[dt] && data[dt][id]; if (!p) return;
+    const r = calcLine(l, p); if (!r.logged) return;
+    const sm = r.out*r.smv, av = r.activeMp*(r.logged*60-r.npt);
+    if (dt.slice(0,7) === month && dt <= S.date) { mtd.sm += sm; mtd.av += av; }
+    if (dt.slice(0,7) === pm) { lm.sm += sm; lm.av += av; }
+    if (dt < S.date && dt > ydate) { ydate = dt; yday = r; }
+  });
+  const e = a => a.av > 0 ? a.sm/a.av*100 : null;
+  return {yEff: yday ? yday.eff : null, yOut: yday ? yday.out : null, yDate: ydate, mtd: e(mtd), lastM: e(lm)};
+}
 /* ---------- render plumbing ---------- */
 const VIEWS = ["floor","line","hourly","operators","styles","report"];
 let dirty = false;
@@ -575,7 +620,7 @@ function renderChrome(){
   const sy = $("#sync"); sy.className = "sync " + S.mode; $("#syncTxt").textContent = t("sync_"+S.mode);
   $("#dateSel").value = S.date;
   document.title = t("brand") + " | " + t("brandSub");
-  $("#printName").textContent = t("brand"); $("#printSub").textContent = t("brandSub") + ", " + S.date;
+  $("#printName").textContent = t("brand") + " (" + t("group") + ")"; $("#printSub").textContent = t("brandSub") + ", " + S.date;
   $("#foot").textContent = "© " + new Date().getFullYear() + " " + t("footer");
 }
 function banners(){
@@ -603,7 +648,7 @@ function viewFloor(){
   }
   const feff = availMin > 0 ? smvMin/availMin*100 : null;
   const ach = tgt > 0 ? out/tgt*100 : null;
-  let h = `<h1 class="vh">${t("floor_title")}</h1><p class="vsub">${t("floor_sub")}</p>
+  let h = `<div class="motto"><b>${t("motto")}</b><span>${t("values_lbl")}: ${t("values")}</span></div><h1 class="vh">${t("floor_title")}</h1><p class="vsub">${t("floor_sub")}</p>
   <div class="summary">
     <div><div class="l">${t("s_target")}</div><div class="v">${fmt(tgt)}</div></div>
     <div><div class="l">${t("s_output")}</div><div class="v" style="color:var(--${ach==null?"ink":ach>=95?"ok":ach>=85?"warn":"bad"})">${fmt(out)}</div></div>
@@ -626,7 +671,8 @@ function viewFloor(){
       for (let i=0;i<r.hours;i++){ const hh = hrs[i]; const st = hh ? hourStatus(hh.o, r.targetHourly) : ""; const ht = hh && hh.o!==""&&hh.o!=null && r.targetHourly ? Math.min(100, Math.max(15, num(hh.o)/r.targetHourly*80)) : 15; ticks += `<i class="${st}" style="height:${st?ht:15}%"></i>`; }
       h += `<button type="button" class="tile ${r.status}" data-act="openline" data-n="${n}">
         <div class="top"><span class="ln">${fmt(n)}</span><span class="tag ${r.status}">${!r.setup?t("not_setup"):r.status==="idle"?t("no_data"):fmt(r.ach,0)+"%"}</span></div>
-        <div class="st">${esc([l.buyer,l.style].filter(Boolean).join(", ")) || "&nbsp;"}</div>
+        <div class="st">${esc([l.buyer,l.style].filter(Boolean).join(", ")) || "&nbsp;"}${r.runDay?` <span class="muted">${t("run_day")} ${fmt(r.runDay)}</span>`:""}</div>
+        ${r.open?`<div class="mx"><span class="tag warn">⚠ ${t("open_n",{n:fmt(r.open)})}</span></div>`:""}
         <div class="mx"><span>${t("out")} <b>${fmt(r.out)}</b> / ${fmt(r.tgtSoFar)}</span></div>
         <div class="mx"><span>${t("eff")} <b>${r.eff==null?"–":fmt(r.eff,0)+"%"}</b></span><span>DHU <b>${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</b></span></div>
         <div class="ticks" aria-hidden="true">${ticks}</div>
@@ -652,7 +698,7 @@ function viewLine(){
       <div class="f"><label for="f_floor">${t("floor")}</label><select id="f_floor" data-lf="floor" ${ro}>${[1,2,3,4,5,6].map(x=>`<option value="${x}" ${x==l.floor?"selected":""}>${fmt(x)}</option>`).join("")}</select></div>
       ${fld("smv","number",'step="0.01" min="0"')}${fld("op","number",'min="0"')}${fld("hp","number",'min="0"')}
       ${fld("hours","number",'step="0.5" min="1" max="24"')}${fld("targetEff","number",'min="10" max="100"')}${fld("absent","number",'min="0" max="60"')}
-      ${fld("shift","time")}
+      ${fld("shift","time")}${fld("styleStart","date")}${fld("dhuTarget","number",'step="0.5" min="0" max="20"')}
     </div>
    </section>
    <section class="panel" id="lineKpis">${lineKpis(l, r)}</section>
@@ -784,18 +830,24 @@ function viewHourly(){
   h += `<div class="row" style="margin-bottom:12px"><div class="f" style="min-width:240px"><select data-act="selline" aria-label="${t("choose_line")}">${lineOptions(n)}</select></div><span class="spacer"></span><a class="btn ghost" href="#line">${t("go_balance")}</a></div>`;
   if (!r.setup) return h + `<div class="panel empty"><p>${t("not_setup")}: ${t("smv")}, ${t("op")}</p><a class="btn pri" href="#line">${t("go_balance")}</a></div>`;
   h += `<section class="panel" id="hKpis">${hourlyKpis(l, r)}</section>
-  <section class="panel"><div class="tw"><table><thead><tr><th>${t("h_hour")}</th><th>${t("h_time")}</th><th class="r">${t("h_tgt")}</th><th class="r">${t("h_out")}</th><th class="r">${t("h_def")}</th><th class="r">${t("h_npt")}</th><th style="min-width:150px">${t("h_note")}</th><th class="r">${t("h_cum")}</th><th class="r">${t("h_eff")}</th></tr></thead><tbody>`;
+  <section class="panel"><div class="tw"><table><thead><tr><th>${t("h_hour")}</th><th>${t("h_time")}</th><th class="r">${t("h_tgt")}</th><th class="r">${t("h_out")}</th><th class="r">${t("h_def")}</th><th class="r">${t("h_npt")}</th><th class="r">${t("h_cum")}</th><th class="r">${t("h_var")}</th><th class="r">${t("h_eff")}</th><th style="min-width:170px">${t("h_prob")}</th><th style="min-width:190px">${t("h_action")}</th><th style="min-width:90px">${t("h_who")}</th><th>${t("h_tts")}</th><th>${t("h_status")}</th></tr></thead><tbody>`;
   for (let i=0;i<r.hours;i++){
     const x = hrs[i] || {};
     h += `<tr data-hi="${i}"><td class="num">${fmt(i+1)}</td><td class="small muted num">${shiftClock(l,i)}</td><td class="r num">${fmt(r.targetHourly)}</td>
       <td class="r"><input type="number" min="0" inputmode="numeric" data-hf="o" data-n="${n}" data-i="${i}" value="${esc(x.o??"")}" ${ro} class="num" style="text-align:right;width:80px" aria-label="${t("h_out")} ${i+1}"></td>
       <td class="r"><input type="number" min="0" inputmode="numeric" data-hf="d" data-n="${n}" data-i="${i}" value="${esc(x.d??"")}" ${ro} class="num" style="text-align:right;width:70px"></td>
       <td class="r"><input type="number" min="0" max="60" inputmode="numeric" data-hf="n" data-n="${n}" data-i="${i}" value="${esc(x.n??"")}" ${ro} class="num" style="text-align:right;width:70px"></td>
+      <td class="r num" data-cum style="white-space:nowrap"></td><td class="r num" data-var></td><td class="r num" data-eff></td>
+      <td><select data-hf="p" data-n="${n}" data-i="${i}" ${ro}><option value="">–</option>${PROBLEMS.map(k=>`<option value="${k}" ${x.p===k?"selected":""}>${t("pt_"+k)}</option>`).join("")}</select></td>
       <td><input type="text" data-hf="r" data-n="${n}" data-i="${i}" value="${esc(x.r??"")}" ${ro}></td>
-      <td class="r num" data-cum></td><td class="r num" data-eff></td></tr>`;
+      <td><input type="text" data-hf="w" data-n="${n}" data-i="${i}" value="${esc(x.w??"")}" ${ro} placeholder="DPM / PM"></td>
+      <td><input type="time" data-hf="tm" data-n="${n}" data-i="${i}" value="${esc(x.tm??"")}" ${ro} style="min-width:100px"></td>
+      <td><select data-hf="s" data-n="${n}" data-i="${i}" ${ro}><option value="">${t("st_pending")}</option><option value="done" ${x.s==="done"?"selected":""}>${t("st_done")}</option></select></td></tr>`;
   }
-  h += `</tbody></table></div></section><section class="panel"><h2>${t("chart_hourly")}</h2><div id="hChart">${hourlyChart(l, r)}</div></section>`;
-  setTimeout(refreshHourlyCells, 0);
+  h += `</tbody></table></div></section><section class="panel"><h2>${t("chart_hourly")}</h2><div id="hChart">${hourlyChart(l, r)}</div></section>
+  <section class="panel"><h2>${t("hist_title")}</h2><div id="hHist" class="muted small">${t("sync_loading")}</div></section>
+  ${qualityPanel(n, l, r, ro)}`;
+  setTimeout(() => { refreshHourlyCells(); loadHist(n); }, 0);
   return h;
 }
 function hourlyKpis(l, r){
@@ -804,12 +856,12 @@ function hourlyKpis(l, r){
   else if (r.forecast >= r.targetDaily) fc = `<div class="note ok">${t("fc_ok",{p:fmt(r.forecast),t:fmt(r.targetDaily)})}</div>`;
   else { const remH = Math.max(0, r.hours - (r.lastIdx+1)); const need = remH ? Math.ceil(Math.max(0, r.targetDaily - r.out)/remH) : 0;
     fc = `<div class="note bad">${t("fc_bad",{p:fmt(r.forecast),g:fmt(r.targetDaily-r.forecast),h:fmt(remH),r:fmt(need)})}</div>`; }
-  return `<h2>${t("line")} ${fmt(l.no)}${l.style?", "+esc(l.style):""} <span class="muted small">${t("hrs_logged",{n:fmt(r.logged)})}</span></h2>
+  return `<h2>${t("line")} ${fmt(l.no)}${l.style?", "+esc(l.style):""} <span class="muted small">${t("hrs_logged",{n:fmt(r.logged)})}${r.runDay?", "+t("run_day")+" "+fmt(r.runDay):""}${r.open?", "+t("open_n",{n:fmt(r.open)}):""}</span></h2>
   <div class="kpis">
     <div class="kpi"><div class="l">${t("k_daily")}</div><div class="v">${fmt(r.targetDaily)}</div><div class="s">${fmt(r.targetHourly)} ${t("pcs_hr")}</div></div>
     <div class="kpi ${r.status==="idle"?"":r.status}"><div class="l">${t("s_output")}</div><div class="v">${fmt(r.out)}</div><div class="s">${t("s_target")}: ${fmt(r.tgtSoFar)}</div></div>
     <div class="kpi"><div class="l">${t("eff")}</div><div class="v">${r.eff==null?"–":fmt(r.eff,1)+"%"}</div><div class="s">${t("targetEff")}: ${fmt(num(l.targetEff))}%</div></div>
-    <div class="kpi ${r.dhu==null?"":r.dhu<=3?"ok":r.dhu<=6?"warn":"bad"}"><div class="l">DHU</div><div class="v">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</div><div class="s">${fmt(r.def)} ${t("pcs")}</div></div>
+    <div class="kpi ${r.dhu==null?"":r.dhu<r.dhuT?"ok":r.dhu<r.dhuT*1.2?"warn":"bad"}"><div class="l">DHU</div><div class="v">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</div><div class="s">${t("dhuTarget")} &lt;${fmt(r.dhuT)}%, ${fmt(r.def)} ${t("pcs")}</div></div>
     <div class="kpi"><div class="l">${t("h_npt")}</div><div class="v">${fmt(r.npt)}</div><div class="s">${t("min")}</div></div>
   </div>
   <h2 style="margin-top:14px">${t("fc_title")}</h2>${fc}`;
@@ -823,6 +875,8 @@ function refreshHourlyCells(){
     if (has) cum += num(x.o);
     const ce = $("[data-cum]", tr), ee = $("[data-eff]", tr);
     ce.textContent = has ? fmt(cum)+" / "+fmt(r.targetHourly*(i+1)) : "";
+    const ve = $("[data-var]", tr); const vv = cum - r.targetHourly*(i+1);
+    ve.innerHTML = has ? `<span class="${vv<0?"delta-dn":"delta-up"}">${vv>0?"+":""}${fmt(vv)}</span>` : "";
     const av = r.activeMp * (60 - num(x && x.n));
     const e = has && av > 0 ? num(x.o)*r.smv/av*100 : null;
     const st = has ? hourStatus(x.o, r.targetHourly) : "";
@@ -922,7 +976,7 @@ function viewReport(){
     <td class="r num ${v<0?"delta-dn":v>0?"delta-up":""}">${r.logged?(v>0?"+":"")+fmt(v):"–"}</td><td class="r num">${r.eff==null?"–":fmt(r.eff,1)+"%"}</td><td class="r num">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</td>
     <td class="r num">${r.forecast==null?"–":fmt(r.forecast)+" / "+fmt(r.targetDaily)}</td><td class="small" style="min-width:180px">${r.bn?esc(r.bn.name)+" ("+fmt(r.minCap)+")":"–"}</td></tr>`;
   });
-  h += `</tbody></table></div></section><section class="panel"><h2>${t("trend")}</h2><div id="trend" class="muted small">${t("sync_loading")}</div></section>
+  h += `</tbody></table></div></section>${issuesPanel()}<section class="panel"><h2>${t("trend")}</h2><div id="trend" class="muted small">${t("sync_loading")}</div></section>
   <section class="panel noprint"><h2>${t("backup_title")}</h2><p class="small muted" style="margin-top:-4px">${t("backup_sub")}</p><div class="row"><button class="btn" data-act="backup">${t("backup_btn")}</button>${S.canEdit?`<button class="btn" data-act="restore">${t("restore_btn")}</button>`:""}</div></section>`;
   return h;
 }
@@ -947,6 +1001,36 @@ async function loadTrend(){
   s += `<path d="${d}" fill="none" stroke="var(--denim)" stroke-width="2.5"/>`;
   pts.forEach((v,i)=>{ if (v!=null) s += `<circle cx="${X(i)}" cy="${Y(v)}" r="4" fill="var(--denim)"/><text x="${X(i)}" y="${Y(v)-9}" text-anchor="middle" style="fill:var(--ink);font-weight:600">${fmt(v,0)}%</text>`; s += `<text x="${X(i)}" y="${H-6}" text-anchor="middle">${fmt(+days[i].slice(8))}/${fmt(+days[i].slice(5,7))}</text>`; });
   el.className = "chart"; el.innerHTML = s + `</svg>`;
+}
+
+function qualityPanel(n, l, r, ro){
+  const q = (getProd(n).q) || {}; const def = q.def || [];
+  let rows = "";
+  for (let k=0;k<3;k++){ const d = def[k] || {};
+    rows += `<tr><td class="num">${fmt(k+1)}</td><td><input type="text" data-qf="def" data-k="${k}" data-sub="n" data-n="${n}" value="${esc(d.n??"")}" ${ro}></td><td class="r"><input type="number" min="0" data-qf="def" data-k="${k}" data-sub="c" data-n="${n}" value="${esc(d.c??"")}" ${ro} class="num" style="text-align:right;width:80px"></td></tr>`; }
+  return `<section class="panel"><h2>${t("q_title")}</h2>
+   ${r.dhu==null?"":`<div class="note ${r.dhu<r.dhuT?"ok":"bad"}" style="margin:0 0 12px">${t("q_dhu_vs",{v:fmt(r.dhu,1),t:fmt(r.dhuT)})}</div>`}
+   <div class="grid2"><div><h2 class="small" style="font-size:.9rem">${t("q_defects")}</h2><div class="tw"><table><thead><tr><th>#</th><th>${t("q_def_name")}</th><th class="r">${t("q_count")}</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+   <div class="fields" style="grid-template-columns:1fr"><div class="f"><label>${t("q_audit")}</label><input type="text" data-qf="audit" data-n="${n}" value="${esc(q.audit??"")}" ${ro}></div><div class="f"><label>${t("q_feedback")}</label><input type="text" data-qf="fb" data-n="${n}" value="${esc(q.fb??"")}" ${ro}></div></div></div></section>`;
+}
+async function loadHist(n){
+  const data = await getHistory(); const el = $("#hHist"); if (!el || S.lineNo !== n || S.view !== "hourly") return;
+  const h = lineHistory(n, data);
+  el.className = ""; el.innerHTML = `<div class="kpis">
+    <div class="kpi"><div class="l">${t("k_yday_eff")}</div><div class="v">${h.yEff==null?"–":fmt(h.yEff,1)+"%"}</div><div class="s">${h.yDate?esc(h.yDate):""}</div></div>
+    <div class="kpi"><div class="l">${t("k_yday_ach")}</div><div class="v">${h.yOut==null?"–":fmt(h.yOut)}</div><div class="s">${t("pcs")}</div></div>
+    <div class="kpi"><div class="l">${t("k_mtd")}</div><div class="v">${h.mtd==null?"–":fmt(h.mtd,1)+"%"}</div><div class="s">${esc(S.date.slice(0,7))}</div></div>
+    <div class="kpi"><div class="l">${t("k_lastm")}</div><div class="v">${h.lastM==null?"–":fmt(h.lastM,1)+"%"}</div><div class="s"></div></div></div>`;
+}
+function issuesPanel(){
+  const rows = [];
+  for (let n=1;n<=LINE_COUNT;n++) (getProd(n).hours||[]).forEach((h,i) => { if (h && h.p) rows.push({n,i,h}); });
+  let s = `<section class="panel"><h2>${t("issues_title")}</h2><p class="small muted" style="margin-top:-4px">${t("issues_sub")}</p>`;
+  if (!rows.length) return s + `<p class="muted">${t("issues_none")}</p></section>`;
+  s += `<div class="tw"><table><thead><tr><th>${t("line")}</th><th>${t("h_hour")}</th><th>${t("h_prob")}</th><th>${t("h_action")}</th><th>${t("h_who")}</th><th>${t("h_tts")}</th><th>${t("h_status")}</th></tr></thead><tbody>`;
+  rows.sort((a,b) => (a.h.s==="done") - (b.h.s==="done") || a.n-b.n || a.i-b.i).forEach(({n,i,h}) => {
+    s += `<tr><td class="num"><b>${fmt(n)}</b></td><td class="num">${fmt(i+1)}</td><td>${t("pt_"+h.p)}</td><td>${esc(h.r||"")}</td><td>${esc(h.w||"")}</td><td class="num">${esc(h.tm||"")}</td><td><span class="tag ${h.s==="done"?"ok":"warn"}">${h.s==="done"?t("st_done"):t("st_pending")}</span></td></tr>`; });
+  return s + `</tbody></table></div></section>`;
 }
 /* ---------- files: Excel in/out ---------- */
 let downloadsNs = null;
@@ -1059,11 +1143,20 @@ V.addEventListener("input", e => {
     const p = S.prod[id] || (S.prod[id] = {line:id, date:S.date, hours:[]});
     while (p.hours.length <= i) p.hours.push(null);
     const h = p.hours[i] || (p.hours[i] = {});
-    h[el.dataset.hf] = el.dataset.hf === "r" ? el.value : (el.value === "" ? "" : num(el.value));
-    Store.saveProd(n);
-    if (S.hourlyMode === "one") { const l = getLine(n), r = calcLine(l, p); $("#hKpis").innerHTML = hourlyKpis(l, r); $("#hChart").innerHTML = hourlyChart(l, r); refreshHourlyCells(); }
+    const txt = ["r","p","w","tm","s"].includes(el.dataset.hf);
+    h[el.dataset.hf] = txt ? el.value : (el.value === "" ? "" : num(el.value));
+    Store.saveProd(n); histCache.at = 0;
+    if (S.hourlyMode === "one") { if (el.dataset.hf === "p" || el.dataset.hf === "s") el.blur(); const l = getLine(n), r = calcLine(l, p); $("#hKpis").innerHTML = hourlyKpis(l, r); $("#hChart").innerHTML = hourlyChart(l, r); refreshHourlyCells(); }
     else { const r = calcLine(getLine(n), p), tr = el.closest("tr"); $("[data-qcum]", tr).textContent = fmt(r.out)+" / "+fmt(r.tgtSoFar); $("[data-qst]", tr).innerHTML = `<span class="tag ${r.status}">${r.ach==null?"–":fmt(r.ach,0)+"%"}</span>`; }
     return;
+  }
+  if (el.dataset.qf) {
+    const n = +el.dataset.n, id = lineId(n);
+    const p = S.prod[id] || (S.prod[id] = {line:id, date:S.date, hours:[]});
+    const q = p.q || (p.q = {});
+    if (el.dataset.qf === "def") { q.def = q.def || [{},{},{}]; while (q.def.length < 3) q.def.push({}); const d = q.def[+el.dataset.k] || (q.def[+el.dataset.k] = {}); d[el.dataset.sub] = el.dataset.sub === "c" ? (el.value===""?"":num(el.value)) : el.value; }
+    else q[el.dataset.qf] = el.value;
+    Store.saveProd(n); return;
   }
   if (el.dataset.of || el.dataset.sk) {
     const oid = el.closest("tr").dataset.oid, o = S.operators[oid]; if (!o) return;
@@ -1119,7 +1212,11 @@ V.addEventListener("click", async e => {
       reportRows().forEach(({n,l,r}) => rows.push([n, l.buyer, l.style, r.smv, r.activeMp, r.targetHourly, r.logged, r.tgtSoFar, r.out, r.out-r.tgtSoFar, r.eff==null?"":Math.round(r.eff*10)/10, r.dhu==null?"":Math.round(r.dhu*10)/10, r.npt, r.forecast??"", r.targetDaily, r.bn?r.bn.name:"", Math.round(r.minCap), Math.round(r.balEff*10)/10]));
       const hourly = [[t("line"), ...Array.from({length:12},(_,i)=>t("hour_n",{n:i+1}))]];
       reportRows().forEach(({n}) => hourly.push([n, ...Array.from({length:12},(_,i)=>{ const h=(getProd(n).hours||[])[i]; return h&&h.o!==""?h.o:""; })]));
-      saveSheets(`BGL_IE_Report_${S.date}.xlsx`, [["Summary", rows], ["Hourly", hourly]]); break; }
+      const iss = [[t("line"), t("h_hour"), t("h_prob"), t("h_action"), t("h_who"), t("h_tts"), t("h_status")]];
+      for (let n=1;n<=LINE_COUNT;n++) (getProd(n).hours||[]).forEach((h,i) => { if (h && h.p) iss.push([n, i+1, t("pt_"+h.p), h.r||"", h.w||"", h.tm||"", h.s==="done"?t("st_done"):t("st_pending")]); });
+      const ql = [[t("line"), "DHU %", t("dhuTarget"), t("q_defects"), t("q_audit"), t("q_feedback")]];
+      reportRows().forEach(({n,r}) => { const q = getProd(n).q || {}; ql.push([n, r.dhu==null?"":Math.round(r.dhu*10)/10, r.dhuT, (q.def||[]).filter(d=>d&&d.n).map(d=>d.n+" ("+(d.c||0)+")").join(", "), q.audit||"", q.fb||""]); });
+      saveSheets(`BGL_IE_Report_${S.date}.xlsx`, [["Summary", rows], ["Hourly", hourly], ["Action tracker", iss], ["Quality", ql]]); break; }
     case "wafloor": copyText(waFloor()); break;
     case "print": window.print(); break;
     case "backup": { const b = {app:"ie-line-balancer", version:1, exported:new Date().toISOString(), lines:S.lines, operators:S.operators, templates:S.templates, prod: await Store.allProd()};

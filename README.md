@@ -1,6 +1,10 @@
 # Baridhi Garments Limited — IE Line Balancer
 
-**বারিধি গার্মেন্টস লিমিটেড, ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ**
+**বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ**
+S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh
+
+> লক্ষ্য মোদের একটাই, সেরা হবো আমরাই
+> মূল্যবোধ: সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ
 
 ৩৬ লাইনের সুইং ফ্লোরের জন্য IE ও লাইন ব্যালেন্সিং অ্যাপ। বাংলা ও ইংরেজি দুই ভাষাতেই চলে।
 An IE and line-balancing app for a 36-line sewing floor, in Bangla and English.
@@ -19,10 +23,11 @@ Open `index.html` in a browser. No server or install is needed.
 |---|---|
 | Floor board | All 36 lines grouped by floor, with output vs target, efficiency, DHU and hour-by-hour status |
 | Line balancing | Targets, takt time, bottleneck, balance efficiency, capacity chart, auto-balancing suggestion, manpower needed for target |
-| Hourly production | Hourly output, alterations, downtime and reasons; end-of-day forecast; quick entry for all lines at once |
+| Hourly production | Hourly output, alterations, downtime, variance; problem type, action plan, who and time to solve with status (same as the Production Board sheet); end-of-day forecast; yesterday, MTD and last-month efficiency; run day; quick entry for all lines |
+| Quality and audit | DHU against the line's target (default below 5%), today's top 3 defects, lot/audit findings and buyer feedback |
 | Operators & skills | Skill matrix (efficiency % per machine); skill-adjusted capacity; best operators for the bottleneck |
 | Style / OB library | Save an OB once and put it on any line |
-| Reports | Daily table, 7-day efficiency trend, Excel export, WhatsApp report, print/PDF, backup and restore |
+| Reports | Daily table, action tracker for every open problem, 7-day efficiency trend, Excel export (summary, hourly, action tracker, quality), WhatsApp report, print/PDF, backup and restore |
 
 ## হিসাবের সূত্র / Formulas
 
