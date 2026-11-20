@@ -2,6 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#131938">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Baridhi Garments Limited | IE Line Balancer</title>
 <meta name="description" content="Baridhi Garments Limited — IE line balancing and production tracking for 36 sewing lines">
@@ -10,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script>try{var th=JSON.parse(localStorage.getItem("ielb.theme")||"\"auto\"");if(th==="light"||th==="dark")document.documentElement.setAttribute("data-theme",th);}catch(e){}</script>
 <style>
 /* ===== Tokens: indigo dye, marigold spool, teal thread ===== */
 :root{
@@ -59,6 +61,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .sync.cloud i{background:#3FD987;box-shadow:0 0 0 3px rgba(63,217,135,.25)} .sync.local i{background:var(--spool)}
 .bar .seg{border-color:var(--hero-3);background:var(--hero-2)}
 .bar .seg button{color:var(--hero-dim)}
+.seg.theme button{display:grid;place-items:center;padding:4px 9px;min-height:28px}
 .bar .seg button[aria-pressed="true"]{background:var(--spool);color:var(--spool-ink)}
 input[type=date].dt{border:1px solid var(--hero-3);border-radius:999px;padding:4px 12px;background:var(--hero-2);color:var(--hero-ink);font-size:.85rem;color-scheme:dark}
 nav.tabs{flex-basis:100%;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin:4px -4px 0;padding-bottom:10px}
@@ -258,6 +261,11 @@ body.tv .tvexit{display:inline-flex;position:fixed;right:16px;bottom:16px;z-inde
     <div class="bar-tools">
       <span class="sync" id="sync"><i></i><span id="syncTxt"></span></span>
       <input type="date" class="dt" id="dateSel" aria-label="Date">
+      <div class="seg theme" role="group" id="themeSeg">
+        <button type="button" data-theme-set="light" aria-pressed="false"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></button>
+        <button type="button" data-theme-set="dark" aria-pressed="false"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg></button>
+        <button type="button" data-theme-set="auto" aria-pressed="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></svg></button>
+      </div>
       <div class="seg" role="group" aria-label="Language">
         <button type="button" data-lang="bn" aria-pressed="true">বাংলা</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -276,7 +284,7 @@ body.tv .tvexit{display:inline-flex;position:fixed;right:16px;bottom:16px;z-inde
 const I18N = {
 bn:{
   brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ, এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা।", group:"বিটপী গ্রুপ", addr:"এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"মূল্যবোধ", values:"সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ",
-  tv_on:"বড় স্ক্রিন মোড", tv_off:"বড় স্ক্রিন বন্ধ করুন", floor_when:"ফ্লোর বোর্ড, {d}", gauge_lbl:"ফ্লোর এফিশিয়েন্সি", line_lbl:"লাইন",
+  th_light:"লাইট মোড", th_dark:"ডার্ক মোড", th_auto:"ডিভাইসের সেটিং অনুযায়ী", tv_on:"বড় স্ক্রিন মোড", tv_off:"বড় স্ক্রিন বন্ধ করুন", floor_when:"ফ্লোর বোর্ড, {d}", gauge_lbl:"ফ্লোর এফিশিয়েন্সি", line_lbl:"লাইন",
   styleStart:"স্টাইল শুরুর তারিখ", run_day:"রান ডে", dhuTarget:"DHU লক্ষ্য %",
   h_var:"ভ্যারিয়েন্স", h_prob:"সমস্যার ধরন", h_action:"অ্যাকশন প্ল্যান", h_who:"দায়িত্বে", h_tts:"সমাধানের সময়", h_status:"অবস্থা", st_pending:"বাকি", st_done:"সমাধান",
   pt_sup:"সুপারভাইজারের দুর্বল ফলোআপ", pt_mc:"মেশিন নষ্ট", pt_input:"ইনপুট ঘাটতি", pt_abs:"অনুপস্থিতি", pt_quality:"কোয়ালিটি সমস্যা", pt_balance:"লাইন ব্যালেন্সিং", pt_power:"বিদ্যুৎ বিভ্রাট", pt_change:"স্টাইল পরিবর্তন", pt_acc:"এক্সেসরিজ ঘাটতি", pt_other:"অন্যান্য",
@@ -348,7 +356,7 @@ bn:{
 },
 en:{
   brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, a Bitopi Group company. Industrial Engineering Department, S.F.B-07 & 08, Cumilla EPZ, Cumilla.", group:"Bitopi Group", addr:"S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"Values", values:"Honesty and integrity, trust and respect, discipline, responsibility",
-  tv_on:"Big screen mode", tv_off:"Exit big screen", floor_when:"Floor board, {d}", gauge_lbl:"Floor efficiency", line_lbl:"Line",
+  th_light:"Light mode", th_dark:"Dark mode", th_auto:"Match device setting", tv_on:"Big screen mode", tv_off:"Exit big screen", floor_when:"Floor board, {d}", gauge_lbl:"Floor efficiency", line_lbl:"Line",
   styleStart:"Style start date", run_day:"Run day", dhuTarget:"DHU target %",
   h_var:"Variance", h_prob:"Problem type", h_action:"Action plan", h_who:"Who", h_tts:"Time to solve", h_status:"Status", st_pending:"Pending", st_done:"Solved",
   pt_sup:"Supervisor poor follow-up", pt_mc:"Machine breakdown", pt_input:"Input shortage", pt_abs:"Absenteeism", pt_quality:"Quality issue", pt_balance:"Line balancing", pt_power:"Power failure", pt_change:"Style changeover", pt_acc:"Accessories shortage", pt_other:"Other",
@@ -449,6 +457,7 @@ function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(
 /* ---------- state ---------- */
 const S = {
   lang: lsGet("ielb.lang","bn"),
+  theme: lsGet("ielb.theme","auto"),
   view: "floor",
   lineNo: lsGet("ielb.line", 1),
   date: todayStr(),
@@ -682,6 +691,7 @@ function renderChrome(){
   document.documentElement.lang = S.lang;
   $("#brandName").textContent = t("brand"); $("#brandSub").textContent = t("brandSub") + ", " + t("group");
   $("#tvExit").textContent = t("tv_off");
+  $$("#themeSeg [data-theme-set]").forEach(b => { const v = b.dataset.themeSet; b.setAttribute("aria-pressed", String(v === S.theme)); b.title = t("th_"+v); b.setAttribute("aria-label", t("th_"+v)); });
   $$(".seg [data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
   $("#tabs").innerHTML = VIEWS.map(v => `<a href="#${v}" ${v===S.view?'aria-current="page"':""}>${t("tab_"+v)}</a>`).join("");
   const sy = $("#sync"); sy.className = "sync " + S.mode; $("#syncTxt").textContent = t("sync_"+S.mode);
@@ -1315,6 +1325,12 @@ V.addEventListener("click", async e => {
       try { await Store.restore(b); trendCache = {key:"",at:0,data:null}; render(); toast(t("restored")); } catch(err){ console.warn(err); toast(err && err.code==="quota_exceeded" ? t("quota") : t("restore_fail")); } }); break;
   }
 });
+function applyTheme(){
+  const root = document.documentElement;
+  if (S.theme === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", S.theme);
+}
+$$("#themeSeg [data-theme-set]").forEach(b => b.addEventListener("click", () => { S.theme = b.dataset.themeSet; lsSet("ielb.theme", S.theme); applyTheme(); renderChrome(); }));
+applyTheme();
 $$(".seg [data-lang]").forEach(b => b.addEventListener("click", () => { S.lang = b.dataset.lang; lsSet("ielb.lang", S.lang); render(); }));
 $("#dateSel").addEventListener("change", e => { if (!e.target.value) return; if (S.mode==="local") Store.persistLocal(); S.date = e.target.value; Store.subscribeProd(); render(); });
 let tvTimer = null;

@@ -32,7 +32,7 @@ Open `index.html` in a browser. No server or install is needed.
 
 ## ডিজাইন / Design
 
-Indigo (dye), marigold (thread spool) and teal (thread) palette; Anek Bangla for headings and numbers, Hind Siliguri for text; light and dark mode; works on phone, tablet, desktop and TV.
+Indigo (dye), marigold (thread spool) and teal (thread) palette; Anek Bangla for headings and numbers, Hind Siliguri for text; light, dark and auto (device) theme switch in the header, remembered per device; works on phone, tablet, desktop and TV.
 
 ## হিসাবের সূত্র / Formulas
 
