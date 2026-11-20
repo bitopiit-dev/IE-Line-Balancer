@@ -21,13 +21,18 @@ Open `index.html` in a browser. No server or install is needed.
 
 | অংশ / Section | কাজ / What it does |
 |---|---|
-| Floor board | All 36 lines grouped by floor, with output vs target, efficiency, DHU and hour-by-hour status |
+| Floor board | Dark indigo hero with the company motto and values, a floor-efficiency gauge and live totals; line tiles with a stitched hour-by-hour seam and achievement bar; **big screen (TV) mode** for the floor display with a clock and automatic floor-by-floor scrolling |
+| Floor board (data) | All 36 lines grouped by floor, with output vs target, efficiency, DHU and hour-by-hour status |
 | Line balancing | Targets, takt time, bottleneck, balance efficiency, capacity chart, auto-balancing suggestion, manpower needed for target |
 | Hourly production | Hourly output, alterations, downtime, variance; problem type, action plan, who and time to solve with status (same as the Production Board sheet); end-of-day forecast; yesterday, MTD and last-month efficiency; run day; quick entry for all lines |
 | Quality and audit | DHU against the line's target (default below 5%), today's top 3 defects, lot/audit findings and buyer feedback |
 | Operators & skills | Skill matrix (efficiency % per machine); skill-adjusted capacity; best operators for the bottleneck |
 | Style / OB library | Save an OB once and put it on any line |
 | Reports | Daily table, action tracker for every open problem, 7-day efficiency trend, Excel export (summary, hourly, action tracker, quality), WhatsApp report, print/PDF, backup and restore |
+
+## ডিজাইন / Design
+
+Indigo (dye), marigold (thread spool) and teal (thread) palette; Anek Bangla for headings and numbers, Hind Siliguri for text; light and dark mode; works on phone, tablet, desktop and TV.
 
 ## হিসাবের সূত্র / Formulas
 
