@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IE Line Balancer | Baridhi Garments</title>
+<title>Baridhi Garments Limited | IE Line Balancer</title>
+<meta name="description" content="Baridhi Garments Limited — IE line balancing and production tracking for 36 sewing lines">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%2327477A%27/%3E%3Ctext x=%2732%27 y=%2742%27 font-family=%27Arial%27 font-weight=%27700%27 font-size=%2726%27 fill=%27white%27 text-anchor=%27middle%27%3EBGL%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -44,9 +46,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* app bar */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--rule)}
 .bar-in{max-width:1320px;margin:0 auto;padding:10px 16px 0;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
-.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
 .brand b{font-size:1.15rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
-.brand span{color:var(--ink-3);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo{flex:none;width:34px;height:34px;border-radius:8px;background:var(--denim);color:var(--panel);font-weight:700;font-size:.78rem;display:grid;place-items:center;letter-spacing:.02em}
+.brand span:not(.logo){color:var(--ink-3);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .sync{font-size:.8rem;color:var(--ink-3);display:flex;align-items:center;gap:6px}
 .sync i{width:8px;height:8px;border-radius:50%;background:var(--idle);display:inline-block}
@@ -160,10 +163,13 @@ dialog::backdrop{background:rgba(10,15,25,.45)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:999px;font-size:.9rem;z-index:50;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 .hide{display:none!important}
+.foot{max-width:1320px;margin:0 auto;padding:0 16px calc(28px + env(safe-area-inset-bottom,0px));color:var(--ink-3);font-size:.8rem}
+.printhead{display:none}
 @media (max-width:600px){
   .summary{grid-template-columns:repeat(3,minmax(0,1fr))}
   .summary>div{padding:10px}
-  .brand span{display:none}
+  .brand span:not(.logo){display:none}
+  .brand b{font-size:1rem}
   .summary .v{font-size:1.3rem}
   .tile .ln{font-size:1.6rem}
   .f.wide{grid-column:auto}
@@ -174,13 +180,15 @@ dialog::backdrop{background:rgba(10,15,25,.45)}
   body{background:#fff;color:#000}
   main{padding:0;max-width:none}
   .panel{border:1px solid #bbb;break-inside:avoid}
+  .printhead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #27477A;padding:0 0 6px;margin-bottom:12px}
+  .printhead b{font-size:1.3rem}
 }
 </style>
 </head>
 <body>
 <header class="bar">
   <div class="bar-in">
-    <div class="brand"><b id="brandName">IE Line Balancer</b><span id="brandSub"></span></div>
+    <div class="brand"><span class="logo" aria-hidden="true">BGL</span><b id="brandName">Baridhi Garments Limited</b><span id="brandSub"></span></div>
     <div class="bar-tools">
       <span class="sync" id="sync"><i></i><span id="syncTxt"></span></span>
       <input type="date" class="dt" id="dateSel" aria-label="Date">
@@ -192,13 +200,15 @@ dialog::backdrop{background:rgba(10,15,25,.45)}
     <nav class="tabs" id="tabs"></nav>
   </div>
 </header>
+<div class="printhead"><b id="printName">Baridhi Garments Limited</b><span id="printSub"></span></div>
 <main id="view"></main>
+<footer class="foot" id="foot"></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="fileIn" accept=".xlsx,.xls,.csv" class="hide">
 <script>
 const I18N = {
 bn:{
-  brand:"IE লাইন ব্যালেন্সার", brandSub:"বারিধি গার্মেন্টস লিমিটেড",
+  brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ",
   tab_floor:"ফ্লোর বোর্ড", tab_line:"লাইন ব্যালেন্সিং", tab_hourly:"আওয়ারলি প্রোডাকশন", tab_operators:"অপারেটর ও স্কিল", tab_styles:"স্টাইল / OB লাইব্রেরি", tab_report:"রিপোর্ট",
   sync_cloud:"সবার সাথে সিঙ্ক", sync_local:"শুধু এই ডিভাইসে", sync_loading:"লোড হচ্ছে…",
   local_banner:"শেয়ার্ড ডেটাবেস পাওয়া যায়নি, তাই ডেটা শুধু এই ব্রাউজারে সেভ হচ্ছে। claude.ai তে লগইন করে খুললে ৩৬ লাইনের ডেটা সবার সাথে শেয়ার হবে।",
@@ -263,7 +273,7 @@ bn:{
   roles_info:"ভূমিকা: IE টিমকে Editor, সুপারভাইজারকে Contributor, ম্যানেজমেন্টকে Viewer হিসেবে শেয়ার করুন।"
 },
 en:{
-  brand:"IE Line Balancer", brandSub:"Baridhi Garments Limited",
+  brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, Industrial Engineering Department",
   tab_floor:"Floor board", tab_line:"Line balancing", tab_hourly:"Hourly production", tab_operators:"Operators & skills", tab_styles:"Style / OB library", tab_report:"Reports",
   sync_cloud:"Synced for everyone", sync_local:"This device only", sync_loading:"Loading…",
   local_banner:"No shared database is available, so data is saved in this browser only. Open it signed in on claude.ai to share all 36 lines with your team.",
@@ -565,6 +575,8 @@ function renderChrome(){
   const sy = $("#sync"); sy.className = "sync " + S.mode; $("#syncTxt").textContent = t("sync_"+S.mode);
   $("#dateSel").value = S.date;
   document.title = t("brand") + " | " + t("brandSub");
+  $("#printName").textContent = t("brand"); $("#printSub").textContent = t("brandSub") + ", " + S.date;
+  $("#foot").textContent = "© " + new Date().getFullYear() + " " + t("footer");
 }
 function banners(){
   let h = "";
@@ -950,7 +962,8 @@ async function saveFile(filename, blob){
 function saveSheets(filename, sheets){
   const X = needXLSX(); if (!X) return;
   const wb = X.utils.book_new();
-  sheets.forEach(([name, rows]) => X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet(rows), name.slice(0,31)));
+  wb.Props = {Title:filename, Company:"Baridhi Garments Limited", Author:"Baridhi Garments Limited, IE"};
+  sheets.forEach(([name, rows]) => X.utils.book_append_sheet(wb, X.utils.aoa_to_sheet([[t("brand")+", "+t("brandSub")], [S.date], []].concat(rows)), name.slice(0,31)));
   const buf = X.write(wb, {bookType:"xlsx", type:"array"});
   saveFile(filename, new Blob([buf], {type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
 }
@@ -1079,14 +1092,14 @@ V.addEventListener("click", async e => {
     case "sampleob": l.processes = SAMPLE_OB.map(p => ({...p, id:uid()})); if (!num(l.smv)) { l.smv = 14.5; l.op = l.op||28; l.hp = l.hp||6; } Store.saveLine(S.lineNo); render(); break;
     case "applysug": { const r = calcLine(l, getProd(S.lineNo)), s = suggestMp(l.processes, r.sumMp); if (s) { l.processes.forEach(p => { if (s.alloc[p.id] != null) p.mp = s.alloc[p.id]; }); Store.saveLine(S.lineNo); render(); toast(t("applied")); } break; }
     case "importob": pickFile(rows => { const ob = parseOB(rows); if (!ob) return toast(t("import_fail")); l.processes = ob; if (!num(l.smv)) l.smv = Math.round(ob.reduce((a,p)=>a+p.sam,0)*100)/100; Store.saveLine(S.lineNo); render(); toast(t("imported",{n:fmt(ob.length)})); }); break;
-    case "exportob": saveSheets(`OB_Line${pad2(S.lineNo)}_${(l.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [["OB", obRows(l)]]); break;
+    case "exportob": saveSheets(`BGL_OB_Line${pad2(S.lineNo)}_${(l.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [["OB", obRows(l)]]); break;
     case "savetpl": { const id = uid(); S.templates[id] = {buyer:l.buyer, style:l.style || (t("line")+" "+S.lineNo), smv:num(l.smv), processes:clone(l.processes), updated:new Date().toISOString()}; Store.saveTpl(id); toast(t("tpl_saved")); break; }
     case "ai": runAI(); break;
     case "addop": { const id = uid(); S.operators[id] = {code:"", name:"", line: S.opsLine==="all" ? lineId(S.lineNo) : lineId(+S.opsLine), proc:"", skills:{}}; Store.saveOp(id); render(); const inp = $(`tr[data-oid="${id}"] input[data-of="code"]`); if (inp) inp.focus(); break; }
     case "delop": if (await confirmBox(t("confirm_del"))) { delete S.operators[b.dataset.oid]; Store.saveOp(b.dataset.oid); render(); } break;
     case "exportops": { const mcs = opMachines(); const rows = [[t("o_code"), t("o_name"), t("o_line"), t("o_proc"), ...mcs]];
       Object.values(S.operators).filter(o => S.opsLine==="all" || o.line===lineId(+S.opsLine)).forEach(o => { const ln = o.line?+o.line.slice(1):0; const p = ln ? getLine(ln).processes.find(x=>x.id===o.proc) : null; rows.push([o.code, o.name, ln||"", p?p.name:"", ...mcs.map(m => (o.skills||{})[m] ?? "")]); });
-      saveSheets("Skill_matrix.xlsx", [["Skills", rows]]); break; }
+      saveSheets("BGL_Skill_matrix.xlsx", [["Skills", rows]]); break; }
     case "importops": pickFile(rows => {
       const f = findCols(rows, {name:["name","নাম"], sam:["card","code","id","কার্ড"], line:["line","লাইন"]});
       if (!f) return toast(t("import_fail"));
@@ -1100,17 +1113,17 @@ V.addEventListener("click", async e => {
     case "applytpl": { const tp = S.templates[b.dataset.tid]; const n = +b.closest("tr").querySelector("[data-tline]").value; const tl = getLine(n);
       tl.processes = (tp.processes||[]).map(p => ({...p, id:uid()})); tl.buyer = tp.buyer || tl.buyer; tl.style = tp.style || tl.style; tl.smv = num(tp.smv) || Math.round(tl.processes.reduce((a,p)=>a+num(p.sam),0)*100)/100;
       Store.saveLine(n); S.lineNo = n; lsSet("ielb.line", n); toast(t("tpl_applied")); go("line"); break; }
-    case "exporttpl": { const tp = S.templates[b.dataset.tid]; saveSheets(`OB_${(tp.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [["OB", [[t("c_no"),t("c_op"),t("c_mc"),"SAM","MP"], ...(tp.processes||[]).map((p,i)=>[i+1,p.name,p.machine,num(p.sam),num(p.mp)])]]]); break; }
+    case "exporttpl": { const tp = S.templates[b.dataset.tid]; saveSheets(`BGL_OB_${(tp.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [["OB", [[t("c_no"),t("c_op"),t("c_mc"),"SAM","MP"], ...(tp.processes||[]).map((p,i)=>[i+1,p.name,p.machine,num(p.sam),num(p.mp)])]]]); break; }
     case "deltpl": if (await confirmBox(t("confirm_del"))) { delete S.templates[b.dataset.tid]; Store.saveTpl(b.dataset.tid); render(); } break;
     case "exportrep": { const rows = [[t("line"), t("buyer"), t("style"), "SMV", t("k_mp"), t("k_hourly"), t("hrs_logged",{n:""}).trim(), t("s_target"), t("out"), t("r_var"), t("eff")+" %", "DHU %", t("h_npt"), t("fc_title"), t("k_daily"), t("r_bneck"), t("k_bneck"), t("k_bal")+" %"]];
       reportRows().forEach(({n,l,r}) => rows.push([n, l.buyer, l.style, r.smv, r.activeMp, r.targetHourly, r.logged, r.tgtSoFar, r.out, r.out-r.tgtSoFar, r.eff==null?"":Math.round(r.eff*10)/10, r.dhu==null?"":Math.round(r.dhu*10)/10, r.npt, r.forecast??"", r.targetDaily, r.bn?r.bn.name:"", Math.round(r.minCap), Math.round(r.balEff*10)/10]));
       const hourly = [[t("line"), ...Array.from({length:12},(_,i)=>t("hour_n",{n:i+1}))]];
       reportRows().forEach(({n}) => hourly.push([n, ...Array.from({length:12},(_,i)=>{ const h=(getProd(n).hours||[])[i]; return h&&h.o!==""?h.o:""; })]));
-      saveSheets(`IE_Report_${S.date}.xlsx`, [["Summary", rows], ["Hourly", hourly]]); break; }
+      saveSheets(`BGL_IE_Report_${S.date}.xlsx`, [["Summary", rows], ["Hourly", hourly]]); break; }
     case "wafloor": copyText(waFloor()); break;
     case "print": window.print(); break;
     case "backup": { const b = {app:"ie-line-balancer", version:1, exported:new Date().toISOString(), lines:S.lines, operators:S.operators, templates:S.templates, prod: await Store.allProd()};
-      saveFile(`IE_backup_${S.date}.json`, new Blob([JSON.stringify(b)], {type:"application/json"})); break; }
+      saveFile(`BGL_IE_backup_${S.date}.json`, new Blob([JSON.stringify(b)], {type:"application/json"})); break; }
     case "restore": pickJson(async b => {
       if (!b || b.app !== "ie-line-balancer" || !b.lines) return toast(t("restore_fail"));
       if (!(await confirmBox(t("restore_confirm")))) return;

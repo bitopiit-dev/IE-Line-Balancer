@@ -1,4 +1,6 @@
-# IE Line Balancer — Baridhi Garments Limited
+# Baridhi Garments Limited — IE Line Balancer
+
+**বারিধি গার্মেন্টস লিমিটেড, ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ**
 
 ৩৬ লাইনের সুইং ফ্লোরের জন্য IE ও লাইন ব্যালেন্সিং অ্যাপ। বাংলা ও ইংরেজি দুই ভাষাতেই চলে।
 An IE and line-balancing app for a 36-line sewing floor, in Bangla and English.
