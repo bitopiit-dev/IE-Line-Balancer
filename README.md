@@ -40,6 +40,7 @@ Open `index.html` in a browser. No server or install is needed.
 | Time study | Stopwatch with cycle capture (Space key records a cycle), manual entry, CV%, observations needed (95% confidence, ±5%), rating and allowance → SAM; one tap puts it on the OB, with a check on large changes |
 | Order and shipment | Order quantity and ship date per line; made, remaining, average pace, expected finish (Friday off) and late-shipment risk with the daily output needed |
 | Downtime Pareto | Minutes lost by problem type across the floor, cumulative %, and estimated cost |
+| Full PDF report | One tap on the Report page or floor board makes an A4 landscape PDF in the chosen language: company header, floor summary, results by line, colour-coded hourly output, smart alerts, action tracker, downtime Pareto, quality, orders, 7-day trend and signature blocks; table headers repeat on each page, with page numbers |
 | Costing | Factory cost per minute (CPM); planned and actual sewing cost per piece; cost of today's inefficiency |
 
 ## ডিজাইন / Design

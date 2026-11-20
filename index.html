@@ -310,6 +310,8 @@ const I18N = {
 bn:{
   brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ, এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা।", group:"বিটপী গ্রুপ", addr:"এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"মূল্যবোধ", values:"সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ",
   tab_study:"টাইম স্টাডি",
+  pdf_btn:"পূর্ণ রিপোর্ট PDF", pdf_msg:"বিবরণ", pdf_cont:"(চলমান)", pdf_wait:"PDF তৈরি হচ্ছে…", pdf_fail:"PDF তৈরি করা যায়নি। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।", pdf_title:"দৈনিক IE ও প্রোডাকশন রিপোর্ট", pdf_gen:"তৈরি: {d}",
+  pdf_s1:"১. ফ্লোর সারসংক্ষেপ", pdf_s2:"২. লাইনভিত্তিক ফলাফল", pdf_s3:"৩. ঘণ্টাভিত্তিক আউটপুট", pdf_s3_sub:"সবুজ: টার্গেটের ৯৫%+, হলুদ: ৮৫–৯৫%, লাল: ৮৫% এর নিচে", pdf_npt:"মোট ডাউনটাইম", pdf_lostmin:"হারানো মিনিট (পরিকল্পনার তুলনায়)", pdf_plan:"পরিকল্পিত এফি.", pdf_late:"{d} দিন দেরি", pdf_ontime:"সময়মতো", pdf_prep:"প্রস্তুতকারী (IE)", pdf_check:"যাচাইকারী (প্রোডাকশন)", pdf_appr:"অনুমোদনকারী (ফ্যাক্টরি প্রধান)",
   complexity:"স্টাইলের জটিলতা", cx_simple:"সহজ", cx_medium:"মাঝারি", cx_complex:"জটিল", curve:"লার্নিং কার্ভ", curve_on:"নতুন স্টাইলে ধাপে ধাপে টার্গেট",
   orderQty:"অর্ডার পরিমাণ", shipDate:"শিপমেন্ট তারিখ", eff_today_plan:"আজকের পরিকল্পিত এফিশিয়েন্সি",
   lc_title:"লার্নিং কার্ভ পরিকল্পনা", lc_sub:"রান ডে অনুযায়ী এফিশিয়েন্সি টার্গেট। আজ রান ডে {d}, টার্গেট {e}%।", lc_off:"লার্নিং কার্ভ বন্ধ। লাইন সেটআপে চালু করলে নতুন স্টাইলের প্রথম দিনগুলোতে টার্গেট ধাপে ধাপে বাড়বে।", lc_day:"দিন {d}",
@@ -395,6 +397,8 @@ bn:{
 en:{
   brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, a Bitopi Group company. Industrial Engineering Department, S.F.B-07 & 08, Cumilla EPZ, Cumilla.", group:"Bitopi Group", addr:"S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"Values", values:"Honesty and integrity, trust and respect, discipline, responsibility",
   tab_study:"Time study",
+  pdf_btn:"Full report PDF", pdf_msg:"Detail", pdf_cont:"(continued)", pdf_wait:"Making the PDF…", pdf_fail:"Couldn’t make the PDF. Check the connection and try again.", pdf_title:"Daily IE and production report", pdf_gen:"Generated {d}",
+  pdf_s1:"1. Floor summary", pdf_s2:"2. Results by line", pdf_s3:"3. Hourly output", pdf_s3_sub:"Green: 95%+ of target, amber: 85–95%, red: below 85%", pdf_npt:"Total downtime", pdf_lostmin:"Minutes lost against plan", pdf_plan:"Planned eff.", pdf_late:"{d} days late", pdf_ontime:"On time", pdf_prep:"Prepared by (IE)", pdf_check:"Checked by (Production)", pdf_appr:"Approved by (Factory head)",
   complexity:"Style complexity", cx_simple:"Simple", cx_medium:"Medium", cx_complex:"Complex", curve:"Learning curve", curve_on:"Ramp up the target on a new style",
   orderQty:"Order quantity", shipDate:"Shipment date", eff_today_plan:"Today’s planned efficiency",
   lc_title:"Learning curve plan", lc_sub:"Efficiency target by run day. Today is run day {d}, target {e}%.", lc_off:"Learning curve is off. Turn it on in line setup to ramp the target up over the first days of a new style.", lc_day:"Day {d}",
@@ -871,7 +875,7 @@ function viewFloor(){
   ${alertsPanel()}
   <div class="toolbar noprint"><div class="seg" role="group">
     ${["all","behind","idle"].map(f => `<button type="button" data-act="ffilter" data-v="${f}" aria-pressed="${S.floorFilter===f}">${t("f_"+f)}</button>`).join("")}
-  </div><span class="spacer"></span><button type="button" class="btn spool" data-act="tv">${t("tv_on")}</button></div>`;
+  </div><span class="spacer"></span><button type="button" class="btn" data-act="pdf">${t("pdf_btn")}</button><button type="button" class="btn spool" data-act="tv">${t("tv_on")}</button></div>`;
   const floors = {};
   rows.forEach(x => { if (S.floorFilter==="behind" && !(x.r.status==="bad"||x.r.status==="warn")) return; if (S.floorFilter==="idle" && x.r.setup) return; (floors[x.l.floor||1] = floors[x.l.floor||1] || []).push(x); });
   const keys = Object.keys(floors).sort((a,b)=>a-b);
@@ -1190,7 +1194,7 @@ function reportRows(){
 function viewReport(){
   const rows = reportRows();
   let h = `<div class="phead"><h1 class="vh">${t("report_title")}</h1><p class="vsub">${t("report_sub")} ${esc(S.date)}</p></div><!--B-->
-  <div class="row noprint" style="margin-bottom:12px"><button class="btn pri" data-act="exportrep">${t("export_rep")}</button><button class="btn ok" data-act="wafloor">${t("wa_copy")}</button><button class="btn" data-act="print">${t("print")}</button></div>
+  <div class="row noprint" style="margin-bottom:12px"><button class="btn spool" data-act="pdf">${t("pdf_btn")}</button><button class="btn pri" data-act="exportrep">${t("export_rep")}</button><button class="btn ok" data-act="wafloor">${t("wa_copy")}</button><button class="btn" data-act="print">${t("print")}</button></div>
   <section class="panel"><div class="tw"><table><thead><tr><th>${t("line")}</th><th>${t("buyer")} / ${t("style")}</th><th class="r">${t("smv")}</th><th class="r">${t("k_mp")}</th><th class="r">${t("s_target")}</th><th class="r">${t("out")}</th><th class="r">${t("r_var")}</th><th class="r">${t("eff")}</th><th class="r">DHU</th><th class="r">${t("fc_title")}</th><th>${t("r_bneck")}</th></tr></thead><tbody>`;
   if (!rows.length) h += `<tr><td colspan="11" class="empty">${t("not_setup")}</td></tr>`;
   rows.forEach(({n,l,r}) => {
@@ -1440,6 +1444,166 @@ document.addEventListener("keydown", e => {
   if (/INPUT|SELECT|TEXTAREA/.test((document.activeElement||{}).tagName||"")) return;
   e.preventDefault(); tsAction("ts_lap");
 });
+/* ===================== Full PDF report ===================== */
+const PDF_LIBS = ["https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"];
+function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+async function loadPdfLib(){
+  if (!window.html2canvas) await loadScript(PDF_LIBS[0]);
+  if (!(window.jspdf && window.jspdf.jsPDF)) await loadScript(PDF_LIBS[1]);
+  return {h2c: window.html2canvas, jsPDF: window.jspdf.jsPDF};
+}
+const PC = {ink:"#141A33", ink2:"#4A5476", ink3:"#8790AE", rule:"#E0E5F0", soft:"#F5F7FC", denim:"#2B3A8F", hero:"#131938", spool:"#F5A524", ok:"#119C4F", okb:"#E2F5EA", warn:"#D98200", warnb:"#FFF1D9", bad:"#E0264A", badb:"#FDE5EA", idle:"#D3D9E7", thread:"#0E9F9A"};
+function pTag(st, txt){ const m = {ok:[PC.okb,PC.ok], warn:[PC.warnb,PC.warn], bad:[PC.badb,PC.bad], idle:[PC.soft,PC.ink3]}[st] || [PC.soft,PC.ink3]; return `<span style="display:inline-block;white-space:nowrap;padding:0 7px;border-radius:9px;background:${m[0]};color:${m[1]};font-weight:700;font-size:10px">${txt}</span>`; }
+function pSec(title, sub, body){ return `<section class="psec"><h2>${esc(title)}</h2>${sub?`<p class="psub">${esc(sub)}</p>`:""}${body}</section>`; }
+
+function buildPdfItems(trend, hist){
+  const items = []; const B = html => items.push({kind:"block", html}); const T = (title, sub, head, rows, empty) => items.push({kind:"table", title, sub, head, rows, empty});
+  const rows = []; let tg=0,o=0,d=0,sm=0,av=0,running=0,behind=0,open=0,lost=0,npt=0;
+  for (let n=1;n<=LINE_COUNT;n++){ const l = getLine(n), r = calcLine(l, getProd(n)); open += r.open; npt += r.npt;
+    if (r.setup) rows.push({n,l,r});
+    if (r.logged){ running++; tg+=r.tgtSoFar; o+=r.out; d+=r.def; const a = r.activeMp*(r.logged*60-r.npt); sm+=r.out*r.smv; av+=a; lost += Math.max(0, a*r.effPlan/100 - r.out*r.smv); if (r.status==="bad"||r.status==="warn") behind++; } }
+  const feff = av ? sm/av*100 : null, ach = tg ? o/tg*100 : null, cpm = num(S.settings.cpm);
+  const stCol = v => v==null ? PC.ink : v>=95 ? PC.ok : v>=85 ? PC.warn : PC.bad;
+  const kpi = (l, v, c, s) => `<div class="pk"><div class="l">${l}</div><div class="v" style="color:${c||PC.ink}">${v}</div>${s?`<div class="s">${s}</div>`:""}</div>`;
+  const gen = new Date().toLocaleString(S.lang==="bn"?"bn-BD":"en-GB",{dateStyle:"medium",timeStyle:"short"});
+  B(`<div class="phead">
+    <div style="display:flex;align-items:center;gap:14px"><div class="plogo">BGL</div><div><div class="pco">${t("brand")}</div><div class="pgr">${t("group")}, ${t("addr")}</div></div></div>
+    <div style="text-align:right"><div class="ptitle">${t("pdf_title")}</div><div class="pgr">${esc(niceDate())} (${esc(S.date)})</div><div class="pgr">${t("pdf_gen",{d:esc(gen)})}</div></div></div>
+    <div class="pmotto">${t("motto")}  <span>${t("values_lbl")}: ${t("values")}</span></div>`);
+  // 1. summary
+  B(pSec(t("pdf_s1"), "", `<div class="pkg">
+    ${kpi(t("s_target"), fmt(tg))}${kpi(t("s_output"), fmt(o), stCol(ach))}${kpi(t("ach"), ach==null?"–":fmt(ach,0)+"%", stCol(ach))}${kpi(t("s_eff"), feff==null?"–":fmt(feff,1)+"%")}
+    ${kpi(t("s_dhu"), o?fmt(d/o*100,1)+"%":"–")}${kpi(t("s_running"), fmt(running)+" / "+fmt(LINE_COUNT))}${kpi(t("s_behind"), fmt(behind), behind?PC.bad:PC.ink)}${kpi(t("issues_title"), fmt(open), open?PC.warn:PC.ink)}
+    ${kpi(t("pdf_npt"), fmt(npt)+" "+t("min"))}${kpi(t("pdf_lostmin"), fmt(lost)+" "+t("min"), lost?PC.bad:PC.ink)}${cpm?kpi(t("cost_loss"), "৳"+fmt(lost*cpm), PC.bad):""}</div>`));
+  // 2. line-wise
+  T(t("pdf_s2"), "", `<tr><th>${t("line")}</th><th>${t("buyer")} / ${t("style")}</th><th class="r">${t("run_day")}</th><th class="r">SMV</th><th class="r">MP</th><th class="r">${t("pdf_plan")}</th><th class="r">${t("s_target")}</th><th class="r">${t("out")}</th><th class="r">${t("r_var")}</th><th class="r">${t("eff")}</th><th class="r">DHU</th><th class="r">NPT</th><th class="r">${t("fc_title")}</th><th style="min-width:150px">${t("r_bneck")}</th><th class="r">${t("k_bal")}</th><th>${t("h_status")}</th></tr>`,
+    rows.map(({n,l,r}) => { const v = r.out - r.tgtSoFar;
+    return `<tr><td><b>${fmt(n)}</b></td><td>${esc([l.buyer,l.style].filter(Boolean).join(", "))}</td><td class="r">${r.runDay?fmt(r.runDay):"–"}</td><td class="r">${fmt(r.smv,2)}</td><td class="r">${fmt(r.activeMp)}</td><td class="r">${fmt(r.effPlan,0)}%</td><td class="r">${fmt(r.tgtSoFar)}</td><td class="r"><b>${fmt(r.out)}</b></td><td class="r" style="color:${v<0?PC.bad:PC.ok};font-weight:700">${r.logged?(v>0?"+":"")+fmt(v):"–"}</td><td class="r">${r.eff==null?"–":fmt(r.eff,1)+"%"}</td><td class="r" style="color:${r.dhu!=null&&r.dhu>=r.dhuT?PC.bad:PC.ink}">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</td><td class="r">${fmt(r.npt)}</td><td class="r">${r.forecast==null?"–":fmt(r.forecast)+" / "+fmt(r.targetDaily)}</td><td>${r.bn?esc(r.bn.name)+" ("+fmt(r.minCap)+")":"–"}</td><td class="r">${fmt(r.balEff,0)}%</td><td>${pTag(r.status, r.status==="idle"?t("no_data"):t("status_"+r.status))}</td></tr>`; }), t("not_setup"));
+  // 3. hourly matrix
+  const maxH = Math.max(10, ...rows.map(x => x.r.hours));
+  T(t("pdf_s3"), t("pdf_s3_sub"), `<tr><th>${t("line")}</th><th class="r">${t("h_tgt")}</th>${Array.from({length:maxH},(_,i)=>`<th class="c">${fmt(i+1)}</th>`).join("")}<th class="r">${t("h_cum")}</th></tr>`,
+    rows.map(({n,r}) => { const hrs = getProd(n).hours || [];
+    return `<tr class="hm"><td><b>${fmt(n)}</b></td><td class="r">${fmt(r.targetHourly)}</td>${Array.from({length:maxH},(_,i)=>{ const x = hrs[i]; if (!x || x.o===""||x.o==null) return `<td class="c" style="color:${PC.idle}">·</td>`; const st = hourStatus(x.o, r.targetHourly); const c = {ok:[PC.okb,PC.ok],warn:[PC.warnb,PC.warn],bad:[PC.badb,PC.bad]}[st]; return `<td class="c" style="background:${c[0]};color:${c[1]};font-weight:700">${fmt(num(x.o))}</td>`; }).join("")}<td class="r"><b>${fmt(r.out)}</b></td></tr>`; }), t("no_data"));
+  // 4. alerts
+  const lvName = {bad:t("status_bad"), warn:t("status_warn"), info:t("r_bneck")};
+  T(t("al_title"), "", `<tr><th>${t("line")}</th><th>${t("h_status")}</th><th>${t("pdf_msg")}</th></tr>`,
+    smartAlerts().map(x => `<tr><td><b>${fmt(x.n)}</b></td><td>${pTag(x.lv==="info"?"idle":x.lv, lvName[x.lv])}</td><td>${esc(t(x.k, x.v))}</td></tr>`), t("al_none"));
+  // 5. action tracker
+  const iss = []; for (let n=1;n<=LINE_COUNT;n++) (getProd(n).hours||[]).forEach((x,i) => { if (x && x.p) iss.push({n,i,x}); });
+  T(t("issues_title"), "", `<tr><th>${t("line")}</th><th>${t("h_hour")}</th><th>${t("h_prob")}</th><th>${t("h_action")}</th><th>${t("h_who")}</th><th>${t("h_tts")}</th><th class="r">NPT</th><th>${t("h_status")}</th></tr>`,
+    iss.map(({n,i,x}) => `<tr><td><b>${fmt(n)}</b></td><td>${fmt(i+1)}</td><td>${t("pt_"+x.p)}</td><td>${esc(x.r||"")}</td><td>${esc(x.w||"")}</td><td>${esc(x.tm||"")}</td><td class="r">${fmt(num(x.n))}</td><td>${pTag(x.s==="done"?"ok":"warn", x.s==="done"?t("st_done"):t("st_pending"))}</td></tr>`), t("issues_none"));
+  // 6. pareto
+  const agg = {}; let tot = 0;
+  for (let n=1;n<=LINE_COUNT;n++){ const r = calcLine(getLine(n), getProd(n)); (getProd(n).hours||[]).forEach(x => { if (!x || (!x.p && !num(x.n))) return; const k = x.p || "_none"; const a = agg[k] || (agg[k] = {min:0,cnt:0,mm:0}); a.min += num(x.n); a.cnt++; a.mm += num(x.n)*r.activeMp; tot += num(x.n); }); }
+  const pr = Object.entries(agg).sort((a,b) => b[1].min-a[1].min || b[1].cnt-a[1].cnt); let cum = 0; const pmax = Math.max(1, ...pr.map(x => x[1].min));
+  B(pSec(t("pa_title"), t("pa_sub"), pr.length ? pr.map(([k,a]) => { cum += a.min; return `<div class="ppr"><span class="pl">${k==="_none"?t("pa_noreason"):t("pt_"+k)}</span><span class="pb"><i style="width:${a.min/pmax*100}%"></i></span><span class="pv"><b>${fmt(a.min)}</b> ${t("pa_min")}, ${fmt(a.cnt)} ${t("pa_cnt")}</span><span class="pv">${tot?fmt(cum/tot*100,0)+"%":"–"}${cpm&&a.mm?`, ৳${fmt(a.mm*cpm)}`:""}</span></div>`; }).join("") : `<p class="psub">${t("pa_none")}</p>`));
+  // 7. quality
+  T(t("q_title"), "", `<tr><th>${t("line")}</th><th class="r">${t("h_def")}</th><th class="r">DHU</th><th class="r">${t("dhuTarget")}</th><th>${t("q_defects")}</th><th>${t("q_audit")}</th><th>${t("q_feedback")}</th></tr>`,
+    rows.map(({n,r}) => { const q = getProd(n).q || {}; return `<tr><td><b>${fmt(n)}</b></td><td class="r">${fmt(r.def)}</td><td class="r" style="color:${r.dhu!=null&&r.dhu>=r.dhuT?PC.bad:PC.ok};font-weight:700">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</td><td class="r">&lt;${fmt(r.dhuT)}%</td><td>${esc((q.def||[]).filter(x=>x&&x.n).map(x=>x.n+" ("+fmt(num(x.c))+")").join(", "))}</td><td>${esc(q.audit||"")}</td><td>${esc(q.fb||"")}</td></tr>`; }), t("not_setup"));
+  // 8. orders
+  const ords = rows.map(x => ({...x, op: orderPlan(x.n, hist)})).filter(x => x.op);
+  if (ords.length) T(t("op_title"), "", `<tr><th>${t("line")}</th><th>${t("style")}</th><th class="r">${t("orderQty")}</th><th class="r">${t("op_made")}</th><th class="r">${t("op_left")}</th><th class="r">${t("op_pace")}</th><th>${t("op_finish")}</th><th>${t("shipDate")}</th><th class="r">${t("op_req")}</th><th>${t("h_status")}</th></tr>`,
+    ords.map(({n,l,op}) => `<tr><td><b>${fmt(n)}</b></td><td>${esc(l.style||"")}</td><td class="r">${fmt(op.qty)}</td><td class="r">${fmt(op.made)} (${fmt(op.pct,0)}%)</td><td class="r">${fmt(op.left)}</td><td class="r">${fmt(op.pace)}</td><td>${esc(op.finish||"–")}</td><td>${esc(l.shipDate||"–")}</td><td class="r">${op.reqPace==null?"–":fmt(op.reqPace)}</td><td>${op.late==null?"–":op.late>0?pTag("bad", t("pdf_late",{d:fmt(op.late)})):pTag("ok", t("pdf_ontime"))}</td></tr>`));
+  // 9. trend (div bars, no SVG, so the rasteriser draws it reliably)
+  const days = Array.from({length:7},(_,i)=>addDays(S.date, i-6));
+  const pts = days.map(dt => { let a=0,b=0; const day = trend[dt] || {}; for (let n=1;n<=LINE_COUNT;n++){ const p = day[lineId(n)]; if (!p) continue; const r = calcLine(getLine(n), p); if (r.logged){ a += r.out*r.smv; b += r.activeMp*(r.logged*60-r.npt); } } return b ? a/b*100 : null; });
+  B(pSec(t("trend"), "", `<div class="ptr">${pts.map((v,i)=>`<div class="ptc"><div class="ptv">${v==null?"–":fmt(v,0)+"%"}</div><div class="ptb"><i style="height:${v==null?0:Math.min(100,v)}%;background:${v==null?PC.idle:v>=65?PC.ok:v>=50?PC.warn:PC.bad}"></i></div><div class="ptd">${fmt(+days[i].slice(8))}/${fmt(+days[i].slice(5,7))}</div></div>`).join("")}</div>`));
+  B(`<div class="psign"><div>${t("pdf_prep")}</div><div>${t("pdf_check")}</div><div>${t("pdf_appr")}</div></div>`);
+  return items;
+}
+const PDF_CSS = `
+.pdfdoc{width:1100px;background:#fff;color:${PC.ink};font-family:"Hind Siliguri","Noto Sans Bengali","Nirmala UI",sans-serif;font-size:12px;line-height:1.45;padding:0}
+.pdfdoc *{box-sizing:border-box}
+.pdfdoc .phead{display:flex;justify-content:space-between;align-items:center;background:${PC.hero};color:#fff;padding:16px 20px;border-radius:12px}
+.pdfdoc .plogo{width:46px;height:46px;border-radius:11px;background:${PC.spool};color:#2A1A00;display:flex;align-items:center;justify-content:center;font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:15px}
+.pdfdoc .pco{font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:22px;line-height:1.1}
+.pdfdoc .pgr{color:#A4ACD8;font-size:11px}
+.pdfdoc .ptitle{font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:18px;color:${PC.spool}}
+.pdfdoc .pmotto{margin:8px 0 4px;padding:6px 12px;border-left:4px solid ${PC.thread};background:${PC.soft};border-radius:0 8px 8px 0;font-weight:700;color:${PC.denim};font-size:12px}
+.pdfdoc .pmotto span{font-weight:400;color:${PC.ink2};margin-left:10px}
+.pdfdoc .psec{margin-top:14px;break-inside:auto}
+.pdfdoc h2{font-family:"Anek Bangla",sans-serif;font-size:15px;font-weight:800;margin:0 0 6px;padding-bottom:4px;border-bottom:2px dashed ${PC.rule};color:${PC.ink}}
+.pdfdoc .psub{color:${PC.ink3};margin:0 0 6px;font-size:11px}
+.pdfdoc .pkg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.pdfdoc .pk{background:${PC.soft};border-top:3px solid ${PC.denim};border-radius:8px;padding:7px 10px}
+.pdfdoc .pk .l{font-size:10px;color:${PC.ink2}}
+.pdfdoc .pk .v{font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:19px;line-height:1.2}
+.pdfdoc .pt{width:100%;border-collapse:collapse;font-size:10.5px}
+.pdfdoc .pt th{white-space:normal;line-height:1.25;background:${PC.hero};color:#fff;font-weight:600;padding:5px 6px;text-align:left;white-space:nowrap}
+.pdfdoc .pt td{padding:4px 6px;border-bottom:1px solid ${PC.rule};vertical-align:top}
+.pdfdoc .pt tr:nth-child(even) td{background:#FAFBFE}
+.pdfdoc .pt .r{text-align:right} .pdfdoc .pt .c{text-align:center}
+.pdfdoc .pt tr{break-inside:avoid}
+.pdfdoc h2.cont{color:#8790AE;font-size:12px}
+.pdfdoc .pt tr.hm td.c{padding:3px 2px;min-width:38px}
+.pdfdoc .pal{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pdfdoc .pa{border-left:4px solid;background:${PC.soft};padding:4px 8px;border-radius:0 6px 6px 0;font-size:11px;break-inside:avoid}
+.pdfdoc .ppr{display:grid;grid-template-columns:190px 1fr 170px 150px;gap:10px;align-items:center;margin-bottom:5px;break-inside:avoid}
+.pdfdoc .pb{height:14px;background:${PC.soft};border-radius:4px;overflow:hidden;display:block}
+.pdfdoc .pb i{display:block;height:100%;background:${PC.bad}}
+.pdfdoc .pv{text-align:right;color:${PC.ink2}}
+.pdfdoc .ptr{display:flex;gap:14px;align-items:flex-end;height:150px;padding:6px 4px;break-inside:avoid}
+.pdfdoc .ptc{flex:1;display:flex;flex-direction:column;align-items:center;height:100%}
+.pdfdoc .ptb{flex:1;width:46px;background:${PC.soft};border-radius:6px;display:flex;align-items:flex-end;overflow:hidden}
+.pdfdoc .ptb i{display:block;width:100%;border-radius:6px 6px 0 0}
+.pdfdoc .ptv{font-weight:700;font-size:11px}
+.pdfdoc .ptd{color:${PC.ink3};font-size:10px;margin-top:3px}
+.pdfdoc .psign{display:flex;justify-content:space-between;gap:30px;margin-top:46px;break-inside:avoid}
+.pdfdoc .psign div{flex:1;border-top:1px solid ${PC.ink2};padding-top:4px;text-align:center;color:${PC.ink2};font-size:11px}
+`;
+const PW = 1100, PH = Math.round(1100*210/297), PAD = 26, FOOT = 22;
+function paginate(items, box){
+  const avail = PH - PAD*2 - FOOT, pages = []; let cur = [], used = 0;
+  const flush = () => { if (cur.length) pages.push(cur); cur = []; used = 0; };
+  const measure = html => { box.innerHTML = `<div style="display:flow-root">${html}</div>`; return box.firstElementChild.getBoundingClientRect().height; };
+  items.forEach(it => {
+    if (it.kind === "block") { const h = measure(it.html) + 12; if (used && used + h > avail) flush(); cur.push(it.html); used += h; return; }
+    const titleH = measure(pSec(it.title, it.sub, "")) + 4, contH = measure(`<section class="psec"><h2 class="cont">${esc(it.title)}</h2></section>`) + 4;
+    box.innerHTML = `<table class="pt"><thead>${it.head}</thead><tbody>${it.rows.join("") || `<tr><td>${esc(it.empty||"")}</td></tr>`}</tbody></table>`;
+    const tb = box.firstElementChild, headH = tb.tHead.getBoundingClientRect().height, rowH = Array.from(tb.tBodies[0].rows).map(r => r.getBoundingClientRect().height);
+    const rowsHtml = it.rows.length ? it.rows : [`<tr><td colspan="20" style="color:${PC.ink3}">${esc(it.empty||"")}</td></tr>`];
+    let i = 0, first = true;
+    while (i < rowsHtml.length) {
+      const minRows = Math.min(3, rowsHtml.length - i);
+      const need = (first ? titleH : contH) + headH + rowH.slice(i, i+minRows).reduce((a,b)=>a+b,0) + 12;
+      if (used && used + need > avail) flush();
+      let chunk = [], h = (first ? titleH : contH) + headH + 12;
+      while (i < rowsHtml.length && (chunk.length === 0 || used + h + rowH[i] <= avail)) { chunk.push(rowsHtml[i]); h += rowH[i]; i++; }
+      cur.push(`<section class="psec">${first ? `<h2>${esc(it.title)}</h2>${it.sub?`<p class="psub">${esc(it.sub)}</p>`:""}` : `<h2 class="cont">${esc(it.title)} ${t("pdf_cont")}</h2>`}<table class="pt"><thead>${it.head}</thead><tbody>${chunk.join("")}</tbody></table></section>`);
+      used += h; first = false;
+      if (i < rowsHtml.length) flush();
+    }
+  });
+  flush();
+  return pages;
+}
+async function exportFullPdf(btn){
+  if (btn) { btn.disabled = true; btn.dataset.lbl = btn.textContent; btn.textContent = t("pdf_wait"); }
+  toast(t("pdf_wait"));
+  let holder; const sx = window.scrollX, sy = window.scrollY;
+  try {
+    const [lib, trend, hist] = await Promise.all([loadPdfLib(), Store.trend(7), getHistory()]);
+    holder = document.createElement("div");
+    holder.style.cssText = `position:absolute;left:0;top:0;width:${PW}px;z-index:-1;pointer-events:none`;
+    holder.innerHTML = `<style>${PDF_CSS}</style><div class="pdfdoc" id="pdfMeasure" style="width:${PW-PAD*2}px"></div><div id="pdfPage"></div>`;
+    document.body.appendChild(holder);
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const pages = paginate(buildPdfItems(trend, hist), holder.querySelector("#pdfMeasure"));
+    holder.querySelector("#pdfMeasure").innerHTML = "";
+    const pdf = new lib.jsPDF({unit:"mm", format:"a4", orientation:"landscape", compress:true});
+    const slot = holder.querySelector("#pdfPage"); window.scrollTo(0, 0);
+    for (let p=0; p<pages.length; p++){
+      slot.innerHTML = `<div class="pdfdoc" style="width:${PW}px;height:${PH}px;padding:${PAD}px ${PAD}px ${PAD+FOOT}px;overflow:hidden">${pages[p].join("")}</div>`;
+      const canvas = await lib.h2c(slot.firstElementChild, {scale:2, backgroundColor:"#ffffff", useCORS:true, logging:false, windowWidth:PW, scrollX:0, scrollY:0});
+      if (p) pdf.addPage();
+      pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, 297, 210);
+      pdf.setFontSize(8); pdf.setTextColor(135,144,174);
+      pdf.text(`Baridhi Garments Limited (Bitopi Group) | IE Report ${S.date}`, 8, 205); pdf.text(`${p+1} / ${pages.length}`, 289, 205, {align:"right"});
+    }
+    await saveFile(`BGL_Full_Report_${S.date}.pdf`, pdf.output("blob"));
+  } catch(e){ console.warn(e); toast(t("pdf_fail")); }
+  finally { if (holder) holder.remove(); window.scrollTo(sx, sy); if (btn) { btn.disabled = false; btn.textContent = btn.dataset.lbl; } }
+}
 /* ---------- files: Excel in/out ---------- */
 let downloadsNs = null;
 function needXLSX(){ if (!window.XLSX) { toast(t("xlsx_missing")); return null; } return window.XLSX; }
@@ -1590,6 +1754,7 @@ V.addEventListener("click", async e => {
   if (act.startsWith("ts_")) { tsAction(act, b); return; }
   switch (act) {
     case "tv": setTV(true); break;
+    case "pdf": exportFullPdf(b); break;
     case "ffilter": S.floorFilter = b.dataset.v; render(); break;
     case "openline": S.lineNo = +b.dataset.n; lsSet("ielb.line", S.lineNo); S.hourlyMode = "one"; go("hourly"); break;
     case "hmode": S.hourlyMode = b.dataset.v; render(); break;
