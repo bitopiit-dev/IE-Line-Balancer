@@ -30,6 +30,18 @@ Open `index.html` in a browser. No server or install is needed.
 | Style / OB library | Save an OB once and put it on any line |
 | Reports | Daily table, action tracker for every open problem, 7-day efficiency trend, Excel export (summary, hourly, action tracker, quality), WhatsApp report, print/PDF, backup and restore |
 
+## Advanced IE features
+
+| Feature | What it does |
+|---|---|
+| Smart alerts | Floor board flags lines with 2+ hours in a row below 85% of target, DHU over target, 20+ min downtime in an hour, overdue problems, end-of-day shortfall and bottleneck below target, grouped per line |
+| Yamazumi / pitch diagram | Work content per operator (SAM ÷ MP) against pitch time, takt time and ±15% control limits; balance loss % |
+| Learning curve | Simple / medium / complex ramp for a new style; today's target follows the run day automatically |
+| Time study | Stopwatch with cycle capture (Space key records a cycle), manual entry, CV%, observations needed (95% confidence, ±5%), rating and allowance → SAM; one tap puts it on the OB, with a check on large changes |
+| Order and shipment | Order quantity and ship date per line; made, remaining, average pace, expected finish (Friday off) and late-shipment risk with the daily output needed |
+| Downtime Pareto | Minutes lost by problem type across the floor, cumulative %, and estimated cost |
+| Costing | Factory cost per minute (CPM); planned and actual sewing cost per piece; cost of today's inefficiency |
+
 ## ডিজাইন / Design
 
 Indigo (dye), marigold (thread spool) and teal (thread) palette; Anek Bangla for headings and numbers, Hind Siliguri for text; light, dark and auto (device) theme switch in the header, remembered per device; works on phone, tablet, desktop and TV.

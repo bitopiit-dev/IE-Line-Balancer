@@ -171,6 +171,31 @@ tbody tr.hot:hover td{background:var(--bad-bg)}
 .phead .seg button{color:var(--hero-dim)}
 .phead .seg button[aria-pressed="true"]{background:var(--spool);color:var(--spool-ink)}
 @media (max-width:600px){.phead{margin:-18px -16px 18px;padding:12px 16px 22px}}
+.switch{display:flex;align-items:center;gap:8px;min-height:38px;cursor:pointer;font-size:.86rem;color:var(--ink-2)}
+.f .switch input,.switch input{min-height:0;padding:0;border:0;box-shadow:none;appearance:none;-webkit-appearance:none;width:38px;height:22px;border-radius:999px;background:var(--idle);position:relative;flex:none;cursor:pointer;transition:background .15s;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.switch input:checked{background:var(--ok)} .switch input:checked::after{transform:translateX(16px)}
+.alerts{background:var(--panel);border:1px solid var(--rule);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;box-shadow:var(--shadow)}
+.alerts.calm{display:flex;align-items:center;gap:10px;color:var(--ok);font-weight:600;font-size:.92rem;padding:11px 16px}
+.alist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;max-height:236px;overflow:auto}
+.al{display:flex;align-items:baseline;gap:8px;text-align:left;border:1px solid var(--rule);border-radius:10px;padding:8px 11px;background:var(--panel-2);cursor:pointer;font-size:.86rem}
+.al:hover{border-color:var(--denim)} .al b{white-space:nowrap} .al span:last-child{color:var(--ink-2)}
+.al.bad{border-left:4px solid var(--bad)} .al.warn{border-left:4px solid var(--warn)} .al.info{border-left:4px solid var(--denim)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;align-self:center;background:var(--idle)}
+.dot.ok{background:var(--ok)} .dot.bad{background:var(--bad)} .dot.warn{background:var(--warn)} .dot.info{background:var(--denim)}
+.pareto{display:grid;gap:8px}
+.pr{display:grid;grid-template-columns:minmax(120px,190px) minmax(80px,1fr) auto 150px;gap:10px;align-items:center;font-size:.86rem}
+.pb{height:16px;background:var(--panel-2);border-radius:5px;overflow:hidden}.pb i{display:block;height:100%;background:linear-gradient(90deg,var(--bad),var(--warn));border-radius:5px}
+.pc{text-align:right;color:var(--ink-2)} .pc small{display:block;color:var(--bad);font-size:.74rem}
+@media (max-width:600px){.pr{grid-template-columns:1fr auto}.pr .pb{grid-column:1/-1;grid-row:2}.pr .pc{display:none}}
+.sw{text-align:center}
+.swd{font-family:var(--display);font-weight:800;font-stretch:90%;font-size:clamp(3.2rem,9vw,5.2rem);line-height:1;color:var(--denim);margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.swd small{font-size:.3em;color:var(--ink-3);margin-left:6px;font-weight:600}
+.btn.big{padding:12px 26px;font-size:1.02rem}
+.sw .chips{justify-content:center}
+.samres{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:var(--hero);color:var(--hero-ink);border-radius:12px;padding:14px 16px;margin-top:14px}
+.samres .l{font-size:.8rem;color:var(--hero-dim)} .samres .v{font-family:var(--display);font-size:2.3rem;font-weight:800;line-height:1.1;color:var(--spool)} .samres .s{font-size:.8rem;color:var(--hero-dim)}
+.samres .btn:not(.spool){background:transparent;color:var(--hero-ink);border-color:var(--hero-3)}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
 .floorhead{display:flex;align-items:baseline;gap:12px;margin:22px 0 10px}
 .floorhead h2{margin:0;font-size:1.3rem;font-stretch:92%}
@@ -284,7 +309,20 @@ body.tv .tvexit{display:inline-flex;position:fixed;right:16px;bottom:16px;z-inde
 const I18N = {
 bn:{
   brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ, এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা।", group:"বিটপী গ্রুপ", addr:"এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"মূল্যবোধ", values:"সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ",
-  th_light:"লাইট মোড", th_dark:"ডার্ক মোড", th_auto:"ডিভাইসের সেটিং অনুযায়ী", tv_on:"বড় স্ক্রিন মোড", tv_off:"বড় স্ক্রিন বন্ধ করুন", floor_when:"ফ্লোর বোর্ড, {d}", gauge_lbl:"ফ্লোর এফিশিয়েন্সি", line_lbl:"লাইন",
+  tab_study:"টাইম স্টাডি",
+  complexity:"স্টাইলের জটিলতা", cx_simple:"সহজ", cx_medium:"মাঝারি", cx_complex:"জটিল", curve:"লার্নিং কার্ভ", curve_on:"নতুন স্টাইলে ধাপে ধাপে টার্গেট",
+  orderQty:"অর্ডার পরিমাণ", shipDate:"শিপমেন্ট তারিখ", eff_today_plan:"আজকের পরিকল্পিত এফিশিয়েন্সি",
+  lc_title:"লার্নিং কার্ভ পরিকল্পনা", lc_sub:"রান ডে অনুযায়ী এফিশিয়েন্সি টার্গেট। আজ রান ডে {d}, টার্গেট {e}%।", lc_off:"লার্নিং কার্ভ বন্ধ। লাইন সেটআপে চালু করলে নতুন স্টাইলের প্রথম দিনগুলোতে টার্গেট ধাপে ধাপে বাড়বে।", lc_day:"দিন {d}",
+  yz_title:"ইয়ামাজুমি / পিচ ডায়াগ্রাম", yz_sub:"প্রতি অপারেটরের কাজের সময় (মিনিট/পিস)। ট্যাক্ট লাইনের উপরের বার টার্গেট আটকাবে।", yz_pitch:"পিচ টাইম", yz_takt:"ট্যাক্ট টাইম", yz_ucl:"ঊর্ধ্ব সীমা +১৫%", yz_lcl:"নিম্ন সীমা −১৫%", yz_over:"ট্যাক্টের উপরে", yz_high:"বেশি লোড", yz_ok:"ব্যালেন্সড", yz_low:"কম লোড", yz_loss:"ব্যালেন্স লস {v}%",
+  cost_title:"খরচ বিশ্লেষণ", cpm:"কস্ট পার মিনিট (৳)", cpm_sub:"কারখানার প্রতি মিনিটের শ্রম ও ওভারহেড খরচ। এটি দিলে প্রতি পিসের সেলাই খরচ দেখাবে।", cost_plan:"পরিকল্পিত খরচ/পিস", cost_act:"আজকের খরচ/পিস", cost_loss:"অদক্ষতার অতিরিক্ত খরচ আজ",
+  op_title:"অর্ডার ও শিপমেন্ট", op_none:"লাইন সেটআপে অর্ডার পরিমাণ আর শিপমেন্ট তারিখ দিলে অর্ডার শেষ হওয়ার পূর্বাভাস দেখাবে।", op_made:"তৈরি", op_left:"বাকি", op_pace:"গড় দৈনিক আউটপুট", op_finish:"সম্ভাব্য শেষের তারিখ", op_req:"সময়মতো শিপমেন্টে দৈনিক লাগবে", op_ok:"সময়মতো শেষ হবে, শিপমেন্টের {d} দিন আগে।", op_late:"শিপমেন্ট ঝুঁকিতে: এই গতিতে {d} দিন দেরি হবে। দৈনিক {r} পিস দরকার।",
+  al_title:"স্মার্ট অ্যালার্ট", al_none:"এই মুহূর্তে কোনো অ্যালার্ট নেই। সব লাইন নিয়ন্ত্রণে।",
+  al_streak:"টানা {h} ঘণ্টা টার্গেটের ৮৫% এর নিচে", al_dhu:"DHU {d}%, লক্ষ্য {t}% ছাড়িয়েছে", al_npt:"{h} নং ঘণ্টায় {m} মিনিট ডাউনটাইম", al_overdue:"{h} নং ঘণ্টার সমস্যা ({p}) সমাধানের সময় পেরিয়ে গেছে", al_short:"দিনশেষে {g} পিস ঘাটতির পূর্বাভাস", al_bn:"বটলনেক {p}: {c}/ঘণ্টা, টার্গেট {t}",
+  pa_title:"ডাউনটাইম ও সমস্যার প্যারেটো", pa_sub:"আজ কোন সমস্যায় সবচেয়ে বেশি মিনিট নষ্ট হয়েছে। উপরের ২–৩টি ঠিক করলেই বেশিরভাগ লস কমে।", pa_none:"আজ কোনো ডাউনটাইম বা সমস্যা লেখা হয়নি।", pa_noreason:"কারণ লেখা হয়নি", pa_min:"মিনিট", pa_cnt:"বার", pa_cum:"ক্রমযোগ %", pa_cost:"আনুমানিক লস ৳{v}",
+  ts_title:"টাইম স্টাডি", ts_sub:"স্টপওয়াচ দিয়ে অপারেশনের সাইকেল টাইম মাপুন। রেটিং আর অ্যালাউন্স দিয়ে SAM হিসাব হবে, এক চাপে OB তে বসানো যাবে।",
+  ts_op:"অপারেশন", ts_start:"শুরু", ts_lap:"সাইকেল রেকর্ড", ts_stop:"থামান", ts_reset:"রিসেট", ts_manual:"হাতে সেকেন্ড লিখুন", ts_add:"যোগ করুন",
+  ts_obs:"পর্যবেক্ষণ", ts_avg:"গড় সাইকেল", ts_minmax:"সর্বনিম্ন / সর্বোচ্চ", ts_cv:"ভ্যারিয়েশন (CV)", ts_nreq:"প্রয়োজনীয় পর্যবেক্ষণ", ts_nreq_sub:"৯৫% নিশ্চয়তা, ±৫%", ts_rating:"পারফরম্যান্স রেটিং %", ts_allow:"অ্যালাউন্স %", ts_basic:"বেসিক টাইম", ts_sam:"নতুন SAM", ts_cur:"OB তে এখনকার SAM {s}", ts_apply:"SAM টি OB তে বসান", ts_applied:"নতুন SAM OB তে বসানো হয়েছে", ts_big:"নতুন SAM এখনকার থেকে {d}% আলাদা। পর্যবেক্ষণ ঠিক আছে কিনা দেখে নিন। তবুও OB তে বসাবেন?", ts_save:"স্টাডি সেভ করুন", ts_saved:"টাইম স্টাডি সেভ হয়েছে", ts_noproc:"এই লাইনে OB নেই। আগে লাইন ব্যালেন্সিং এ অপারেশন যোগ করুন।", ts_cv_hi:"ভ্যারিয়েশন বেশি। পদ্ধতি বা অপারেটর স্থির কিনা দেখুন।", ts_more:"আরও {n}টি সাইকেল মাপুন।", ts_enough:"পর্যাপ্ত পর্যবেক্ষণ হয়েছে।", ts_last:"শেষ স্টাডি {d}, SAM {s}",
+  sec_short:"সে.", th_light:"লাইট মোড", th_dark:"ডার্ক মোড", th_auto:"ডিভাইসের সেটিং অনুযায়ী", tv_on:"বড় স্ক্রিন মোড", tv_off:"বড় স্ক্রিন বন্ধ করুন", floor_when:"ফ্লোর বোর্ড, {d}", gauge_lbl:"ফ্লোর এফিশিয়েন্সি", line_lbl:"লাইন",
   styleStart:"স্টাইল শুরুর তারিখ", run_day:"রান ডে", dhuTarget:"DHU লক্ষ্য %",
   h_var:"ভ্যারিয়েন্স", h_prob:"সমস্যার ধরন", h_action:"অ্যাকশন প্ল্যান", h_who:"দায়িত্বে", h_tts:"সমাধানের সময়", h_status:"অবস্থা", st_pending:"বাকি", st_done:"সমাধান",
   pt_sup:"সুপারভাইজারের দুর্বল ফলোআপ", pt_mc:"মেশিন নষ্ট", pt_input:"ইনপুট ঘাটতি", pt_abs:"অনুপস্থিতি", pt_quality:"কোয়ালিটি সমস্যা", pt_balance:"লাইন ব্যালেন্সিং", pt_power:"বিদ্যুৎ বিভ্রাট", pt_change:"স্টাইল পরিবর্তন", pt_acc:"এক্সেসরিজ ঘাটতি", pt_other:"অন্যান্য",
@@ -356,7 +394,20 @@ bn:{
 },
 en:{
   brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, a Bitopi Group company. Industrial Engineering Department, S.F.B-07 & 08, Cumilla EPZ, Cumilla.", group:"Bitopi Group", addr:"S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"Values", values:"Honesty and integrity, trust and respect, discipline, responsibility",
-  th_light:"Light mode", th_dark:"Dark mode", th_auto:"Match device setting", tv_on:"Big screen mode", tv_off:"Exit big screen", floor_when:"Floor board, {d}", gauge_lbl:"Floor efficiency", line_lbl:"Line",
+  tab_study:"Time study",
+  complexity:"Style complexity", cx_simple:"Simple", cx_medium:"Medium", cx_complex:"Complex", curve:"Learning curve", curve_on:"Ramp up the target on a new style",
+  orderQty:"Order quantity", shipDate:"Shipment date", eff_today_plan:"Today’s planned efficiency",
+  lc_title:"Learning curve plan", lc_sub:"Efficiency target by run day. Today is run day {d}, target {e}%.", lc_off:"Learning curve is off. Turn it on in line setup to ramp the target up over the first days of a new style.", lc_day:"Day {d}",
+  yz_title:"Yamazumi / pitch diagram", yz_sub:"Work content per operator (min per piece). Bars above the takt line will cap the target.", yz_pitch:"Pitch time", yz_takt:"Takt time", yz_ucl:"Upper limit +15%", yz_lcl:"Lower limit −15%", yz_over:"Above takt", yz_high:"High load", yz_ok:"Balanced", yz_low:"Under-loaded", yz_loss:"Balance loss {v}%",
+  cost_title:"Cost analysis", cpm:"Cost per minute (৳)", cpm_sub:"The factory’s labour and overhead cost per minute. Set it to see sewing cost per piece.", cost_plan:"Planned cost/pc", cost_act:"Today’s cost/pc", cost_loss:"Extra cost from inefficiency today",
+  op_title:"Order and shipment", op_none:"Add the order quantity and shipment date in line setup to see when the order will finish.", op_made:"Made", op_left:"Remaining", op_pace:"Average daily output", op_finish:"Expected finish", op_req:"Needed per day to ship on time", op_ok:"Finishes on time, {d} days before shipment.", op_late:"Shipment at risk: at this pace it is {d} days late. It needs {r} pcs a day.",
+  al_title:"Smart alerts", al_none:"No alerts right now. Every line is under control.",
+  al_streak:"{h} hours in a row below 85% of target", al_dhu:"DHU {d}% is over the {t}% target", al_npt:"{m} minutes of downtime in hour {h}", al_overdue:"The hour {h} problem ({p}) is past its time to solve", al_short:"Forecast to end {g} pcs short", al_bn:"Bottleneck {p}: {c}/hr against {t}",
+  pa_title:"Downtime and problem Pareto", pa_sub:"Which problems lost the most minutes today. Fixing the top two or three removes most of the loss.", pa_none:"No downtime or problems logged today.", pa_noreason:"No reason given", pa_min:"min", pa_cnt:"times", pa_cum:"Cumulative %", pa_cost:"Estimated loss ৳{v}",
+  ts_title:"Time study", ts_sub:"Time an operation’s cycles with the stopwatch. Rating and allowance turn it into a SAM you can put on the OB in one tap.",
+  ts_op:"Operation", ts_start:"Start", ts_lap:"Record cycle", ts_stop:"Stop", ts_reset:"Reset", ts_manual:"Type seconds", ts_add:"Add",
+  ts_obs:"Observations", ts_avg:"Average cycle", ts_minmax:"Min / max", ts_cv:"Variation (CV)", ts_nreq:"Observations needed", ts_nreq_sub:"95% confidence, ±5%", ts_rating:"Performance rating %", ts_allow:"Allowance %", ts_basic:"Basic time", ts_sam:"New SAM", ts_cur:"Current SAM on the OB {s}", ts_apply:"Put this SAM on the OB", ts_applied:"New SAM placed on the OB", ts_big:"The new SAM differs from the current one by {d}%. Check the observations. Put it on the OB anyway?", ts_save:"Save study", ts_saved:"Time study saved", ts_noproc:"This line has no OB. Add operations in Line balancing first.", ts_cv_hi:"Variation is high. Check the method and the operator are steady.", ts_more:"Time {n} more cycles.", ts_enough:"Enough observations.", ts_last:"Last study {d}, SAM {s}",
+  sec_short:"s", th_light:"Light mode", th_dark:"Dark mode", th_auto:"Match device setting", tv_on:"Big screen mode", tv_off:"Exit big screen", floor_when:"Floor board, {d}", gauge_lbl:"Floor efficiency", line_lbl:"Line",
   styleStart:"Style start date", run_day:"Run day", dhuTarget:"DHU target %",
   h_var:"Variance", h_prob:"Problem type", h_action:"Action plan", h_who:"Who", h_tts:"Time to solve", h_status:"Status", st_pending:"Pending", st_done:"Solved",
   pt_sup:"Supervisor poor follow-up", pt_mc:"Machine breakdown", pt_input:"Input shortage", pt_abs:"Absenteeism", pt_quality:"Quality issue", pt_balance:"Line balancing", pt_power:"Power failure", pt_change:"Style changeover", pt_acc:"Accessories shortage", pt_other:"Other",
@@ -461,14 +512,14 @@ const S = {
   view: "floor",
   lineNo: lsGet("ielb.line", 1),
   date: todayStr(),
-  lines: {}, operators: {}, templates: {}, prod: {},
+  lines: {}, operators: {}, templates: {}, prod: {}, settings: {cpm:0},
   mode: "loading", canEdit: true, canWrite: true,
   floorFilter: "all", hourlyMode: "one", quickHour: 1, opsLine: "all",
   ai: {}
 };
 function t(k, vars){ let s = (I18N[S.lang] && I18N[S.lang][k]) ?? I18N.en[k] ?? k; if (vars) for (const [a,b] of Object.entries(vars)) s = s.split("{"+a+"}").join(b); return s; }
 function fmt(n, d=0){ if (n == null || !isFinite(n)) return "–"; return Number(n).toLocaleString(S.lang==="bn"?"bn-BD":"en-US",{minimumFractionDigits:d,maximumFractionDigits:d}); }
-function defaultLine(n){ return {no:n, floor:Math.ceil(n/12), buyer:"", style:"", smv:0, op:0, hp:0, hours:10, targetEff:65, absent:0, shift:"08:00", styleStart:"", dhuTarget:5, processes:[]}; }
+function defaultLine(n){ return {no:n, floor:Math.ceil(n/12), buyer:"", style:"", smv:0, op:0, hp:0, hours:10, targetEff:65, absent:0, shift:"08:00", styleStart:"", dhuTarget:5, curve:false, complexity:"medium", orderQty:0, shipDate:"", studies:{}, processes:[]}; }
 function getLine(n){ const id = lineId(n); return S.lines[id] || (S.lines[id] = defaultLine(n)); }
 function getProd(n){ const id = lineId(n); return S.prod[id] || {hours:[]}; }
 
@@ -491,7 +542,7 @@ const Store = {
     } else {
       S.mode = "local"; S.canEdit = true; S.canWrite = true;
       const L = lsGet("ielb.data", null) || {};
-      S.lines = L.lines || {}; S.operators = L.operators || {}; S.templates = L.templates || {}; this.localProd = L.prod || {};
+      S.lines = L.lines || {}; S.operators = L.operators || {}; S.templates = L.templates || {}; S.settings = L.settings || {cpm:0}; this.localProd = L.prod || {};
       S.prod = this.localProd[S.date] || {};
       render();
     }
@@ -509,6 +560,7 @@ const Store = {
       scheduleRender();
     }, err => { console.warn(name, err); });
     col("lines", () => S.lines); col("operators", () => S.operators); col("templates", () => S.templates);
+    this.db.doc("settings/factory").onSnapshot(d => { if (!this.pending["settings/factory"]) { S.settings = Object.assign({cpm:0}, d.exists ? clone(d.data()) : {}); scheduleRender(); } }, err => console.warn("settings", err));
     this.subscribeProd();
   },
   subscribeProd(){
@@ -545,7 +597,7 @@ const Store = {
   persistLocal(){
     this.localProd = this.localProd || {};
     this.localProd[S.date] = S.prod;
-    lsSet("ielb.data", {lines:S.lines, operators:S.operators, templates:S.templates, prod:this.localProd});
+    lsSet("ielb.data", {lines:S.lines, operators:S.operators, templates:S.templates, settings:S.settings, prod:this.localProd});
   },
   saveLine(n){ const id = lineId(n); this.save("lines", id, () => S.lines[id]); },
   saveProd(n){ const id = lineId(n); const p = S.prod[id]; if (p) { p.line = id; p.date = S.date; } this.save("prod", S.date+"_"+id, () => S.prod[id]); },
@@ -594,7 +646,9 @@ function calcLine(line, prod){
   r.activeMp = raw > 0 ? Math.max(1, Math.round(raw * (1 - num(line.absent)/100))) : 0;
   r.hours = num(line.hours) || 10; r.smv = num(line.smv);
   r.cap100Daily = r.smv > 0 ? Math.floor(r.activeMp * r.hours * 60 / r.smv) : 0;
-  r.targetDaily = Math.floor(r.cap100Daily * num(line.targetEff)/100);
+  r.runDay = line.styleStart ? Math.max(1, Math.floor((new Date(S.date+"T12:00:00") - new Date(line.styleStart+"T12:00:00"))/864e5) + 1) : null;
+  r.effPlan = planEff(line, r.runDay);
+  r.targetDaily = Math.floor(r.cap100Daily * r.effPlan/100);
   r.cap100Hourly = Math.round(r.cap100Daily / r.hours);
   r.targetHourly = Math.round(r.targetDaily / r.hours);
   r.takt = r.targetHourly > 0 ? 3600 / r.targetHourly : 0;
@@ -626,9 +680,19 @@ function calcLine(line, prod){
   r.forecast = logged > 0 ? Math.round(out / logged * r.hours) : null;
   r.issues = hrs.filter(h => h && h.p).length; r.open = hrs.filter(h => h && h.p && h.s !== "done").length;
   r.dhuT = num(line.dhuTarget) || 5;
-  r.runDay = line.styleStart ? Math.max(1, Math.floor((new Date(S.date+"T12:00:00") - new Date(line.styleStart+"T12:00:00"))/864e5) + 1) : null;
+  r.cpm = num(S.settings && S.settings.cpm);
+  r.costPlan = r.cpm > 0 && r.smv > 0 && r.effPlan > 0 ? r.cpm * r.smv / (r.effPlan/100) : null;
+  r.costAct = r.cpm > 0 && r.eff ? r.cpm * r.smv / (r.eff/100) : null;
   r.status = r.ach == null ? "idle" : r.ach >= 95 ? "ok" : r.ach >= 85 ? "warn" : "bad";
   return r;
+}
+/* Learning curve: efficiency ramp for a new style, by complexity (typical knit/woven sewing ramps) */
+const CURVES = {simple:[50,60,70,80], medium:[40,50,58,65,72,80], complex:[30,38,46,54,60,66,72,80]};
+function planEff(line, runDay){
+  const tgt = num(line.targetEff);
+  if (!line.curve || !runDay) return tgt;
+  const c = CURVES[line.complexity || "medium"];
+  return runDay <= c.length ? Math.min(tgt, c[runDay-1] * tgt / 80) : tgt;
 }
 function hourStatus(o, target){ if (o == null || o === "") return ""; const a = target > 0 ? num(o)/target*100 : 100; return a >= 95 ? "ok" : a >= 85 ? "warn" : "bad"; }
 /* Greedy rebalance: give each operation half-person steps to the current bottleneck until the pool runs out. */
@@ -658,9 +722,11 @@ function shiftClock(line, i){
 let histCache = {key:"", at:0, data:null};
 async function getHistory(){
   const d = new Date(S.date+"T12:00:00"); const from = d.getFullYear()+"-"+pad2(d.getMonth()===0?12:d.getMonth())+"-01";
-  const fromFixed = d.getMonth()===0 ? (d.getFullYear()-1)+"-12-01" : from;
-  if (histCache.key === S.date+S.mode && Date.now() - histCache.at < 60000) return histCache.data;
-  const data = await Store.range(fromFixed); histCache = {key:S.date+S.mode, at:Date.now(), data}; return data;
+  let fromFixed = d.getMonth()===0 ? (d.getFullYear()-1)+"-12-01" : from;
+  const floorD = addDays(S.date, -180);
+  Object.values(S.lines).forEach(l => { if (l.styleStart && l.styleStart < fromFixed && l.styleStart >= floorD) fromFixed = l.styleStart; });
+  if (histCache.key === S.date+S.mode+fromFixed && Date.now() - histCache.at < 60000) return histCache.data;
+  const data = await Store.range(fromFixed); histCache = {key:S.date+S.mode+fromFixed, at:Date.now(), data}; return data;
 }
 function lineHistory(n, data){
   const id = lineId(n), l = getLine(n), month = S.date.slice(0,7);
@@ -678,8 +744,59 @@ function lineHistory(n, data){
   const e = a => a.av > 0 ? a.sm/a.av*100 : null;
   return {yEff: yday ? yday.eff : null, yOut: yday ? yday.out : null, yDate: ydate, mtd: e(mtd), lastM: e(lm)};
 }
+
+/* Order progress: output since the style started, pace, finish date and shipment risk */
+function orderPlan(n, data){
+  const l = getLine(n), id = lineId(n), qty = num(l.orderQty);
+  if (!qty) return null;
+  let made = 0, days = 0;
+  Object.keys(data).forEach(dt => { if (l.styleStart && dt < l.styleStart) return; if (dt > S.date) return; const p = data[dt] && data[dt][id]; if (!p) return; const r = calcLine(l, p); if (r.logged) { made += r.out; days++; } });
+  const today = calcLine(l, getProd(n));
+  if (!(data[S.date] && data[S.date][id]) && today.logged) { made += today.out; days++; }
+  const left = Math.max(0, qty - made);
+  const pace = days ? made/days : calcLine(l, getProd(n)).targetDaily;
+  const need = pace > 0 ? Math.ceil(left / pace) : null;
+  const finish = need == null ? null : addWorkDays(S.date, need);
+  const late = finish && l.shipDate ? Math.round((new Date(finish+"T12:00:00") - new Date(l.shipDate+"T12:00:00"))/864e5) : null;
+  const daysToShip = l.shipDate ? workDaysBetween(S.date, l.shipDate) : null;
+  const reqPace = daysToShip && daysToShip > 0 ? Math.ceil(left / daysToShip) : null;
+  return {qty, made, left, pace, need, finish, late, reqPace, pct: Math.min(100, made/qty*100)};
+}
+function addWorkDays(s, k){ let d = s, c = 0; while (c < k) { d = addDays(d, 1); if (new Date(d+"T12:00:00").getDay() !== 5) c++; } return d; } // Friday off
+function workDaysBetween(a, b){ let d = a, c = 0; while (d < b) { d = addDays(d, 1); if (new Date(d+"T12:00:00").getDay() !== 5) c++; } return c; }
+
+/* Smart alerts: rules an IE would watch on the floor */
+function smartAlerts(){
+  const out = [];
+  const now = new Date(); const nowMin = now.getHours()*60 + now.getMinutes(); const isToday = S.date === todayStr();
+  for (let n=1;n<=LINE_COUNT;n++){
+    const l = getLine(n), r = calcLine(l, getProd(n)), hrs = getProd(n).hours || [];
+    if (!r.setup || !r.logged) continue;
+    const st = i => hrs[i] && hrs[i].o !== "" && hrs[i].o != null ? num(hrs[i].o) / (r.targetHourly||1) * 100 : null;
+    let streak = 0, maxStreak = 0; for (let i=0;i<=r.lastIdx;i++){ const a = st(i); if (a != null && a < 85) { streak++; maxStreak = Math.max(maxStreak, streak); } else streak = 0; }
+    if (streak >= 2) out.push({n, lv:"bad", k:"al_streak", v:{h:fmt(streak)}});
+    if (r.dhu != null && r.dhu >= r.dhuT && r.out >= 50) out.push({n, lv:"bad", k:"al_dhu", v:{d:fmt(r.dhu,1), t:fmt(r.dhuT)}});
+    const bigNpt = hrs.findIndex(h => h && num(h.n) >= 20); if (bigNpt >= 0) out.push({n, lv:"warn", k:"al_npt", v:{m:fmt(num(hrs[bigNpt].n)), h:fmt(bigNpt+1)}});
+    if (isToday) hrs.forEach((h,i) => { if (h && h.p && h.s !== "done" && h.tm) { const [a,b] = h.tm.split(":").map(Number); if (nowMin > a*60+b) out.push({n, lv:"warn", k:"al_overdue", v:{p:t("pt_"+h.p), h:fmt(i+1)}}); } });
+    if (r.forecast != null && r.targetDaily && r.forecast < r.targetDaily*0.9 && r.logged >= 2) out.push({n, lv:"warn", k:"al_short", v:{g:fmt(r.targetDaily - r.forecast)}});
+    if (r.bn && r.minCap < r.targetHourly) out.push({n, lv:"info", k:"al_bn", v:{p:r.bn.name, c:fmt(r.minCap), t:fmt(r.targetHourly)}});
+  }
+  const rank = {bad:0, warn:1, info:2};
+  return out.sort((a,b) => rank[a.lv]-rank[b.lv] || a.n-b.n);
+}
+
+/* Time study maths */
+function studyStats(obs, rating, allow){
+  const x = obs.map(num).filter(v => v > 0); const n = x.length;
+  if (!n) return null;
+  const sum = x.reduce((a,b)=>a+b,0), avg = sum/n, sq = x.reduce((a,b)=>a+b*b,0);
+  const sd = n > 1 ? Math.sqrt(Math.max(0, (sq - n*avg*avg)/(n-1))) : 0;
+  const nReq = n > 1 && sum > 0 ? Math.ceil(Math.pow(40*Math.sqrt(Math.max(0, n*sq - sum*sum))/sum, 2)) : null; // 95% confidence, ±5%
+  const basic = avg * num(rating)/100; const sam = basic * (1 + num(allow)/100) / 60;
+  return {n, avg, min:Math.min(...x), max:Math.max(...x), sd, cv: avg ? sd/avg*100 : 0, nReq, basic, sam};
+}
 /* ---------- render plumbing ---------- */
-const VIEWS = ["floor","line","hourly","operators","styles","report"];
+const VIEWS = ["floor","line","hourly","study","operators","styles","report"];
 let dirty = false;
 function isEditing(){ const a = document.activeElement; return a && $("#view").contains(a) && /INPUT|SELECT|TEXTAREA/.test(a.tagName) && a.type !== "file"; }
 function scheduleRender(){ if (isEditing()) { dirty = true; return; } render(); }
@@ -710,7 +827,7 @@ function render(){
   renderChrome();
   const v = $("#view");
   if (S.mode === "loading") { v.innerHTML = `<div class="empty">${t("sync_loading")}</div>`; return; }
-  const fn = {floor:viewFloor, line:viewLine, hourly:viewHourly, operators:viewOperators, styles:viewStyles, report:viewReport}[S.view];
+  const fn = {floor:viewFloor, line:viewLine, hourly:viewHourly, study:viewStudy, operators:viewOperators, styles:viewStyles, report:viewReport}[S.view];
   const body = fn(), b = banners();
   v.innerHTML = body.includes("<!--B-->") ? body.replace("<!--B-->", b) : b + body;
   if (S.view === "report") loadTrend();
@@ -751,6 +868,7 @@ function viewFloor(){
     </div>
   </section>
   <!--B-->
+  ${alertsPanel()}
   <div class="toolbar noprint"><div class="seg" role="group">
     ${["all","behind","idle"].map(f => `<button type="button" data-act="ffilter" data-v="${f}" aria-pressed="${S.floorFilter===f}">${t("f_"+f)}</button>`).join("")}
   </div><span class="spacer"></span><button type="button" class="btn spool" data-act="tv">${t("tv_on")}</button></div>`;
@@ -797,6 +915,9 @@ function viewLine(){
       ${fld("smv","number",'step="0.01" min="0"')}${fld("op","number",'min="0"')}${fld("hp","number",'min="0"')}
       ${fld("hours","number",'step="0.5" min="1" max="24"')}${fld("targetEff","number",'min="10" max="100"')}${fld("absent","number",'min="0" max="60"')}
       ${fld("shift","time")}${fld("styleStart","date")}${fld("dhuTarget","number",'step="0.5" min="0" max="20"')}
+      ${fld("orderQty","number",'min="0" step="100"')}${fld("shipDate","date")}
+      <div class="f"><label for="f_complexity">${t("complexity")}</label><select id="f_complexity" data-lf="complexity" ${ro}>${["simple","medium","complex"].map(x=>`<option value="${x}" ${(l.complexity||"medium")===x?"selected":""}>${t("cx_"+x)}</option>`).join("")}</select></div>
+      <div class="f"><label>${t("curve")}</label><label class="switch"><input type="checkbox" data-lf="curve" ${l.curve?"checked":""} ${ro}><span>${t("curve_on")}</span></label></div>
     </div>
    </section>
    <section class="panel" id="lineKpis">${lineKpis(l, r)}</section>
@@ -810,6 +931,7 @@ function viewLine(){
     ${l.processes.length ? procTable(l, r) : `<div class="empty"><p>${t("no_proc")}</p>${S.canEdit?`<button class="btn pri" data-act="sampleob">${t("sample_ob")}</button>`:""}</div>`}
   </section>
   <div id="lineDerived">${lineDerived(l, r)}</div>`;
+  setTimeout(() => loadOrderPlan(n), 0);
   return h;
 }
 function lineKpis(l, r){
@@ -820,6 +942,8 @@ function lineKpis(l, r){
     <div class="kpi"><div class="l">${t("k_hourly")}</div><div class="v">${fmt(r.targetHourly)}</div><div class="s">${t("cap100")}: ${fmt(r.cap100Hourly)} ${t("pcs_hr")}</div></div>
     <div class="kpi ${st}"><div class="l">${t("k_bneck")}</div><div class="v">${fmt(r.minCap)}</div><div class="s">${r.bn?esc(r.bn.name):"–"}</div></div>
     <div class="kpi ${r.balEff>=85?"ok":r.balEff>=70?"warn":r.balEff?"bad":""}"><div class="l">${t("k_bal")}</div><div class="v">${fmt(r.balEff,1)}%</div><div class="s">${t("k_theo")}: ${fmt(r.theoMp,1)}</div></div>
+    ${r.effPlan !== num(l.targetEff) ? `<div class="kpi warn"><div class="l">${t("eff_today_plan")}</div><div class="v">${fmt(r.effPlan,0)}%</div><div class="s">${t("curve")}, ${t("run_day")} ${fmt(r.runDay)}</div></div>` : ""}
+    ${r.costPlan != null ? `<div class="kpi"><div class="l">${t("cost_plan")}</div><div class="v">৳${fmt(r.costPlan,2)}</div><div class="s">${r.costAct!=null?t("cost_act")+": ৳"+fmt(r.costAct,2):"CPM ৳"+fmt(r.cpm,2)}</div></div>` : ""}
     <div class="kpi"><div class="l">${t("k_takt")}</div><div class="v">${fmt(r.takt,1)}</div><div class="s">${t("sec")}</div></div>
     <div class="kpi"><div class="l">${t("k_mp")}</div><div class="v">${fmt(r.activeMp)}</div><div class="s">${t("op")} ${fmt(num(l.op))}, ${t("hp")} ${fmt(num(l.hp))}</div></div>
   </div>
@@ -855,7 +979,9 @@ function procTable(l, r){
 }
 function lineDerived(l, r){
   if (!l.processes.length) return "";
-  let h = `<div class="grid2"><section class="panel"><h2>${t("chart_cap")}</h2>${capChart(r)}</section><section class="panel"><h2>${t("auto_title")}</h2>`;
+  let h = `<section class="panel"><div class="row" style="margin-bottom:4px"><h2 style="margin:0">${t("yz_title")}</h2><span class="spacer"></span>${yzLoss(r)}</div><p class="small muted" style="margin:0 0 10px">${t("yz_sub")}</p>${yamazumi(l, r)}</section>
+  <div class="grid2"><section class="panel"><h2>${t("lc_title")}</h2>${curvePanel(l, r)}</section><section class="panel" id="orderPlan"><h2>${t("op_title")}</h2><p class="muted small">${t("sync_loading")}</p></section></div>
+  <div class="grid2"><section class="panel"><h2>${t("chart_cap")}</h2>${capChart(r)}</section><section class="panel"><h2>${t("auto_title")}</h2>`;
   const sug = suggestMp(l.processes, r.sumMp);
   if (sug) {
     const better = sug.minCap > r.procs.reduce((m,x)=>Math.min(m,x.cap),Infinity) + 0.5;
@@ -899,7 +1025,7 @@ function capChart(r){
 function refreshLineDerived(){
   const l = getLine(S.lineNo), r = calcLine(l, getProd(S.lineNo));
   const k = $("#lineKpis"); if (k) k.innerHTML = lineKpis(l, r);
-  const d = $("#lineDerived"); if (d) d.innerHTML = lineDerived(l, r);
+  const d = $("#lineDerived"); if (d) { d.innerHTML = lineDerived(l, r); loadOrderPlan(S.lineNo); }
   // update computed cells in the process table without touching the inputs
   const anySkill = r.procs.some(x => x.scap != null);
   const sug = suggestMp(l.processes, r.sumMp);
@@ -1073,7 +1199,7 @@ function viewReport(){
     <td class="r num ${v<0?"delta-dn":v>0?"delta-up":""}">${r.logged?(v>0?"+":"")+fmt(v):"–"}</td><td class="r num">${r.eff==null?"–":fmt(r.eff,1)+"%"}</td><td class="r num">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</td>
     <td class="r num">${r.forecast==null?"–":fmt(r.forecast)+" / "+fmt(r.targetDaily)}</td><td class="small" style="min-width:180px">${r.bn?esc(r.bn.name)+" ("+fmt(r.minCap)+")":"–"}</td></tr>`;
   });
-  h += `</tbody></table></div></section>${issuesPanel()}<section class="panel"><h2>${t("trend")}</h2><div id="trend" class="muted small">${t("sync_loading")}</div></section>
+  h += `</tbody></table></div></section>${issuesPanel()}${paretoPanel()}${costPanel()}<section class="panel"><h2>${t("trend")}</h2><div id="trend" class="muted small">${t("sync_loading")}</div></section>
   <section class="panel noprint"><h2>${t("backup_title")}</h2><p class="small muted" style="margin-top:-4px">${t("backup_sub")}</p><div class="row"><button class="btn" data-act="backup">${t("backup_btn")}</button>${S.canEdit?`<button class="btn" data-act="restore">${t("restore_btn")}</button>`:""}</div></section>`;
   return h;
 }
@@ -1129,6 +1255,191 @@ function issuesPanel(){
     s += `<tr><td class="num"><b>${fmt(n)}</b></td><td class="num">${fmt(i+1)}</td><td>${t("pt_"+h.p)}</td><td>${esc(h.r||"")}</td><td>${esc(h.w||"")}</td><td class="num">${esc(h.tm||"")}</td><td><span class="tag ${h.s==="done"?"ok":"warn"}">${h.s==="done"?t("st_done"):t("st_pending")}</span></td></tr>`; });
   return s + `</tbody></table></div></section>`;
 }
+/* ===================== Advanced IE features ===================== */
+
+/* ---------- Yamazumi / pitch diagram ---------- */
+function yzLoss(r){ return r.balEff ? `<span class="tag ${r.balEff>=85?"ok":r.balEff>=70?"warn":"bad"}">${t("yz_loss",{v:fmt(100-r.balEff,1)})}</span>` : ""; }
+function yamazumi(l, r){
+  const items = r.procs.filter(x => num(x.p.sam) > 0 && num(x.p.mp) > 0).map((x,i) => ({x, i, v: num(x.p.sam)/num(x.p.mp)}));
+  if (!items.length) return "";
+  const pitch = r.sumMp > 0 ? r.sumSam / r.sumMp : 0;
+  const takt = r.targetHourly > 0 ? 60 / r.targetHourly : 0;
+  const ucl = pitch*1.15, lcl = pitch*0.85;
+  const bw = 34, L = 44, R = 96, T = 14, B = 30, H = 250;
+  const W = Math.max(560, L + R + items.length*bw);
+  const max = Math.max(takt, ucl, ...items.map(o=>o.v)) * 1.12 || 1;
+  const Y = v => T + (H-T-B)*(1 - v/max);
+  let s = `<svg width="${W}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t("yz_title"))}">`;
+  [0, max/2/1.12, max/1.12].forEach(v => { s += `<line x1="${L}" x2="${W-R+10}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${fmt(v,2)}</text>`; });
+  items.forEach((o,k) => {
+    const x = L + k*bw + 5, w = bw-10;
+    const col = takt && o.v > takt ? "bad" : o.v > ucl ? "warn" : o.v < lcl ? "denim" : "ok";
+    s += `<rect x="${x}" y="${Y(o.v)}" width="${w}" height="${Y(0)-Y(o.v)}" rx="4" fill="var(--${col})" opacity="${col==="denim"?.55:1}"><title>${esc(o.x.p.name)}: ${fmt(o.v,3)} ${t("min")}</title></rect>`;
+    s += `<text x="${x+w/2}" y="${H-12}" text-anchor="middle">${fmt(o.i+1)}</text>`;
+  });
+  const line = (v, col, dash, lab) => v ? `<line x1="${L}" x2="${W-R+10}" y1="${Y(v)}" y2="${Y(v)}" stroke="${col}" stroke-width="${dash?1.5:2}" ${dash?`stroke-dasharray="${dash}"`:""}/><text x="${W-R+14}" y="${Y(v)+4}" style="fill:${col};font-weight:600">${lab} ${fmt(v,2)}</text>` : "";
+  s += line(ucl, "var(--warn)", "3 4", "UCL") + line(lcl, "var(--ink-3)", "3 4", "LCL") + line(pitch, "var(--thread)", "", t("yz_pitch")) + line(takt, "var(--bad)", "7 4", t("yz_takt"));
+  s += `</svg>`;
+  return `<div class="chart">${s}</div><div class="legend"><span><i style="background:var(--bad)"></i>${t("yz_over")}</span><span><i style="background:var(--warn)"></i>${t("yz_high")}</span><span><i style="background:var(--ok)"></i>${t("yz_ok")}</span><span><i style="background:var(--denim);opacity:.55"></i>${t("yz_low")}</span><span><i style="background:var(--thread)"></i>${t("yz_pitch")}</span><span><i style="background:var(--bad)"></i>${t("yz_takt")}</span></div>`;
+}
+
+/* ---------- Learning curve ---------- */
+function curvePanel(l, r){
+  const c = CURVES[l.complexity || "medium"], tgt = num(l.targetEff);
+  const days = c.length + 1, W = 520, H = 170, L = 34, B = 26, T = 18, bw = (W-L-6)/days;
+  const val = d => d <= c.length ? Math.min(tgt, c[d-1]*tgt/80) : tgt;
+  const Y = v => T + (H-T-B)*(1 - v/100);
+  let s = `<svg width="${W}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t("lc_title"))}">`;
+  [0,50,100].forEach(v => { s += `<line x1="${L}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${fmt(v)}%</text>`; });
+  for (let d=1; d<=days; d++){
+    const v = val(d), x = L + (d-1)*bw + bw*0.15, w = bw*0.7, cur = l.curve && r.runDay === d || (l.curve && d === days && r.runDay > days);
+    s += `<rect x="${x}" y="${Y(v)}" width="${w}" height="${Y(0)-Y(v)}" rx="4" fill="var(--${cur?"spool":"denim"})" opacity="${cur?1:.45}"/><text x="${x+w/2}" y="${Y(v)-5}" text-anchor="middle" style="fill:var(--ink);font-weight:600">${fmt(v,0)}</text><text x="${x+w/2}" y="${H-8}" text-anchor="middle">${d===days?fmt(d)+"+":fmt(d)}</text>`;
+  }
+  s += `</svg>`;
+  return `<p class="small muted" style="margin:-4px 0 8px">${l.curve && r.runDay ? t("lc_sub",{d:fmt(r.runDay),e:fmt(r.effPlan,0)}) : t("lc_off")}</p><div class="chart">${s}</div>`;
+}
+
+/* ---------- Order plan (async: needs history) ---------- */
+async function loadOrderPlan(n){
+  const el = $("#orderPlan"); if (!el) return;
+  const data = await getHistory(); const box = $("#orderPlan"); if (!box || S.lineNo !== n) return;
+  const o = orderPlan(n, data), l = getLine(n);
+  if (!o) { box.innerHTML = `<h2>${t("op_title")}</h2><p class="muted small">${t("op_none")}</p>`; return; }
+  box.innerHTML = `<h2>${t("op_title")}</h2>
+    <div class="row small" style="justify-content:space-between"><span>${fmt(o.made)} / ${fmt(o.qty)} ${t("pcs")}</span><b>${fmt(o.pct,0)}%</b></div>
+    <div class="load" style="height:10px;margin:4px 0 12px"><i style="width:${o.pct}%;background:var(--${o.late>0?"bad":"ok"})"></i></div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">${t("op_left")}</div><div class="v">${fmt(o.left)}</div><div class="s">${t("pcs")}</div></div>
+      <div class="kpi"><div class="l">${t("op_pace")}</div><div class="v">${fmt(o.pace)}</div><div class="s">${t("pcs")}</div></div>
+      <div class="kpi ${o.late>0?"bad":o.late!=null?"ok":""}"><div class="l">${t("op_finish")}</div><div class="v" style="font-size:1.25rem">${o.finish?esc(o.finish):"–"}</div><div class="s">${l.shipDate?t("shipDate")+": "+esc(l.shipDate):""}</div></div>
+      ${o.reqPace!=null?`<div class="kpi"><div class="l">${t("op_req")}</div><div class="v">${fmt(o.reqPace)}</div><div class="s">${t("pcs")}</div></div>`:""}
+    </div>
+    ${o.late==null?"":o.late>0?`<div class="note bad">${t("op_late",{d:fmt(o.late),r:fmt(o.reqPace)})}</div>`:`<div class="note ok">${t("op_ok",{d:fmt(-o.late)})}</div>`}`;
+}
+
+/* ---------- Smart alerts (floor board) ---------- */
+function alertsPanel(){
+  const raw = smartAlerts();
+  if (!raw.length) return `<div class="alerts calm noprint"><span class="dot ok"></span>${t("al_none")}</div>`;
+  // one card per line, worst level first; the bottleneck note only shows when nothing worse is happening
+  const rank = {bad:0, warn:1, info:2}, by = {};
+  raw.forEach(x => { const g = by[x.n] || (by[x.n] = {n:x.n, lv:x.lv, msgs:[]}); if (rank[x.lv] < rank[g.lv]) g.lv = x.lv; g.msgs.push(x); });
+  const groups = Object.values(by).map(g => ({...g, msgs: g.lv === "info" ? g.msgs : g.msgs.filter(m => m.lv !== "info")})).sort((a,b) => rank[a.lv]-rank[b.lv] || b.msgs.length-a.msgs.length || a.n-b.n);
+  const cnt = {bad:0,warn:0,info:0}; groups.forEach(g => cnt[g.lv]++);
+  return `<section class="alerts noprint"><div class="row" style="margin-bottom:8px"><h2 style="margin:0">${t("al_title")}</h2>
+    ${cnt.bad?`<span class="tag bad">${fmt(cnt.bad)}</span>`:""}${cnt.warn?`<span class="tag warn">${fmt(cnt.warn)}</span>`:""}${cnt.info?`<span class="tag idle">${fmt(cnt.info)}</span>`:""}</div>
+    <div class="alist">${groups.map(g => `<button type="button" class="al ${g.lv}" data-act="openline" data-n="${g.n}"><span class="dot ${g.lv}"></span><b>${t("line")} ${fmt(g.n)}</b><span>${g.msgs.map(m => esc(t(m.k, m.v))).join("<br>")}</span></button>`).join("")}</div></section>`;
+}
+
+/* ---------- Pareto of downtime/problems + costing (report) ---------- */
+function paretoPanel(){
+  const agg = {}; let total = 0;
+  for (let n=1;n<=LINE_COUNT;n++){
+    const r = calcLine(getLine(n), getProd(n));
+    (getProd(n).hours||[]).forEach(h => {
+      if (!h || (!h.p && !num(h.n))) return;
+      const k = h.p || "_none"; const a = agg[k] || (agg[k] = {min:0, cnt:0, mm:0});
+      a.min += num(h.n); a.cnt++; a.mm += num(h.n) * r.activeMp; total += num(h.n);
+    });
+  }
+  const rows = Object.entries(agg).sort((a,b) => (b[1].min - a[1].min) || (b[1].cnt - a[1].cnt));
+  let s = `<section class="panel"><h2>${t("pa_title")}</h2><p class="small muted" style="margin-top:-4px">${t("pa_sub")}</p>`;
+  if (!rows.length) return s + `<p class="muted">${t("pa_none")}</p></section>`;
+  const max = Math.max(...rows.map(r=>r[1].min), 1); let cum = 0; const cpm = num(S.settings.cpm);
+  s += `<div class="pareto">` + rows.map(([k,a]) => { cum += a.min; const pc = total ? cum/total*100 : 0;
+    return `<div class="pr"><span class="pl">${k==="_none"?t("pa_noreason"):t("pt_"+k)}</span><span class="pb"><i style="width:${a.min/max*100}%"></i></span><span class="pv num"><b>${fmt(a.min)}</b> ${t("pa_min")}, ${fmt(a.cnt)} ${t("pa_cnt")}</span><span class="pc num">${total?fmt(pc,0)+"%":"–"}${cpm&&a.mm?`<small>${t("pa_cost",{v:fmt(a.mm*cpm)})}</small>`:""}</span></div>`; }).join("") + `</div>`;
+  return s + `</section>`;
+}
+function costPanel(){
+  const cpm = num(S.settings.cpm); let lost = 0, earned = 0;
+  for (let n=1;n<=LINE_COUNT;n++){ const r = calcLine(getLine(n), getProd(n)); if (!r.logged) continue;
+    const avail = r.activeMp*(r.logged*60 - r.npt), e = r.out*r.smv; earned += e; lost += Math.max(0, avail*r.effPlan/100 - e); }
+  return `<section class="panel"><h2>${t("cost_title")}</h2><p class="small muted" style="margin-top:-4px">${t("cpm_sub")}</p>
+    <div class="row" style="align-items:flex-end"><div class="f" style="width:200px"><label for="cpmIn">${t("cpm")}</label><input id="cpmIn" type="number" min="0" step="0.01" data-set="cpm" value="${cpm||""}" ${S.canEdit?"":"disabled"}></div>
+    ${cpm?`<div class="kpis" style="flex:1;min-width:260px"><div class="kpi ${lost>0?"bad":"ok"}"><div class="l">${t("cost_loss")}</div><div class="v">৳${fmt(lost*cpm)}</div><div class="s">${fmt(lost)} ${t("min")}</div></div></div>`:""}</div></section>`;
+}
+
+/* ---------- Time study ---------- */
+S.ts = {n:null, pid:"", obs:[], running:false, lapStart:0, rating:100, allow:15, raf:0};
+function tsLoad(){
+  const l = getLine(S.lineNo);
+  if (S.ts.n !== S.lineNo || !l.processes.find(p => p.id === S.ts.pid)) {
+    S.ts.n = S.lineNo; S.ts.pid = (l.processes[0] || {}).id || ""; tsFromSaved();
+  }
+}
+function tsFromSaved(){
+  const l = getLine(S.lineNo), st = (l.studies||{})[S.ts.pid];
+  S.ts.obs = st ? st.obs.slice() : []; S.ts.rating = st ? st.rating : 100; S.ts.allow = st ? st.allow : 15; tsStop();
+}
+function tsFmt(ms){ const s = ms/1000; return s < 60 ? s.toFixed(1) : Math.floor(s/60)+":"+pad2(Math.floor(s%60))+"."+Math.floor((s*10)%10); }
+function tsTick(){ const d = $("#tsDisp"); if (!S.ts.running || !d) { S.ts.raf = 0; return; } d.textContent = tsFmt(performance.now() - S.ts.lapStart); S.ts.raf = requestAnimationFrame(tsTick); }
+function tsStop(){ S.ts.running = false; if (S.ts.raf) cancelAnimationFrame(S.ts.raf); S.ts.raf = 0; }
+function viewStudy(){
+  tsLoad();
+  const n = S.lineNo, l = getLine(n), p = l.processes.find(x => x.id === S.ts.pid);
+  let h = `<div class="phead"><div class="row"><div><h1 class="vh">${t("ts_title")}</h1><p class="vsub">${t("ts_sub")}</p></div></div></div><!--B-->
+  <div class="row" style="margin-bottom:14px"><div class="f" style="min-width:220px"><select data-act="selline" aria-label="${t("choose_line")}">${lineOptions(n)}</select></div>
+   ${l.processes.length?`<div class="f" style="min-width:260px;flex:1;max-width:460px"><select data-act="ts_proc" aria-label="${t("ts_op")}">${l.processes.map((x,i)=>`<option value="${x.id}" ${x.id===S.ts.pid?"selected":""}>${fmt(i+1)}. ${esc(x.name)} (${esc(x.machine)})</option>`).join("")}</select></div>`:""}</div>`;
+  if (!p) return h + `<div class="panel empty"><p>${t("ts_noproc")}</p><a class="btn pri" href="#line">${t("go_balance")}</a></div>`;
+  const last = (l.studies||{})[p.id];
+  h += `<div class="grid2"><section class="panel sw">
+    <div class="swd"><span id="tsDisp" class="num">${S.ts.running?"":"0.0"}</span><small>${t("sec_short")}</small></div>
+    <div class="row" style="justify-content:center;gap:12px;margin:6px 0 14px">
+      ${S.ts.running?`<button class="btn spool big" data-act="ts_lap">${t("ts_lap")}</button><button class="btn big" data-act="ts_stop">${t("ts_stop")}</button>`
+        :`<button class="btn pri big" data-act="ts_start">${t("ts_start")}</button><button class="btn big" data-act="ts_reset" ${S.ts.obs.length?"":"disabled"}>${t("ts_reset")}</button>`}
+    </div>
+    <p class="small muted" style="text-align:center;margin:0 0 12px">${esc(p.name)}, ${esc(p.machine)}${last?`. ${t("ts_last",{d:esc(last.date),s:fmt(last.sam,3)})}`:""}</p>
+    <h2>${t("ts_obs")} <span class="muted small">(${fmt(S.ts.obs.length)})</span></h2>
+    <div class="chips" id="tsObs">${S.ts.obs.map((v,k)=>`<button type="button" class="chip" data-act="ts_del" data-k="${k}" title="${t("del")}">${fmt(v,1)} ${t("sec_short")} ✕</button>`).join("") || `<span class="muted small">—</span>`}</div>
+    <div class="row" style="margin-top:12px"><div class="f" style="width:150px"><input type="number" id="tsManual" min="0" step="0.1" placeholder="${t("ts_manual")}" aria-label="${t("ts_manual")}"></div><button class="btn" data-act="ts_add">${t("ts_add")}</button></div>
+  </section>
+  <section class="panel"><div class="fields" style="margin-bottom:14px">
+      <div class="f"><label for="tsR">${t("ts_rating")}</label><input id="tsR" type="number" min="50" max="150" step="5" data-ts="rating" value="${S.ts.rating}"></div>
+      <div class="f"><label for="tsA">${t("ts_allow")}</label><input id="tsA" type="number" min="0" max="50" step="1" data-ts="allow" value="${S.ts.allow}"></div></div>
+    <div id="tsStats">${tsStatsHtml(p)}</div>
+  </section></div>`;
+  if (S.ts.running) setTimeout(() => { if (!S.ts.raf) tsTick(); }, 0);
+  return h;
+}
+function tsStatsHtml(p){
+  const st = studyStats(S.ts.obs, S.ts.rating, S.ts.allow);
+  if (!st) return `<p class="muted">${t("ts_obs")}: 0</p>`;
+  const diff = num(p.sam) ? (st.sam - num(p.sam))/num(p.sam)*100 : 0;
+  return `<div class="kpis">
+    <div class="kpi"><div class="l">${t("ts_avg")}</div><div class="v">${fmt(st.avg,1)}</div><div class="s">${t("sec_short")}, ${t("ts_minmax")} ${fmt(st.min,1)} / ${fmt(st.max,1)}</div></div>
+    <div class="kpi ${st.cv>15?"bad":st.cv>8?"warn":"ok"}"><div class="l">${t("ts_cv")}</div><div class="v">${fmt(st.cv,1)}%</div><div class="s">σ ${fmt(st.sd,2)}</div></div>
+    <div class="kpi ${st.nReq!=null&&st.nReq>st.n?"warn":"ok"}"><div class="l">${t("ts_nreq")}</div><div class="v">${st.nReq==null?"–":fmt(st.nReq)}</div><div class="s">${t("ts_nreq_sub")}</div></div>
+    <div class="kpi"><div class="l">${t("ts_basic")}</div><div class="v">${fmt(st.basic,1)}</div><div class="s">${t("sec_short")}</div></div>
+  </div>
+  <div class="samres"><div><div class="l">${t("ts_sam")}</div><div class="v num">${fmt(st.sam,3)}</div><div class="s">${t("ts_cur",{s:fmt(num(p.sam),3)})} ${num(p.sam)?`<b class="${diff>0?"delta-dn":"delta-up"}">${diff>0?"+":""}${fmt(diff,1)}%</b>`:""}</div></div>
+    ${S.canEdit?`<div class="row"><button class="btn" data-act="ts_save">${t("ts_save")}</button><button class="btn spool" data-act="ts_apply">${t("ts_apply")}</button></div>`:""}</div>
+  ${st.cv>15?`<div class="note warn">${t("ts_cv_hi")}</div>`:""}
+  ${st.nReq!=null?`<div class="note ${st.nReq>st.n?"warn":"ok"}">${st.nReq>st.n?t("ts_more",{n:fmt(st.nReq-st.n)}):t("ts_enough")}</div>`:""}`;
+}
+function tsRefresh(){ const l = getLine(S.lineNo), p = l.processes.find(x => x.id === S.ts.pid); const el = $("#tsStats"); if (el && p) el.innerHTML = tsStatsHtml(p);
+  const o = $("#tsObs"); if (o) o.innerHTML = S.ts.obs.map((v,k)=>`<button type="button" class="chip" data-act="ts_del" data-k="${k}" title="${t("del")}">${fmt(v,1)} ${t("sec_short")} ✕</button>`).join("") || `<span class="muted small">—</span>`; }
+async function tsAction(act, b){
+  const l = getLine(S.lineNo), p = l.processes.find(x => x.id === S.ts.pid);
+  if (act === "ts_start") { S.ts.running = true; S.ts.lapStart = performance.now(); render(); }
+  else if (act === "ts_lap") { const s = (performance.now() - S.ts.lapStart)/1000; if (s >= 0.5) S.ts.obs.push(Math.round(s*10)/10); S.ts.lapStart = performance.now(); tsRefresh(); const h2 = $("#tsObs"); if (h2) h2.previousElementSibling.querySelector("span").textContent = "("+fmt(S.ts.obs.length)+")"; }
+  else if (act === "ts_stop") { tsStop(); render(); }
+  else if (act === "ts_reset") { if (await confirmBox(t("confirm_del"))) { S.ts.obs = []; tsStop(); render(); } }
+  else if (act === "ts_del") { S.ts.obs.splice(+b.dataset.k, 1); tsRefresh(); }
+  else if (act === "ts_add") { const v = num($("#tsManual").value); if (v > 0) { S.ts.obs.push(Math.round(v*10)/10); $("#tsManual").value = ""; tsRefresh(); } }
+  else if ((act === "ts_apply" || act === "ts_save") && p) {
+    const st = studyStats(S.ts.obs, S.ts.rating, S.ts.allow); if (!st) return;
+    const dv = num(p.sam) ? Math.abs(st.sam - num(p.sam))/num(p.sam)*100 : 0;
+    if (act === "ts_apply" && dv > 30 && !(await confirmBox(t("ts_big",{d:fmt(dv,0)})))) return;
+    l.studies = l.studies || {}; l.studies[p.id] = {obs:S.ts.obs.slice(), rating:S.ts.rating, allow:S.ts.allow, sam:Math.round(st.sam*1000)/1000, date:S.date};
+    if (act === "ts_apply") p.sam = Math.round(st.sam*1000)/1000;
+    Store.saveLine(S.lineNo); toast(act === "ts_apply" ? t("ts_applied") : t("ts_saved")); render();
+  }
+}
+document.addEventListener("keydown", e => {
+  if (S.view !== "study" || !S.ts.running || e.code !== "Space") return;
+  if (/INPUT|SELECT|TEXTAREA/.test((document.activeElement||{}).tagName||"")) return;
+  e.preventDefault(); tsAction("ts_lap");
+});
 /* ---------- files: Excel in/out ---------- */
 let downloadsNs = null;
 function needXLSX(){ if (!window.XLSX) { toast(t("xlsx_missing")); return null; } return window.XLSX; }
@@ -1230,7 +1541,9 @@ function confirmBox(msg){
 const V = $("#view");
 V.addEventListener("input", e => {
   const el = e.target;
-  if (el.dataset.lf) { const l = getLine(S.lineNo); const k = el.dataset.lf; l[k] = el.type==="number" ? num(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return; }
+  if (el.dataset.ts) { S.ts[el.dataset.ts] = num(el.value); tsRefresh(); return; }
+  if (el.dataset.set) { S.settings[el.dataset.set] = num(el.value); Store.save("settings", "factory", () => S.settings); return; }
+  if (el.dataset.lf) { const l = getLine(S.lineNo); const k = el.dataset.lf; l[k] = el.type==="checkbox" ? el.checked : el.type==="number" ? num(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return; }
   if (el.dataset.pf) {
     const l = getLine(S.lineNo), pid = el.closest("tr").dataset.pid, p = l.processes.find(x=>x.id===pid); if (!p) return;
     p[el.dataset.pf] = el.type==="number" ? num(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return;
@@ -1265,6 +1578,7 @@ V.addEventListener("input", e => {
 V.addEventListener("change", e => {
   const el = e.target, act = el.dataset.act;
   if (act === "selline") { S.lineNo = +el.value; lsSet("ielb.line", S.lineNo); render(); }
+  else if (act === "ts_proc") { S.ts.pid = el.value; tsFromSaved(); render(); }
   else if (act === "qhour") { S.quickHour = +el.value; render(); }
   else if (act === "opsline") { S.opsLine = el.value; render(); }
   else if (el.dataset.of === "line" || el.dataset.of === "proc") { el.blur(); render(); }
@@ -1273,6 +1587,7 @@ V.addEventListener("change", e => {
 V.addEventListener("click", async e => {
   const b = e.target.closest("[data-act]"); if (!b || b.tagName === "SELECT") return;
   const act = b.dataset.act, l = getLine(S.lineNo);
+  if (act.startsWith("ts_")) { tsAction(act, b); return; }
   switch (act) {
     case "tv": setTV(true); break;
     case "ffilter": S.floorFilter = b.dataset.v; render(); break;
