@@ -43,6 +43,10 @@ Open `index.html` in a browser. No server or install is needed.
 | Full PDF report | One tap on the Report page or floor board makes an A4 landscape PDF in the chosen language: company header, floor summary, results by line, colour-coded hourly output, smart alerts, action tracker, downtime Pareto, quality, orders, 7-day trend and signature blocks; table headers repeat on each page, with page numbers |
 | Costing | Factory cost per minute (CPM); planned and actual sewing cost per piece; cost of today's inefficiency |
 
+## ভাষা / Language
+
+Bangla mode shows only Bangla: Bangla labels and terms, Bangla digits in every number field, Bangla dates and times, Bangla machine names, Bangla PDF and Excel headers, set in Anek Bangla and Hind Siliguri. English mode shows only English, set in Anek Latin and Hind. Text you type yourself (style names, operation names) stays as typed.
+
 ## ডিজাইন / Design
 
 Indigo (dye), marigold (thread spool) and teal (thread) palette; Anek Bangla for headings and numbers, Hind Siliguri for text; light, dark and auto (device) theme switch in the header, remembered per device; works on phone, tablet, desktop and TV.

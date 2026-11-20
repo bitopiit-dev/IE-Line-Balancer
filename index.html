@@ -9,9 +9,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%2327477A%27/%3E%3Ctext x=%2732%27 y=%2742%27 font-family=%27Arial%27 font-weight=%27700%27 font-size=%2726%27 fill=%27white%27 text-anchor=%27middle%27%3EBGL%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Anek+Latin:wdth,wght@75..125,400..800&family=Hind+Siliguri:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
-<script>try{var th=JSON.parse(localStorage.getItem("ielb.theme")||"\"auto\"");if(th==="light"||th==="dark")document.documentElement.setAttribute("data-theme",th);}catch(e){}</script>
+<script>try{var lg=JSON.parse(localStorage.getItem("ielb.lang")||"\"bn\"");document.documentElement.lang=lg==="en"?"en":"bn";var th=JSON.parse(localStorage.getItem("ielb.theme")||"\"auto\"");if(th==="light"||th==="dark")document.documentElement.setAttribute("data-theme",th);}catch(e){}</script>
 <style>
 /* ===== Tokens: indigo dye, marigold spool, teal thread ===== */
 :root{
@@ -39,6 +39,7 @@
   --hero:#080B1C; --hero-2:#121838; --hero-3:#1D2552;
   --ok:#3FD987; --ok-bg:#103724; --warn:#FFB23E; --warn-bg:#3A2A0C; --bad:#FF5C7A; --bad-bg:#3E1320;
   --idle:#2E3862; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.6); color-scheme:dark; }
+html[lang="en"]{--display:"Anek Latin","Anek Bangla",system-ui,sans-serif;--body:"Hind","Hind Siliguri","Segoe UI",system-ui,sans-serif}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -196,6 +197,15 @@ tbody tr.hot:hover td{background:var(--bad-bg)}
 .samres{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:var(--hero);color:var(--hero-ink);border-radius:12px;padding:14px 16px;margin-top:14px}
 .samres .l{font-size:.8rem;color:var(--hero-dim)} .samres .v{font-family:var(--display);font-size:2.3rem;font-weight:800;line-height:1.1;color:var(--spool)} .samres .s{font-size:.8rem;color:var(--hero-dim)}
 .samres .btn:not(.spool){background:transparent;color:var(--hero-ink);border-color:var(--hero-3)}
+.lz{position:relative;display:block}
+.bar-tools .lz{display:inline-block}
+.lz input{color:transparent!important;caret-color:transparent}
+.lz input::-webkit-datetime-edit{color:transparent}
+.lzv{position:absolute;inset:0;display:flex;align-items:center;padding:0 12px;pointer-events:none;font-size:inherit;color:var(--ink);white-space:nowrap;overflow:hidden}
+.lzv.ph{color:var(--ink-3)}
+.bar-tools .lzv{color:var(--hero-ink);font-size:.85rem;padding:0 12px}
+td .lzv{padding:0 6px;font-size:.9rem}
+.phead .lzv{color:var(--hero-ink)}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
 .floorhead{display:flex;align-items:baseline;gap:12px;margin:22px 0 10px}
 .floorhead h2{margin:0;font-size:1.3rem;font-stretch:92%}
@@ -282,7 +292,7 @@ body.tv .tvexit{display:inline-flex;position:fixed;right:16px;bottom:16px;z-inde
 <body>
 <header class="bar">
   <div class="bar-in">
-    <div class="brand"><span class="logo" aria-hidden="true">BGL</span><div class="bt"><b id="brandName">Baridhi Garments Limited</b><span id="brandSub"></span></div></div>
+    <div class="brand"><span class="logo" aria-hidden="true" id="logoTxt">BGL</span><div class="bt"><b id="brandName">Baridhi Garments Limited</b><span id="brandSub"></span></div></div>
     <div class="bar-tools">
       <span class="sync" id="sync"><i></i><span id="syncTxt"></span></span>
       <input type="date" class="dt" id="dateSel" aria-label="Date">
@@ -308,10 +318,10 @@ body.tv .tvexit{display:inline-flex;position:fixed;right:16px;bottom:16px;z-inde
 <script>
 const I18N = {
 bn:{
-  brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"IE লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ, এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা।", group:"বিটপী গ্রুপ", addr:"এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"মূল্যবোধ", values:"সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ",
-  tab_study:"টাইম স্টাডি",
-  pdf_btn:"পূর্ণ রিপোর্ট PDF", pdf_msg:"বিবরণ", pdf_cont:"(চলমান)", pdf_wait:"PDF তৈরি হচ্ছে…", pdf_fail:"PDF তৈরি করা যায়নি। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।", pdf_title:"দৈনিক IE ও প্রোডাকশন রিপোর্ট", pdf_gen:"তৈরি: {d}",
-  pdf_s1:"১. ফ্লোর সারসংক্ষেপ", pdf_s2:"২. লাইনভিত্তিক ফলাফল", pdf_s3:"৩. ঘণ্টাভিত্তিক আউটপুট", pdf_s3_sub:"সবুজ: টার্গেটের ৯৫%+, হলুদ: ৮৫–৯৫%, লাল: ৮৫% এর নিচে", pdf_npt:"মোট ডাউনটাইম", pdf_lostmin:"হারানো মিনিট (পরিকল্পনার তুলনায়)", pdf_plan:"পরিকল্পিত এফি.", pdf_late:"{d} দিন দেরি", pdf_ontime:"সময়মতো", pdf_prep:"প্রস্তুতকারী (IE)", pdf_check:"যাচাইকারী (প্রোডাকশন)", pdf_appr:"অনুমোদনকারী (ফ্যাক্টরি প্রধান)",
+  brand:"বারিধি গার্মেন্টস লিমিটেড", brandSub:"আইই লাইন ব্যালেন্সিং সিস্টেম", footer:"বারিধি গার্মেন্টস লিমিটেড, বিটপী গ্রুপের একটি প্রতিষ্ঠান। ইন্ডাস্ট্রিয়াল ইঞ্জিনিয়ারিং বিভাগ, এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা।", group:"বিটপী গ্রুপ", addr:"এস.এফ.বি-০৭ ও ০৮, কুমিল্লা ইপিজেড, কুমিল্লা", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"মূল্যবোধ", values:"সততা/ন্যায়পরায়ণতা, বিশ্বাস এবং সম্মান, শৃঙ্খলা, দায়িত্ববোধ",
+  tab_study:"টাইম স্টাডি", L_dhu:"ডিএইচইউ", L_smv:"এসএমভি", L_sam:"এসএএম", L_mp:"জনবল", L_npt:"ডাউনটাইম", L_excel:"এক্সেল", L_ob:"ওবি", L_ucl:"ঊর্ধ্ব সীমা", L_lcl:"নিম্ন সীমা", L_sd:"বিচ্যুতি", L_logo:"বাগা", L_who_ph:"ডিপিএম / পিএম", L_cpm:"সিপিএম", date_lbl:"তারিখ", lang_lbl:"ভাষা", theme_lbl:"রঙের মোড", cur:"৳", sh_summary:"সারসংক্ষেপ", sh_hourly:"ঘণ্টাভিত্তিক", sh_actions:"অ্যাকশন ট্র্যাকার", sh_quality:"কোয়ালিটি", sh_skills:"স্কিল", pdf_page:"পৃষ্ঠা {a} / {b}", lz_empty:"তারিখ বাছুন",
+  pdf_btn:"পূর্ণ রিপোর্ট পিডিএফ", pdf_msg:"বিবরণ", pdf_cont:"(চলমান)", pdf_wait:"পিডিএফ তৈরি হচ্ছে…", pdf_fail:"পিডিএফ তৈরি করা যায়নি। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।", pdf_title:"দৈনিক আইই ও প্রোডাকশন রিপোর্ট", pdf_gen:"তৈরি: {d}",
+  pdf_s1:"১. ফ্লোর সারসংক্ষেপ", pdf_s2:"২. লাইনভিত্তিক ফলাফল", pdf_s3:"৩. ঘণ্টাভিত্তিক আউটপুট", pdf_s3_sub:"সবুজ: টার্গেটের ৯৫%+, হলুদ: ৮৫–৯৫%, লাল: ৮৫% এর নিচে", pdf_npt:"মোট ডাউনটাইম", pdf_lostmin:"হারানো মিনিট (পরিকল্পনার তুলনায়)", pdf_plan:"পরিকল্পিত এফি.", pdf_late:"{d} দিন দেরি", pdf_ontime:"সময়মতো", pdf_prep:"প্রস্তুতকারী (আইই)", pdf_check:"যাচাইকারী (প্রোডাকশন)", pdf_appr:"অনুমোদনকারী (ফ্যাক্টরি প্রধান)",
   complexity:"স্টাইলের জটিলতা", cx_simple:"সহজ", cx_medium:"মাঝারি", cx_complex:"জটিল", curve:"লার্নিং কার্ভ", curve_on:"নতুন স্টাইলে ধাপে ধাপে টার্গেট",
   orderQty:"অর্ডার পরিমাণ", shipDate:"শিপমেন্ট তারিখ", eff_today_plan:"আজকের পরিকল্পিত এফিশিয়েন্সি",
   lc_title:"লার্নিং কার্ভ পরিকল্পনা", lc_sub:"রান ডে অনুযায়ী এফিশিয়েন্সি টার্গেট। আজ রান ডে {d}, টার্গেট {e}%।", lc_off:"লার্নিং কার্ভ বন্ধ। লাইন সেটআপে চালু করলে নতুন স্টাইলের প্রথম দিনগুলোতে টার্গেট ধাপে ধাপে বাড়বে।", lc_day:"দিন {d}",
@@ -319,26 +329,26 @@ bn:{
   cost_title:"খরচ বিশ্লেষণ", cpm:"কস্ট পার মিনিট (৳)", cpm_sub:"কারখানার প্রতি মিনিটের শ্রম ও ওভারহেড খরচ। এটি দিলে প্রতি পিসের সেলাই খরচ দেখাবে।", cost_plan:"পরিকল্পিত খরচ/পিস", cost_act:"আজকের খরচ/পিস", cost_loss:"অদক্ষতার অতিরিক্ত খরচ আজ",
   op_title:"অর্ডার ও শিপমেন্ট", op_none:"লাইন সেটআপে অর্ডার পরিমাণ আর শিপমেন্ট তারিখ দিলে অর্ডার শেষ হওয়ার পূর্বাভাস দেখাবে।", op_made:"তৈরি", op_left:"বাকি", op_pace:"গড় দৈনিক আউটপুট", op_finish:"সম্ভাব্য শেষের তারিখ", op_req:"সময়মতো শিপমেন্টে দৈনিক লাগবে", op_ok:"সময়মতো শেষ হবে, শিপমেন্টের {d} দিন আগে।", op_late:"শিপমেন্ট ঝুঁকিতে: এই গতিতে {d} দিন দেরি হবে। দৈনিক {r} পিস দরকার।",
   al_title:"স্মার্ট অ্যালার্ট", al_none:"এই মুহূর্তে কোনো অ্যালার্ট নেই। সব লাইন নিয়ন্ত্রণে।",
-  al_streak:"টানা {h} ঘণ্টা টার্গেটের ৮৫% এর নিচে", al_dhu:"DHU {d}%, লক্ষ্য {t}% ছাড়িয়েছে", al_npt:"{h} নং ঘণ্টায় {m} মিনিট ডাউনটাইম", al_overdue:"{h} নং ঘণ্টার সমস্যা ({p}) সমাধানের সময় পেরিয়ে গেছে", al_short:"দিনশেষে {g} পিস ঘাটতির পূর্বাভাস", al_bn:"বটলনেক {p}: {c}/ঘণ্টা, টার্গেট {t}",
+  al_streak:"টানা {h} ঘণ্টা টার্গেটের ৮৫% এর নিচে", al_dhu:"ডিএইচইউ {d}%, লক্ষ্য {t}% ছাড়িয়েছে", al_npt:"{h} নং ঘণ্টায় {m} মিনিট ডাউনটাইম", al_overdue:"{h} নং ঘণ্টার সমস্যা ({p}) সমাধানের সময় পেরিয়ে গেছে", al_short:"দিনশেষে {g} পিস ঘাটতির পূর্বাভাস", al_bn:"বটলনেক {p}: {c}/ঘণ্টা, টার্গেট {t}",
   pa_title:"ডাউনটাইম ও সমস্যার প্যারেটো", pa_sub:"আজ কোন সমস্যায় সবচেয়ে বেশি মিনিট নষ্ট হয়েছে। উপরের ২–৩টি ঠিক করলেই বেশিরভাগ লস কমে।", pa_none:"আজ কোনো ডাউনটাইম বা সমস্যা লেখা হয়নি।", pa_noreason:"কারণ লেখা হয়নি", pa_min:"মিনিট", pa_cnt:"বার", pa_cum:"ক্রমযোগ %", pa_cost:"আনুমানিক লস ৳{v}",
-  ts_title:"টাইম স্টাডি", ts_sub:"স্টপওয়াচ দিয়ে অপারেশনের সাইকেল টাইম মাপুন। রেটিং আর অ্যালাউন্স দিয়ে SAM হিসাব হবে, এক চাপে OB তে বসানো যাবে।",
+  ts_title:"টাইম স্টাডি", ts_sub:"স্টপওয়াচ দিয়ে অপারেশনের সাইকেল টাইম মাপুন। রেটিং আর অ্যালাউন্স দিয়ে এসএএম হিসাব হবে, এক চাপে ওবি তে বসানো যাবে।",
   ts_op:"অপারেশন", ts_start:"শুরু", ts_lap:"সাইকেল রেকর্ড", ts_stop:"থামান", ts_reset:"রিসেট", ts_manual:"হাতে সেকেন্ড লিখুন", ts_add:"যোগ করুন",
-  ts_obs:"পর্যবেক্ষণ", ts_avg:"গড় সাইকেল", ts_minmax:"সর্বনিম্ন / সর্বোচ্চ", ts_cv:"ভ্যারিয়েশন (CV)", ts_nreq:"প্রয়োজনীয় পর্যবেক্ষণ", ts_nreq_sub:"৯৫% নিশ্চয়তা, ±৫%", ts_rating:"পারফরম্যান্স রেটিং %", ts_allow:"অ্যালাউন্স %", ts_basic:"বেসিক টাইম", ts_sam:"নতুন SAM", ts_cur:"OB তে এখনকার SAM {s}", ts_apply:"SAM টি OB তে বসান", ts_applied:"নতুন SAM OB তে বসানো হয়েছে", ts_big:"নতুন SAM এখনকার থেকে {d}% আলাদা। পর্যবেক্ষণ ঠিক আছে কিনা দেখে নিন। তবুও OB তে বসাবেন?", ts_save:"স্টাডি সেভ করুন", ts_saved:"টাইম স্টাডি সেভ হয়েছে", ts_noproc:"এই লাইনে OB নেই। আগে লাইন ব্যালেন্সিং এ অপারেশন যোগ করুন।", ts_cv_hi:"ভ্যারিয়েশন বেশি। পদ্ধতি বা অপারেটর স্থির কিনা দেখুন।", ts_more:"আরও {n}টি সাইকেল মাপুন।", ts_enough:"পর্যাপ্ত পর্যবেক্ষণ হয়েছে।", ts_last:"শেষ স্টাডি {d}, SAM {s}",
+  ts_obs:"পর্যবেক্ষণ", ts_avg:"গড় সাইকেল", ts_minmax:"সর্বনিম্ন / সর্বোচ্চ", ts_cv:"ভ্যারিয়েশন", ts_nreq:"প্রয়োজনীয় পর্যবেক্ষণ", ts_nreq_sub:"৯৫% নিশ্চয়তা, ±৫%", ts_rating:"পারফরম্যান্স রেটিং %", ts_allow:"অ্যালাউন্স %", ts_basic:"বেসিক টাইম", ts_sam:"নতুন এসএএম", ts_cur:"ওবি তে এখনকার এসএএম {s}", ts_apply:"এসএএম টি ওবি তে বসান", ts_applied:"নতুন এসএএম ওবি তে বসানো হয়েছে", ts_big:"নতুন এসএএম এখনকার থেকে {d}% আলাদা। পর্যবেক্ষণ ঠিক আছে কিনা দেখে নিন। তবুও ওবি তে বসাবেন?", ts_save:"স্টাডি সেভ করুন", ts_saved:"টাইম স্টাডি সেভ হয়েছে", ts_noproc:"এই লাইনে ওবি নেই। আগে লাইন ব্যালেন্সিং এ অপারেশন যোগ করুন।", ts_cv_hi:"ভ্যারিয়েশন বেশি। পদ্ধতি বা অপারেটর স্থির কিনা দেখুন।", ts_more:"আরও {n}টি সাইকেল মাপুন।", ts_enough:"পর্যাপ্ত পর্যবেক্ষণ হয়েছে।", ts_last:"শেষ স্টাডি {d}, এসএএম {s}",
   sec_short:"সে.", th_light:"লাইট মোড", th_dark:"ডার্ক মোড", th_auto:"ডিভাইসের সেটিং অনুযায়ী", tv_on:"বড় স্ক্রিন মোড", tv_off:"বড় স্ক্রিন বন্ধ করুন", floor_when:"ফ্লোর বোর্ড, {d}", gauge_lbl:"ফ্লোর এফিশিয়েন্সি", line_lbl:"লাইন",
-  styleStart:"স্টাইল শুরুর তারিখ", run_day:"রান ডে", dhuTarget:"DHU লক্ষ্য %",
+  styleStart:"স্টাইল শুরুর তারিখ", run_day:"রান ডে", dhuTarget:"ডিএইচইউ লক্ষ্য %",
   h_var:"ভ্যারিয়েন্স", h_prob:"সমস্যার ধরন", h_action:"অ্যাকশন প্ল্যান", h_who:"দায়িত্বে", h_tts:"সমাধানের সময়", h_status:"অবস্থা", st_pending:"বাকি", st_done:"সমাধান",
   pt_sup:"সুপারভাইজারের দুর্বল ফলোআপ", pt_mc:"মেশিন নষ্ট", pt_input:"ইনপুট ঘাটতি", pt_abs:"অনুপস্থিতি", pt_quality:"কোয়ালিটি সমস্যা", pt_balance:"লাইন ব্যালেন্সিং", pt_power:"বিদ্যুৎ বিভ্রাট", pt_change:"স্টাইল পরিবর্তন", pt_acc:"এক্সেসরিজ ঘাটতি", pt_other:"অন্যান্য",
-  k_yday_eff:"গতকালের এফিশিয়েন্সি", k_yday_ach:"গতকালের অর্জন", k_mtd:"MTD এফিশিয়েন্সি", k_lastm:"গত মাসের এফিশিয়েন্সি", hist_title:"আগের দিন ও মাসের ফলাফল",
-  q_title:"কোয়ালিটি ও অডিট", q_defects:"আজকের শীর্ষ ৩ ডিফেক্ট", q_def_name:"ডিফেক্টের নাম", q_count:"সংখ্যা", q_audit:"লট / অডিট ফলাফল", q_feedback:"বায়ারের মতামত", q_dhu_vs:"DHU {v}%, লক্ষ্য {t}% এর নিচে",
+  k_yday_eff:"গতকালের এফিশিয়েন্সি", k_yday_ach:"গতকালের অর্জন", k_mtd:"চলতি মাসের এফিশিয়েন্সি", k_lastm:"গত মাসের এফিশিয়েন্সি", hist_title:"আগের দিন ও মাসের ফলাফল",
+  q_title:"কোয়ালিটি ও অডিট", q_defects:"আজকের শীর্ষ ৩ ডিফেক্ট", q_def_name:"ডিফেক্টের নাম", q_count:"সংখ্যা", q_audit:"লট / অডিট ফলাফল", q_feedback:"বায়ারের মতামত", q_dhu_vs:"ডিএইচইউ {v}%, লক্ষ্য {t}% এর নিচে",
   issues_title:"অ্যাকশন ট্র্যাকার", issues_sub:"আজ সব লাইনে লেখা সমস্যা আর প্রতিটির সমাধানের অবস্থা।", issues_none:"আজ কোনো সমস্যা লেখা হয়নি।", open_n:"{n}টি খোলা সমস্যা",
-  tab_floor:"ফ্লোর বোর্ড", tab_line:"লাইন ব্যালেন্সিং", tab_hourly:"আওয়ারলি প্রোডাকশন", tab_operators:"অপারেটর ও স্কিল", tab_styles:"স্টাইল / OB লাইব্রেরি", tab_report:"রিপোর্ট",
+  tab_floor:"ফ্লোর বোর্ড", tab_line:"লাইন ব্যালেন্সিং", tab_hourly:"আওয়ারলি প্রোডাকশন", tab_operators:"অপারেটর ও স্কিল", tab_styles:"স্টাইল / ওবি লাইব্রেরি", tab_report:"রিপোর্ট",
   sync_cloud:"সবার সাথে সিঙ্ক", sync_local:"শুধু এই ডিভাইসে", sync_loading:"লোড হচ্ছে…",
-  local_banner:"শেয়ার্ড ডেটাবেস পাওয়া যায়নি, তাই ডেটা শুধু এই ব্রাউজারে সেভ হচ্ছে। claude.ai তে লগইন করে খুললে ৩৬ লাইনের ডেটা সবার সাথে শেয়ার হবে।",
-  ro_banner:"আপনি শুধু দেখতে পারবেন। লাইন সেটআপ বদলাতে মালিকের কাছে Editor, আর আওয়ারলি এন্ট্রির জন্য Contributor অ্যাক্সেস চান।",
-  ro_setup:"লাইন সেটআপ ও OB শুধু IE টিম (Editor) বদলাতে পারে।",
-  line:"লাইন", floor:"ফ্লোর", buyer:"বায়ার", style:"স্টাইল", smv:"SMV", op:"অপারেটর", hp:"হেল্পার", hours:"কর্মঘণ্টা", targetEff:"টার্গেট এফিশিয়েন্সি %", absent:"অনুপস্থিতি %", shift:"শিফট শুরু",
+  local_banner:"শেয়ার্ড ডেটাবেস পাওয়া যায়নি, তাই ডেটা শুধু এই ব্রাউজারে সেভ হচ্ছে। শেয়ার্ড অনলাইন ভার্সনে খুললে ৩৬ লাইনের ডেটা সবার সাথে শেয়ার হবে।",
+  ro_banner:"আপনি শুধু দেখতে পারবেন। লাইন সেটআপ বদলাতে মালিকের কাছে এডিটর, আর আওয়ারলি এন্ট্রির জন্য কন্ট্রিবিউটর অ্যাক্সেস চান।",
+  ro_setup:"লাইন সেটআপ ও ওবি শুধু আইই টিম (এডিটর) বদলাতে পারে।",
+  line:"লাইন", floor:"ফ্লোর", buyer:"বায়ার", style:"স্টাইল", smv:"এসএমভি", op:"অপারেটর", hp:"হেল্পার", hours:"কর্মঘণ্টা", targetEff:"টার্গেট এফিশিয়েন্সি %", absent:"অনুপস্থিতি %", shift:"শিফট শুরু",
   floor_title:"ফ্লোর বোর্ড", floor_sub:"৩৬ লাইনের আজকের অবস্থা। যেকোনো লাইনে চাপ দিলে তার আওয়ারলি বোর্ড খুলবে।",
-  s_target:"টার্গেট (এ পর্যন্ত)", s_output:"আউটপুট", s_eff:"ফ্লোর এফিশিয়েন্সি", s_dhu:"DHU", s_running:"চালু লাইন", s_behind:"পিছিয়ে আছে",
+  s_target:"টার্গেট (এ পর্যন্ত)", s_output:"আউটপুট", s_eff:"ফ্লোর এফিশিয়েন্সি", s_dhu:"ডিএইচইউ", s_running:"চালু লাইন", s_behind:"পিছিয়ে আছে",
   f_all:"সব লাইন", f_behind:"শুধু পিছিয়ে থাকা", f_idle:"সেটআপ বাকি",
   not_setup:"সেটআপ বাকি", no_data:"এন্ট্রি নেই",
   eff:"এফিশিয়েন্সি", out:"আউটপুট", tgt:"টার্গেট", ach:"অর্জন",
@@ -346,10 +356,10 @@ bn:{
   line_setup:"লাইন সেটআপ", choose_line:"লাইন বাছাই করুন",
   k_daily:"দৈনিক টার্গেট", k_hourly:"ঘণ্টার টার্গেট", k_bneck:"বটলনেক ক্যাপাসিটি", k_bal:"ব্যালেন্স এফিশিয়েন্সি", k_takt:"ট্যাক্ট টাইম", k_mp:"সক্রিয় জনবল", k_theo:"থিওরেটিক্যাল জনবল",
   cap100:"১০০% এ", at_target:"টার্গেট এফিশিয়েন্সিতে",
-  ob_title:"অপারেশন ব্রেকডাউন (OB) ও বটলনেক",
-  c_no:"#", c_op:"অপারেশন", c_mc:"মেশিন", c_sam:"SAM", c_mp:"জনবল", c_cap:"ঘণ্টায় ক্ষমতা", c_skill:"স্কিল অনুযায়ী", c_load:"লোড", c_sug:"প্রস্তাবিত", c_ops:"অপারেটর",
-  add_proc:"প্রসেস যোগ করুন", del:"মুছুন", sample_ob:"নমুনা OB লোড করুন", import_ob:"Excel থেকে OB আনুন", export_ob:"OB Excel এ নিন", save_tpl:"স্টাইল লাইব্রেরিতে সেভ",
-  no_proc:"এই লাইনে এখনো কোনো প্রসেস নেই। স্টাইলের OB যোগ করলে বটলনেক আর ব্যালেন্স হিসাব শুরু হবে।",
+  ob_title:"অপারেশন ব্রেকডাউন (ওবি) ও বটলনেক",
+  c_no:"#", c_op:"অপারেশন", c_mc:"মেশিন", c_sam:"এসএএম", c_mp:"জনবল", c_cap:"ঘণ্টায় ক্ষমতা", c_skill:"স্কিল অনুযায়ী", c_load:"লোড", c_sug:"প্রস্তাবিত", c_ops:"অপারেটর",
+  add_proc:"প্রসেস যোগ করুন", del:"মুছুন", sample_ob:"নমুনা ওবি লোড করুন", import_ob:"এক্সেল থেকে ওবি আনুন", export_ob:"ওবি এক্সেল এ নিন", save_tpl:"স্টাইল লাইব্রেরিতে সেভ",
+  no_proc:"এই লাইনে এখনো কোনো প্রসেস নেই। স্টাইলের ওবি যোগ করলে বটলনেক আর ব্যালেন্স হিসাব শুরু হবে।",
   bneck:"বটলনেক", balanced:"ব্যালেন্সড", normal:"স্বাভাবিক", over:"অতিরিক্ত লোড",
   chart_cap:"প্রসেস অনুযায়ী ঘণ্টায় ক্ষমতা বনাম টার্গেট",
   lg_cap:"ক্ষমতা", lg_bn:"বটলনেক", lg_tgt:"ঘণ্টার টার্গেট",
@@ -362,7 +372,7 @@ bn:{
   rec_ok:"বটলনেক <b>{p}</b> ({c} পিস/ঘণ্টা) ঘণ্টার টার্গেট {t} পূরণ করতে পারবে। ব্যালেন্স এফিশিয়েন্সি <b>{b}%</b>।",
   best_ops:"বটলনেকের জন্য সেরা অপারেটর",
   best_ops_none:"এই মেশিনে স্কিল রেকর্ড করা কোনো অপারেটর নেই। অপারেটর ও স্কিল ট্যাবে যোগ করুন।",
-  ai_title:"Claude এর IE বিশ্লেষণ", ai_btn:"বিশ্লেষণ করুন", ai_wait:"ভাবছে…", ai_err:"এই মুহূর্তে বিশ্লেষণ পাওয়া যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
+  ai_title:"ক্লড এর আইই বিশ্লেষণ", ai_btn:"বিশ্লেষণ করুন", ai_wait:"ভাবছে…", ai_err:"এই মুহূর্তে বিশ্লেষণ পাওয়া যায়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
   hourly_title:"আওয়ারলি প্রোডাকশন বোর্ড", hourly_sub:"প্রতি ঘণ্টার আউটপুট, অল্টার আর ডাউনটাইম লিখুন। হিসাব সাথে সাথে আপডেট হবে।",
   mode_one:"একটি লাইন", mode_all:"সব লাইন, এক ঘণ্টা",
   h_hour:"ঘণ্টা", h_time:"সময়", h_tgt:"টার্গেট", h_out:"আউটপুট", h_def:"অল্টার/ডিফেক্ট", h_npt:"ডাউনটাইম (মি.)", h_cum:"ক্রমযোগ", h_eff:"এফি.",
@@ -373,41 +383,41 @@ bn:{
   go_balance:"এই লাইনের ব্যালেন্সিং দেখুন",
   quick_hint:"ঘণ্টা বাছাই করে সব লাইনের আউটপুট একসাথে লিখুন।",
   ops_title:"অপারেটর ও স্কিল ম্যাট্রিক্স", ops_sub:"প্রতিটি মেশিনে অপারেটরের এফিশিয়েন্সি (%) লিখুন। প্রসেসে বসানো অপারেটরের স্কিল দিয়ে আসল ক্ষমতা হিসাব হয়।",
-  o_code:"কার্ড নং", o_name:"নাম", o_line:"লাইন", o_proc:"বর্তমান প্রসেস", o_none:"কোথাও না", add_op:"অপারেটর যোগ করুন", import_ops:"Excel থেকে অপারেটর আনুন", export_ops:"স্কিল ম্যাট্রিক্স Excel এ নিন", all_lines:"সব লাইন",
+  o_code:"কার্ড নং", o_name:"নাম", o_line:"লাইন", o_proc:"বর্তমান প্রসেস", o_none:"কোথাও না", add_op:"অপারেটর যোগ করুন", import_ops:"এক্সেল থেকে অপারেটর আনুন", export_ops:"স্কিল ম্যাট্রিক্স এক্সেল এ নিন", all_lines:"সব লাইন",
   no_ops:"এই লাইনে কোনো অপারেটর যোগ করা হয়নি।", machine_cols:"মেশিনের কলাম",
-  styles_title:"স্টাইল / OB লাইব্রেরি", styles_sub:"একবার OB সেভ করলে যেকোনো লাইনে এক ক্লিকে বসানো যাবে।",
-  no_tpl:"লাইব্রেরি খালি। লাইন ব্যালেন্সিং পেজ থেকে কোনো লাইনের OB সেভ করুন অথবা Excel থেকে আনুন।",
-  apply_to:"লাইনে বসান", procs:"প্রসেস", tpl_applied:"OB লাইনে বসানো হয়েছে", tpl_saved:"স্টাইল লাইব্রেরিতে সেভ হয়েছে", import_tpl:"Excel থেকে নতুন স্টাইল",
+  styles_title:"স্টাইল / ওবি লাইব্রেরি", styles_sub:"একবার ওবি সেভ করলে যেকোনো লাইনে এক ক্লিকে বসানো যাবে।",
+  no_tpl:"লাইব্রেরি খালি। লাইন ব্যালেন্সিং পেজ থেকে কোনো লাইনের ওবি সেভ করুন অথবা এক্সেল থেকে আনুন।",
+  apply_to:"লাইনে বসান", procs:"প্রসেস", tpl_applied:"ওবি লাইনে বসানো হয়েছে", tpl_saved:"স্টাইল লাইব্রেরিতে সেভ হয়েছে", import_tpl:"এক্সেল থেকে নতুন স্টাইল",
   report_title:"দৈনিক রিপোর্ট", report_sub:"ফ্লোরের সব লাইনের আজকের ফলাফল ও গত ৭ দিনের প্রবণতা।",
-  r_var:"পার্থক্য", r_bneck:"বটলনেক", export_rep:"রিপোর্ট Excel এ নিন", wa_copy:"হোয়াটসঅ্যাপ রিপোর্ট কপি", print:"প্রিন্ট / PDF",
+  r_var:"পার্থক্য", r_bneck:"বটলনেক", export_rep:"রিপোর্ট এক্সেল এ নিন", wa_copy:"হোয়াটসঅ্যাপ রিপোর্ট কপি", print:"প্রিন্ট / পিডিএফ",
   trend:"গত ৭ দিনের ফ্লোর এফিশিয়েন্সি", trend_none:"প্রবণতা দেখাতে অন্তত দুই দিনের এন্ট্রি দরকার।",
-  copied:"কপি হয়েছে", saved:"সেভ হয়েছে", imported:"{n}টি সারি আনা হয়েছে", import_fail:"ফাইলটি পড়া যায়নি। প্রথম সারিতে Operation, Machine, SAM, MP কলাম আছে কিনা দেখুন।",
-  xlsx_missing:"Excel লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ দেখে পেজ আবার খুলুন।",
+  copied:"কপি হয়েছে", saved:"সেভ হয়েছে", imported:"{n}টি সারি আনা হয়েছে", import_fail:"ফাইলটি পড়া যায়নি। প্রথম সারিতে অপারেশন, মেশিন, এসএএম, জনবল কলাম আছে কিনা দেখুন।",
+  xlsx_missing:"এক্সেল লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ দেখে পেজ আবার খুলুন।",
   dl_declined:"ডাউনলোড বাতিল হয়েছে",
   quota:"ডেটাবেস ভরে গেছে। পুরনো দিনের ডেটা মুছতে হবে।",
   confirm_del:"এটি মুছে ফেলবেন?", cancel:"বাতিল", ok:"ঠিক আছে",
   tpl_name:"স্টাইলের নাম",
-  wa_head:"*বারিধি গার্মেন্টস লিমিটেড (বিটপী গ্রুপ), IE রিপোর্ট*",
+  wa_head:"*বারিধি গার্মেন্টস লিমিটেড (বিটপী গ্রুপ), আইই রিপোর্ট*",
   status_ok:"টার্গেটে আছে", status_warn:"একটু পিছিয়ে", status_bad:"পিছিয়ে",
   floor_n:"ফ্লোর {n}", lines_n:"{n}টি লাইন",
   hrs_logged:"{n} ঘণ্টা এন্ট্রি",
-  backup_title:"ব্যাকআপ ও ডেটা স্থানান্তর", backup_sub:"সব লাইন, OB, অপারেটর আর প্রোডাকশনের ডেটা একটি ফাইলে নিন। অন্য কম্পিউটারে বা শেয়ার্ড ভার্সনে সেই ফাইল থেকে ফেরত আনা যাবে।", backup_btn:"ব্যাকআপ ফাইল নিন", restore_btn:"ব্যাকআপ থেকে ফেরত আনুন", restore_confirm:"ব্যাকআপের ডেটা বর্তমান ডেটার জায়গায় বসবে। চালিয়ে যাবেন?", restored:"ডেটা ফেরত আনা হয়েছে", restore_fail:"এটি এই অ্যাপের ব্যাকআপ ফাইল নয়।",
-  roles_info:"ভূমিকা: IE টিমকে Editor, সুপারভাইজারকে Contributor, ম্যানেজমেন্টকে Viewer হিসেবে শেয়ার করুন।"
+  backup_title:"ব্যাকআপ ও ডেটা স্থানান্তর", backup_sub:"সব লাইন, ওবি, অপারেটর আর প্রোডাকশনের ডেটা একটি ফাইলে নিন। অন্য কম্পিউটারে বা শেয়ার্ড ভার্সনে সেই ফাইল থেকে ফেরত আনা যাবে।", backup_btn:"ব্যাকআপ ফাইল নিন", restore_btn:"ব্যাকআপ থেকে ফেরত আনুন", restore_confirm:"ব্যাকআপের ডেটা বর্তমান ডেটার জায়গায় বসবে। চালিয়ে যাবেন?", restored:"ডেটা ফেরত আনা হয়েছে", restore_fail:"এটি এই অ্যাপের ব্যাকআপ ফাইল নয়।",
+  roles_info:"ভূমিকা: আইই টিমকে এডিটর, সুপারভাইজারকে কন্ট্রিবিউটর, ম্যানেজমেন্টকে ভিউয়ার হিসেবে শেয়ার করুন।"
 },
 en:{
-  brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, a Bitopi Group company. Industrial Engineering Department, S.F.B-07 & 08, Cumilla EPZ, Cumilla.", group:"Bitopi Group", addr:"S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh", motto:"লক্ষ্য মোদের একটাই, সেরা হবো আমরাই", values_lbl:"Values", values:"Honesty and integrity, trust and respect, discipline, responsibility",
-  tab_study:"Time study",
+  brand:"Baridhi Garments Limited", brandSub:"IE line balancing system", footer:"Baridhi Garments Limited, a Bitopi Group company. Industrial Engineering Department, S.F.B-07 & 08, Cumilla EPZ, Cumilla.", group:"Bitopi Group", addr:"S.F.B-07 & 08, Cumilla EPZ, Cumilla, Bangladesh", motto:"One goal for all of us: we will be the best", values_lbl:"Values", values:"Honesty and integrity, trust and respect, discipline, responsibility",
+  tab_study:"Time study", L_dhu:"DHU", L_smv:"SMV", L_sam:"SAM", L_mp:"MP", L_npt:"NPT", L_excel:"Excel", L_ob:"OB", L_ucl:"UCL", L_lcl:"LCL", L_sd:"σ", L_logo:"BGL", L_who_ph:"DPM / PM", L_cpm:"CPM", date_lbl:"Date", lang_lbl:"Language", theme_lbl:"Colour mode", cur:"BDT ", sh_summary:"Summary", sh_hourly:"Hourly", sh_actions:"Action tracker", sh_quality:"Quality", sh_skills:"Skills", pdf_page:"Page {a} of {b}", lz_empty:"Pick a date",
   pdf_btn:"Full report PDF", pdf_msg:"Detail", pdf_cont:"(continued)", pdf_wait:"Making the PDF…", pdf_fail:"Couldn’t make the PDF. Check the connection and try again.", pdf_title:"Daily IE and production report", pdf_gen:"Generated {d}",
   pdf_s1:"1. Floor summary", pdf_s2:"2. Results by line", pdf_s3:"3. Hourly output", pdf_s3_sub:"Green: 95%+ of target, amber: 85–95%, red: below 85%", pdf_npt:"Total downtime", pdf_lostmin:"Minutes lost against plan", pdf_plan:"Planned eff.", pdf_late:"{d} days late", pdf_ontime:"On time", pdf_prep:"Prepared by (IE)", pdf_check:"Checked by (Production)", pdf_appr:"Approved by (Factory head)",
   complexity:"Style complexity", cx_simple:"Simple", cx_medium:"Medium", cx_complex:"Complex", curve:"Learning curve", curve_on:"Ramp up the target on a new style",
   orderQty:"Order quantity", shipDate:"Shipment date", eff_today_plan:"Today’s planned efficiency",
   lc_title:"Learning curve plan", lc_sub:"Efficiency target by run day. Today is run day {d}, target {e}%.", lc_off:"Learning curve is off. Turn it on in line setup to ramp the target up over the first days of a new style.", lc_day:"Day {d}",
   yz_title:"Yamazumi / pitch diagram", yz_sub:"Work content per operator (min per piece). Bars above the takt line will cap the target.", yz_pitch:"Pitch time", yz_takt:"Takt time", yz_ucl:"Upper limit +15%", yz_lcl:"Lower limit −15%", yz_over:"Above takt", yz_high:"High load", yz_ok:"Balanced", yz_low:"Under-loaded", yz_loss:"Balance loss {v}%",
-  cost_title:"Cost analysis", cpm:"Cost per minute (৳)", cpm_sub:"The factory’s labour and overhead cost per minute. Set it to see sewing cost per piece.", cost_plan:"Planned cost/pc", cost_act:"Today’s cost/pc", cost_loss:"Extra cost from inefficiency today",
+  cost_title:"Cost analysis", cpm:"Cost per minute (BDT)", cpm_sub:"The factory’s labour and overhead cost per minute. Set it to see sewing cost per piece.", cost_plan:"Planned cost/pc", cost_act:"Today’s cost/pc", cost_loss:"Extra cost from inefficiency today",
   op_title:"Order and shipment", op_none:"Add the order quantity and shipment date in line setup to see when the order will finish.", op_made:"Made", op_left:"Remaining", op_pace:"Average daily output", op_finish:"Expected finish", op_req:"Needed per day to ship on time", op_ok:"Finishes on time, {d} days before shipment.", op_late:"Shipment at risk: at this pace it is {d} days late. It needs {r} pcs a day.",
   al_title:"Smart alerts", al_none:"No alerts right now. Every line is under control.",
   al_streak:"{h} hours in a row below 85% of target", al_dhu:"DHU {d}% is over the {t}% target", al_npt:"{m} minutes of downtime in hour {h}", al_overdue:"The hour {h} problem ({p}) is past its time to solve", al_short:"Forecast to end {g} pcs short", al_bn:"Bottleneck {p}: {c}/hr against {t}",
-  pa_title:"Downtime and problem Pareto", pa_sub:"Which problems lost the most minutes today. Fixing the top two or three removes most of the loss.", pa_none:"No downtime or problems logged today.", pa_noreason:"No reason given", pa_min:"min", pa_cnt:"times", pa_cum:"Cumulative %", pa_cost:"Estimated loss ৳{v}",
+  pa_title:"Downtime and problem Pareto", pa_sub:"Which problems lost the most minutes today. Fixing the top two or three removes most of the loss.", pa_none:"No downtime or problems logged today.", pa_noreason:"No reason given", pa_min:"min", pa_cnt:"times", pa_cum:"Cumulative %", pa_cost:"Estimated loss BDT {v}",
   ts_title:"Time study", ts_sub:"Time an operation’s cycles with the stopwatch. Rating and allowance turn it into a SAM you can put on the OB in one tap.",
   ts_op:"Operation", ts_start:"Start", ts_lap:"Record cycle", ts_stop:"Stop", ts_reset:"Reset", ts_manual:"Type seconds", ts_add:"Add",
   ts_obs:"Observations", ts_avg:"Average cycle", ts_minmax:"Min / max", ts_cv:"Variation (CV)", ts_nreq:"Observations needed", ts_nreq_sub:"95% confidence, ±5%", ts_rating:"Performance rating %", ts_allow:"Allowance %", ts_basic:"Basic time", ts_sam:"New SAM", ts_cur:"Current SAM on the OB {s}", ts_apply:"Put this SAM on the OB", ts_applied:"New SAM placed on the OB", ts_big:"The new SAM differs from the current one by {d}%. Check the observations. Put it on the OB anyway?", ts_save:"Save study", ts_saved:"Time study saved", ts_noproc:"This line has no OB. Add operations in Line balancing first.", ts_cv_hi:"Variation is high. Check the method and the operator are steady.", ts_more:"Time {n} more cycles.", ts_enough:"Enough observations.", ts_last:"Last study {d}, SAM {s}",
@@ -417,7 +427,7 @@ en:{
   pt_sup:"Supervisor poor follow-up", pt_mc:"Machine breakdown", pt_input:"Input shortage", pt_abs:"Absenteeism", pt_quality:"Quality issue", pt_balance:"Line balancing", pt_power:"Power failure", pt_change:"Style changeover", pt_acc:"Accessories shortage", pt_other:"Other",
   k_yday_eff:"Yesterday’s efficiency", k_yday_ach:"Yesterday’s achievement", k_mtd:"MTD efficiency", k_lastm:"Last month’s efficiency", hist_title:"Previous day and month",
   q_title:"Quality and audit", q_defects:"Today’s top 3 defects", q_def_name:"Defect name", q_count:"Count", q_audit:"Lot / audit findings", q_feedback:"Buyer feedback", q_dhu_vs:"DHU {v}%, target below {t}%",
-  issues_title:"Action tracker", issues_sub:"Problems logged on every line today and where each one stands.", issues_none:"No problems logged today.", open_n:"{n} open issues",
+  issues_title:"Action tracker", issues_sub:"Problems logged on every line today and where each one stands.", issues_none:"No problems logged today.", open_n:"Open issues: {n}",
   tab_floor:"Floor board", tab_line:"Line balancing", tab_hourly:"Hourly production", tab_operators:"Operators & skills", tab_styles:"Style / OB library", tab_report:"Reports",
   sync_cloud:"Synced for everyone", sync_local:"This device only", sync_loading:"Loading…",
   local_banner:"No shared database is available, so data is saved in this browser only. Open it signed in on claude.ai to share all 36 lines with your team.",
@@ -486,14 +496,14 @@ const LINE_COUNT = 36;
 const PROBLEMS = ["sup","mc","input","abs","quality","balance","power","change","acc","other"];
 const MACHINES = ["SNLS","DNLS","4T OL","5T OL","Flatlock","BH / BA","Bartack","Kansai","Manual"];
 const SAMPLE_OB = [
-  {name:"শোল্ডার জয়েন (Shoulder join)",machine:"4T OL",sam:0.65,mp:1},
-  {name:"প্ল্যাকেট বক্স ও টপস্টিচ (Placket)",machine:"SNLS",sam:1.85,mp:3},
-  {name:"কলার জয়েন ও ক্লোজ (Collar join)",machine:"SNLS",sam:1.60,mp:3},
-  {name:"স্লিভ জয়েন (Sleeve join)",machine:"4T OL",sam:1.15,mp:2},
-  {name:"সাইড সিম ও স্লিট (Side seam)",machine:"4T OL",sam:1.40,mp:2},
-  {name:"স্লিভ ও বটম হেম (Bottom hem)",machine:"Flatlock",sam:1.10,mp:2},
-  {name:"বাটন হোল ও অ্যাটাচ (BH / BA)",machine:"BH / BA",sam:0.80,mp:2},
-  {name:"থ্রেড ট্রিমিং ও ফাইনাল QC",machine:"Manual",sam:1.30,mp:2}
+  {bn:"শোল্ডার জয়েন",en:"Shoulder join",machine:"4T OL",sam:0.65,mp:1},
+  {bn:"প্ল্যাকেট বক্স ও টপস্টিচ",en:"Placket box and topstitch",machine:"SNLS",sam:1.85,mp:3},
+  {bn:"কলার জয়েন ও ক্লোজ",en:"Collar join and close",machine:"SNLS",sam:1.60,mp:3},
+  {bn:"স্লিভ জয়েন",en:"Sleeve join",machine:"4T OL",sam:1.15,mp:2},
+  {bn:"সাইড সিম ও স্লিট",en:"Side seam and slit",machine:"4T OL",sam:1.40,mp:2},
+  {bn:"স্লিভ ও বটম হেম",en:"Sleeve and bottom hem",machine:"Flatlock",sam:1.10,mp:2},
+  {bn:"বাটন হোল ও বাটন অ্যাটাচ",en:"Button hole and attach",machine:"BH / BA",sam:0.80,mp:2},
+  {bn:"সুতা কাটা ও ফাইনাল চেক",en:"Thread trimming and final check",machine:"Manual",sam:1.30,mp:2}
 ];
 
 /* ---------- small utils ---------- */
@@ -503,7 +513,9 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const pad2 = n => String(n).padStart(2,"0");
 const lineId = n => "L" + pad2(n);
 const uid = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-3);
-const num = v => { const x = parseFloat(v); return isFinite(x) ? x : 0; };
+const BN_D = "০১২৩৪৫৬৭৮৯";
+const toLat = v => String(v ?? "").replace(/[০-৯]/g, d => BN_D.indexOf(d));
+const num = v => { const x = parseFloat(toLat(v).replace(/,/g, "")); return isFinite(x) ? x : 0; };
 const todayStr = () => { const d = new Date(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); };
 const addDays = (s, k) => { const d = new Date(s+"T12:00:00"); d.setDate(d.getDate()+k); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); };
 function lsGet(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } }
@@ -522,6 +534,12 @@ const S = {
   ai: {}
 };
 function t(k, vars){ let s = (I18N[S.lang] && I18N[S.lang][k]) ?? I18N.en[k] ?? k; if (vars) for (const [a,b] of Object.entries(vars)) s = s.split("{"+a+"}").join(b); return s; }
+function ldig(v){ const s = String(v ?? ""); return S.lang === "bn" ? s.replace(/[0-9]/g, d => BN_D[d]) : s; }
+function cur(){ return t("cur"); }
+function fdate(s){ if (!s) return "–"; try { return new Date(s+"T12:00:00").toLocaleDateString(S.lang==="bn"?"bn-BD":"en-GB",{day:"numeric",month:"short",year:"numeric"}); } catch(e){ return ldig(s); } }
+const MC_BN = {"SNLS":"সিঙ্গেল নিডল","DNLS":"ডাবল নিডল","4T OL":"৪ সুতা ওভারলক","5T OL":"৫ সুতা ওভারলক","Flatlock":"ফ্ল্যাটলক","BH / BA":"বাটন হোল / অ্যাটাচ","Bartack":"বারট্যাক","Kansai":"কানসাই","Manual":"হাতের কাজ"};
+function mcLabel(code){ return S.lang === "bn" && MC_BN[code] ? MC_BN[code] : (code ?? ""); }
+function mcCode(v){ const s = String(v ?? "").trim(); const hit = Object.entries(MC_BN).find(([k,b]) => b === s); return hit ? hit[0] : s; }
 function fmt(n, d=0){ if (n == null || !isFinite(n)) return "–"; return Number(n).toLocaleString(S.lang==="bn"?"bn-BD":"en-US",{minimumFractionDigits:d,maximumFractionDigits:d}); }
 function defaultLine(n){ return {no:n, floor:Math.ceil(n/12), buyer:"", style:"", smv:0, op:0, hp:0, hours:10, targetEff:65, absent:0, shift:"08:00", styleStart:"", dhuTarget:5, curve:false, complexity:"medium", orderQty:0, shipDate:"", studies:{}, processes:[]}; }
 function getLine(n){ const id = lineId(n); return S.lines[id] || (S.lines[id] = defaultLine(n)); }
@@ -810,16 +828,20 @@ function lineOptions(sel){ let h = ""; for (let n=1; n<=LINE_COUNT; n++){ const 
 
 function renderChrome(){
   document.documentElement.lang = S.lang;
+  $("#logoTxt").textContent = t("L_logo");
   $("#brandName").textContent = t("brand"); $("#brandSub").textContent = t("brandSub") + ", " + t("group");
   $("#tvExit").textContent = t("tv_off");
   $$("#themeSeg [data-theme-set]").forEach(b => { const v = b.dataset.themeSet; b.setAttribute("aria-pressed", String(v === S.theme)); b.title = t("th_"+v); b.setAttribute("aria-label", t("th_"+v)); });
   $$(".seg [data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
   $("#tabs").innerHTML = VIEWS.map(v => `<a href="#${v}" ${v===S.view?'aria-current="page"':""}>${t("tab_"+v)}</a>`).join("");
   const sy = $("#sync"); sy.className = "sync " + S.mode; $("#syncTxt").textContent = t("sync_"+S.mode);
-  $("#dateSel").value = S.date;
+  $("#dateSel").value = S.date; $("#dateSel").setAttribute("aria-label", t("date_lbl"));
+  $(".bar-tools .seg:not(.theme)").setAttribute("aria-label", t("lang_lbl")); $("#themeSeg").setAttribute("aria-label", t("theme_lbl"));
+  if (S.lang === "bn") localizeInputs($(".bar-tools")); else { const w = $("#dateSel").closest(".lz"); if (w) { w.parentNode.insertBefore($("#dateSel"), w); w.remove(); } }
+  lzSync($("#dateSel"));
   document.title = t("brand") + " | " + t("brandSub");
   $("#printName").textContent = t("brand") + " (" + t("group") + ")"; $("#printSub").textContent = t("brandSub") + ", " + S.date;
-  $("#foot").textContent = "© " + new Date().getFullYear() + " " + t("footer");
+  $("#foot").textContent = "© " + ldig(new Date().getFullYear()) + " " + t("footer");
 }
 function banners(){
   let h = "";
@@ -834,6 +856,7 @@ function render(){
   const fn = {floor:viewFloor, line:viewLine, hourly:viewHourly, study:viewStudy, operators:viewOperators, styles:viewStyles, report:viewReport}[S.view];
   const body = fn(), b = banners();
   v.innerHTML = body.includes("<!--B-->") ? body.replace("<!--B-->", b) : b + body;
+  localizeInputs(v);
   if (S.view === "report") loadTrend();
 }
 
@@ -893,7 +916,7 @@ function viewFloor(){
         <div class="st">${esc([l.buyer,l.style].filter(Boolean).join(", ")) || "&nbsp;"}${r.runDay?`, ${t("run_day")} ${fmt(r.runDay)}`:""}</div>
         <div class="prog"><i style="width:${r.ach==null?0:Math.min(100,r.ach)}%"></i></div>
         <div class="mx"><span>${t("out")} <b>${fmt(r.out)}</b> / ${fmt(r.tgtSoFar)}</span></div>
-        <div class="mx"><span>${t("eff")} <b>${r.eff==null?"–":fmt(r.eff,0)+"%"}</b></span><span>DHU <b>${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</b></span></div>
+        <div class="mx"><span>${t("eff")} <b>${r.eff==null?"–":fmt(r.eff,0)+"%"}</b></span><span>${t("L_dhu")} <b>${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</b></span></div>
         ${r.open?`<span class="tag warn iss">⚠ ${t("open_n",{n:fmt(r.open)})}</span>`:""}
       </button>`;
     });
@@ -947,7 +970,7 @@ function lineKpis(l, r){
     <div class="kpi ${st}"><div class="l">${t("k_bneck")}</div><div class="v">${fmt(r.minCap)}</div><div class="s">${r.bn?esc(r.bn.name):"–"}</div></div>
     <div class="kpi ${r.balEff>=85?"ok":r.balEff>=70?"warn":r.balEff?"bad":""}"><div class="l">${t("k_bal")}</div><div class="v">${fmt(r.balEff,1)}%</div><div class="s">${t("k_theo")}: ${fmt(r.theoMp,1)}</div></div>
     ${r.effPlan !== num(l.targetEff) ? `<div class="kpi warn"><div class="l">${t("eff_today_plan")}</div><div class="v">${fmt(r.effPlan,0)}%</div><div class="s">${t("curve")}, ${t("run_day")} ${fmt(r.runDay)}</div></div>` : ""}
-    ${r.costPlan != null ? `<div class="kpi"><div class="l">${t("cost_plan")}</div><div class="v">৳${fmt(r.costPlan,2)}</div><div class="s">${r.costAct!=null?t("cost_act")+": ৳"+fmt(r.costAct,2):"CPM ৳"+fmt(r.cpm,2)}</div></div>` : ""}
+    ${r.costPlan != null ? `<div class="kpi"><div class="l">${t("cost_plan")}</div><div class="v">${cur()}${fmt(r.costPlan,2)}</div><div class="s">${r.costAct!=null?t("cost_act")+": "+cur()+fmt(r.costAct,2):t("L_cpm")+" "+cur()+fmt(r.cpm,2)}</div></div>` : ""}
     <div class="kpi"><div class="l">${t("k_takt")}</div><div class="v">${fmt(r.takt,1)}</div><div class="s">${t("sec")}</div></div>
     <div class="kpi"><div class="l">${t("k_mp")}</div><div class="v">${fmt(r.activeMp)}</div><div class="s">${t("op")} ${fmt(num(l.op))}, ${t("hp")} ${fmt(num(l.hp))}</div></div>
   </div>
@@ -968,7 +991,7 @@ function procTable(l, r){
     h += `<tr class="${isBn?"hot":""}" data-pid="${p.id}">
       <td class="num">${fmt(i+1)}</td>
       <td><input type="text" data-pf="name" value="${esc(p.name)}" ${ro} aria-label="${t("c_op")}"></td>
-      <td><input type="text" data-pf="machine" list="mcList" value="${esc(p.machine)}" ${ro} aria-label="${t("c_mc")}" style="min-width:90px"></td>
+      <td><input type="text" data-pf="machine" list="mcList" value="${esc(mcLabel(p.machine))}" ${ro} aria-label="${t("c_mc")}" style="min-width:90px"></td>
       <td class="r"><input type="number" step="0.01" min="0" data-pf="sam" value="${p.sam}" ${ro} class="num" style="text-align:right;width:76px"></td>
       <td class="r"><input type="number" step="0.5" min="0" data-pf="mp" value="${p.mp}" ${ro} class="num" style="text-align:right;width:66px"></td>
       <td class="r num"><b>${fmt(x.cap)}</b></td>
@@ -978,7 +1001,7 @@ function procTable(l, r){
       ${S.canEdit?`<td><button class="btn sm danger" data-act="delproc" data-pid="${p.id}" aria-label="${t("del")}">${t("del")}</button></td>`:""}
     </tr>`;
   });
-  h += `</tbody></table></div><datalist id="mcList">${MACHINES.map(m=>`<option value="${m}">`).join("")}</datalist>`;
+  h += `</tbody></table></div><datalist id="mcList">${MACHINES.map(m=>`<option value="${esc(mcLabel(m))}">`).join("")}</datalist>`;
   return h;
 }
 function lineDerived(l, r){
@@ -998,7 +1021,7 @@ function lineDerived(l, r){
     const cands = Object.entries(S.operators).filter(([id,o]) => o.line===lid && o.skills && num(o.skills[mc])>0 && o.proc!==r.bn.id)
       .map(([id,o]) => { const cur = l.processes.find(p=>p.id===o.proc); const cx = cur ? r.procs.find(x=>x.p.id===cur.id) : null; return {o, sk:num(o.skills[mc]), from:cur?cur.name:t("o_none"), load:cx?cx.load:0}; })
       .sort((a,b) => (b.sk - a.sk) || (a.load - b.load)).slice(0,3);
-    h += `<h2 style="margin-top:16px">${t("best_ops")} <span class="muted small">(${esc(mc)})</span></h2>`;
+    h += `<h2 style="margin-top:16px">${t("best_ops")} <span class="muted small">(${esc(mcLabel(mc))})</span></h2>`;
     h += cands.length ? `<div class="chips">${cands.map(c=>`<span class="chip">${esc(c.o.name||c.o.code)}: ${fmt(c.sk)}% <span class="muted">${esc(c.from)}</span></span>`).join("")}</div>` : `<p class="small muted">${t("best_ops_none")}</p>`;
   }
   h += `</section></div>`;
@@ -1060,14 +1083,14 @@ function viewHourly(){
   <section class="panel"><div class="tw"><table><thead><tr><th>${t("h_hour")}</th><th>${t("h_time")}</th><th class="r">${t("h_tgt")}</th><th class="r">${t("h_out")}</th><th class="r">${t("h_def")}</th><th class="r">${t("h_npt")}</th><th class="r">${t("h_cum")}</th><th class="r">${t("h_var")}</th><th class="r">${t("h_eff")}</th><th style="min-width:170px">${t("h_prob")}</th><th style="min-width:190px">${t("h_action")}</th><th style="min-width:90px">${t("h_who")}</th><th>${t("h_tts")}</th><th>${t("h_status")}</th></tr></thead><tbody>`;
   for (let i=0;i<r.hours;i++){
     const x = hrs[i] || {};
-    h += `<tr data-hi="${i}"><td class="num">${fmt(i+1)}</td><td class="small muted num" style="white-space:nowrap">${shiftClock(l,i)}</td><td class="r num">${fmt(r.targetHourly)}</td>
+    h += `<tr data-hi="${i}"><td class="num">${fmt(i+1)}</td><td class="small muted num" style="white-space:nowrap">${ldig(shiftClock(l,i))}</td><td class="r num">${fmt(r.targetHourly)}</td>
       <td class="r"><input type="number" min="0" inputmode="numeric" data-hf="o" data-n="${n}" data-i="${i}" value="${esc(x.o??"")}" ${ro} class="num" style="text-align:right;width:80px" aria-label="${t("h_out")} ${i+1}"></td>
       <td class="r"><input type="number" min="0" inputmode="numeric" data-hf="d" data-n="${n}" data-i="${i}" value="${esc(x.d??"")}" ${ro} class="num" style="text-align:right;width:70px"></td>
       <td class="r"><input type="number" min="0" max="60" inputmode="numeric" data-hf="n" data-n="${n}" data-i="${i}" value="${esc(x.n??"")}" ${ro} class="num" style="text-align:right;width:70px"></td>
       <td class="r num" data-cum style="white-space:nowrap"></td><td class="r num" data-var></td><td class="r num" data-eff></td>
       <td><select data-hf="p" data-n="${n}" data-i="${i}" ${ro}><option value="">–</option>${PROBLEMS.map(k=>`<option value="${k}" ${x.p===k?"selected":""}>${t("pt_"+k)}</option>`).join("")}</select></td>
       <td><input type="text" data-hf="r" data-n="${n}" data-i="${i}" value="${esc(x.r??"")}" ${ro}></td>
-      <td><input type="text" data-hf="w" data-n="${n}" data-i="${i}" value="${esc(x.w??"")}" ${ro} placeholder="DPM / PM"></td>
+      <td><input type="text" data-hf="w" data-n="${n}" data-i="${i}" value="${esc(x.w??"")}" ${ro} placeholder="${t("L_who_ph")}"></td>
       <td><input type="time" data-hf="tm" data-n="${n}" data-i="${i}" value="${esc(x.tm??"")}" ${ro} style="min-width:100px"></td>
       <td><select data-hf="s" data-n="${n}" data-i="${i}" ${ro}><option value="">${t("st_pending")}</option><option value="done" ${x.s==="done"?"selected":""}>${t("st_done")}</option></select></td></tr>`;
   }
@@ -1088,7 +1111,7 @@ function hourlyKpis(l, r){
     <div class="kpi"><div class="l">${t("k_daily")}</div><div class="v">${fmt(r.targetDaily)}</div><div class="s">${fmt(r.targetHourly)} ${t("pcs_hr")}</div></div>
     <div class="kpi ${r.status==="idle"?"":r.status}"><div class="l">${t("s_output")}</div><div class="v">${fmt(r.out)}</div><div class="s">${t("s_target")}: ${fmt(r.tgtSoFar)}</div></div>
     <div class="kpi"><div class="l">${t("eff")}</div><div class="v">${r.eff==null?"–":fmt(r.eff,1)+"%"}</div><div class="s">${t("targetEff")}: ${fmt(num(l.targetEff))}%</div></div>
-    <div class="kpi ${r.dhu==null?"":r.dhu<r.dhuT?"ok":r.dhu<r.dhuT*1.2?"warn":"bad"}"><div class="l">DHU</div><div class="v">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</div><div class="s">${t("dhuTarget")} &lt;${fmt(r.dhuT)}%, ${fmt(r.def)} ${t("pcs")}</div></div>
+    <div class="kpi ${r.dhu==null?"":r.dhu<r.dhuT?"ok":r.dhu<r.dhuT*1.2?"warn":"bad"}"><div class="l">${t("L_dhu")}</div><div class="v">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</div><div class="s">${t("dhuTarget")} &lt;${fmt(r.dhuT)}%, ${fmt(r.def)} ${t("pcs")}</div></div>
     <div class="kpi"><div class="l">${t("h_npt")}</div><div class="v">${fmt(r.npt)}</div><div class="s">${t("min")}</div></div>
   </div>
   <h2 style="margin-top:14px">${t("fc_title")}</h2>${fc}`;
@@ -1124,7 +1147,7 @@ function hourlyChart(l, r){
     s += `<text x="${x+w/2}" y="${H-8}" text-anchor="middle">${fmt(i+1)}</text>`;
   });
   s += `<line x1="${L}" x2="${W}" y1="${Y(r.targetHourly)}" y2="${Y(r.targetHourly)}" stroke="var(--ink)" stroke-dasharray="5 4" stroke-width="1.5"/></svg>`;
-  return `<div class="chart">${s}</div><div class="legend"><span><i style="background:var(--ok)"></i>≥95%</span><span><i style="background:var(--warn)"></i>85–95%</span><span><i style="background:var(--bad)"></i>&lt;85%</span><span><i style="background:var(--ink)"></i>${t("lg_htgt")}</span></div>`;
+  return `<div class="chart">${s}</div><div class="legend"><span><i style="background:var(--ok)"></i>≥${fmt(95)}%</span><span><i style="background:var(--warn)"></i>${fmt(85)}–${fmt(95)}%</span><span><i style="background:var(--bad)"></i>&lt;${fmt(85)}%</span><span><i style="background:var(--ink)"></i>${t("lg_htgt")}</span></div>`;
 }
 function hourlyAll(ro){
   const hi = S.quickHour - 1;
@@ -1157,7 +1180,7 @@ function viewOperators(){
   <div class="row" style="margin-bottom:12px"><div class="f" style="min-width:200px"><select data-act="opsline" aria-label="${t("o_line")}"><option value="all">${t("all_lines")}</option>${Array.from({length:LINE_COUNT},(_,i)=>`<option value="${i+1}" ${String(i+1)===String(S.opsLine)?"selected":""}>${t("line")} ${fmt(i+1)}</option>`).join("")}</select></div>
   <span class="spacer"></span>${S.canEdit?`<button class="btn pri" data-act="addop">${t("add_op")}</button><button class="btn" data-act="importops">${t("import_ops")}</button>`:""}<button class="btn" data-act="exportops" ${list.length?"":"disabled"}>${t("export_ops")}</button></div>`;
   if (!list.length) return h + `<div class="panel empty"><p>${t("no_ops")}</p></div>`;
-  h += `<section class="panel"><div class="tw"><table><thead><tr><th>${t("o_code")}</th><th style="min-width:140px">${t("o_name")}</th><th>${t("o_line")}</th><th style="min-width:160px">${t("o_proc")}</th>${mcs.map(m=>`<th class="r">${esc(m)}</th>`).join("")}${S.canEdit?"<th></th>":""}</tr></thead><tbody>`;
+  h += `<section class="panel"><div class="tw"><table><thead><tr><th>${t("o_code")}</th><th style="min-width:140px">${t("o_name")}</th><th>${t("o_line")}</th><th style="min-width:160px">${t("o_proc")}</th>${mcs.map(m=>`<th class="r">${esc(mcLabel(m))}</th>`).join("")}${S.canEdit?"<th></th>":""}</tr></thead><tbody>`;
   list.forEach(([id,o]) => {
     const ln = o.line ? +o.line.slice(1) : 0, procs = ln ? getLine(ln).processes : [];
     h += `<tr data-oid="${id}"><td><input data-of="code" value="${esc(o.code)}" ${ro} style="width:80px"></td><td><input data-of="name" value="${esc(o.name)}" ${ro}></td>
@@ -1180,7 +1203,7 @@ function viewStyles(){
     const smv = (tp.processes||[]).reduce((a,p)=>a+num(p.sam),0);
     h += `<tr data-tid="${id}"><td>${esc(tp.buyer)}</td><td><b>${esc(tp.style)}</b></td><td class="r num">${fmt(tp.smv||smv,2)}</td><td class="r num">${fmt((tp.processes||[]).length)}</td>
       <td><div class="row" style="gap:6px;flex-wrap:nowrap">${S.canEdit?`<select data-tline aria-label="${t("apply_to")}" style="border:1px solid var(--rule);border-radius:6px;padding:3px">${Array.from({length:LINE_COUNT},(_,i)=>`<option value="${i+1}" ${i+1===S.lineNo?"selected":""}>${t("line")} ${fmt(i+1)}</option>`).join("")}</select><button class="btn sm pri" data-act="applytpl" data-tid="${id}">${t("apply_to")}</button>`:""}
-      <button class="btn sm" data-act="exporttpl" data-tid="${id}">Excel</button>${S.canEdit?`<button class="btn sm danger" data-act="deltpl" data-tid="${id}">${t("del")}</button>`:""}</div></td></tr>`;
+      <button class="btn sm" data-act="exporttpl" data-tid="${id}">${t("L_excel")}</button>${S.canEdit?`<button class="btn sm danger" data-act="deltpl" data-tid="${id}">${t("del")}</button>`:""}</div></td></tr>`;
   });
   return h + `</tbody></table></div></section>`;
 }
@@ -1193,9 +1216,9 @@ function reportRows(){
 }
 function viewReport(){
   const rows = reportRows();
-  let h = `<div class="phead"><h1 class="vh">${t("report_title")}</h1><p class="vsub">${t("report_sub")} ${esc(S.date)}</p></div><!--B-->
+  let h = `<div class="phead"><h1 class="vh">${t("report_title")}</h1><p class="vsub">${t("report_sub")} ${esc(fdate(S.date))}</p></div><!--B-->
   <div class="row noprint" style="margin-bottom:12px"><button class="btn spool" data-act="pdf">${t("pdf_btn")}</button><button class="btn pri" data-act="exportrep">${t("export_rep")}</button><button class="btn ok" data-act="wafloor">${t("wa_copy")}</button><button class="btn" data-act="print">${t("print")}</button></div>
-  <section class="panel"><div class="tw"><table><thead><tr><th>${t("line")}</th><th>${t("buyer")} / ${t("style")}</th><th class="r">${t("smv")}</th><th class="r">${t("k_mp")}</th><th class="r">${t("s_target")}</th><th class="r">${t("out")}</th><th class="r">${t("r_var")}</th><th class="r">${t("eff")}</th><th class="r">DHU</th><th class="r">${t("fc_title")}</th><th>${t("r_bneck")}</th></tr></thead><tbody>`;
+  <section class="panel"><div class="tw"><table><thead><tr><th>${t("line")}</th><th>${t("buyer")} / ${t("style")}</th><th class="r">${t("smv")}</th><th class="r">${t("k_mp")}</th><th class="r">${t("s_target")}</th><th class="r">${t("out")}</th><th class="r">${t("r_var")}</th><th class="r">${t("eff")}</th><th class="r">${t("L_dhu")}</th><th class="r">${t("fc_title")}</th><th>${t("r_bneck")}</th></tr></thead><tbody>`;
   if (!rows.length) h += `<tr><td colspan="11" class="empty">${t("not_setup")}</td></tr>`;
   rows.forEach(({n,l,r}) => {
     const v = r.out - r.tgtSoFar;
@@ -1244,9 +1267,9 @@ async function loadHist(n){
   const data = await getHistory(); const el = $("#hHist"); if (!el || S.lineNo !== n || S.view !== "hourly") return;
   const h = lineHistory(n, data);
   el.className = ""; el.innerHTML = `<div class="kpis">
-    <div class="kpi"><div class="l">${t("k_yday_eff")}</div><div class="v">${h.yEff==null?"–":fmt(h.yEff,1)+"%"}</div><div class="s">${h.yDate?esc(h.yDate):""}</div></div>
+    <div class="kpi"><div class="l">${t("k_yday_eff")}</div><div class="v">${h.yEff==null?"–":fmt(h.yEff,1)+"%"}</div><div class="s">${h.yDate?esc(fdate(h.yDate)):""}</div></div>
     <div class="kpi"><div class="l">${t("k_yday_ach")}</div><div class="v">${h.yOut==null?"–":fmt(h.yOut)}</div><div class="s">${t("pcs")}</div></div>
-    <div class="kpi"><div class="l">${t("k_mtd")}</div><div class="v">${h.mtd==null?"–":fmt(h.mtd,1)+"%"}</div><div class="s">${esc(S.date.slice(0,7))}</div></div>
+    <div class="kpi"><div class="l">${t("k_mtd")}</div><div class="v">${h.mtd==null?"–":fmt(h.mtd,1)+"%"}</div><div class="s">${esc(new Date(S.date+"T12:00:00").toLocaleDateString(S.lang==="bn"?"bn-BD":"en-GB",{month:"long",year:"numeric"}))}</div></div>
     <div class="kpi"><div class="l">${t("k_lastm")}</div><div class="v">${h.lastM==null?"–":fmt(h.lastM,1)+"%"}</div><div class="s"></div></div></div>`;
 }
 function issuesPanel(){
@@ -1256,7 +1279,7 @@ function issuesPanel(){
   if (!rows.length) return s + `<p class="muted">${t("issues_none")}</p></section>`;
   s += `<div class="tw"><table><thead><tr><th>${t("line")}</th><th>${t("h_hour")}</th><th>${t("h_prob")}</th><th>${t("h_action")}</th><th>${t("h_who")}</th><th>${t("h_tts")}</th><th>${t("h_status")}</th></tr></thead><tbody>`;
   rows.sort((a,b) => (a.h.s==="done") - (b.h.s==="done") || a.n-b.n || a.i-b.i).forEach(({n,i,h}) => {
-    s += `<tr><td class="num"><b>${fmt(n)}</b></td><td class="num">${fmt(i+1)}</td><td>${t("pt_"+h.p)}</td><td>${esc(h.r||"")}</td><td>${esc(h.w||"")}</td><td class="num">${esc(h.tm||"")}</td><td><span class="tag ${h.s==="done"?"ok":"warn"}">${h.s==="done"?t("st_done"):t("st_pending")}</span></td></tr>`; });
+    s += `<tr><td class="num"><b>${fmt(n)}</b></td><td class="num">${fmt(i+1)}</td><td>${t("pt_"+h.p)}</td><td>${esc(h.r||"")}</td><td>${esc(h.w||"")}</td><td class="num">${esc(ldig(h.tm||""))}</td><td><span class="tag ${h.s==="done"?"ok":"warn"}">${h.s==="done"?t("st_done"):t("st_pending")}</span></td></tr>`; });
   return s + `</tbody></table></div></section>`;
 }
 /* ===================== Advanced IE features ===================== */
@@ -1282,7 +1305,7 @@ function yamazumi(l, r){
     s += `<text x="${x+w/2}" y="${H-12}" text-anchor="middle">${fmt(o.i+1)}</text>`;
   });
   const line = (v, col, dash, lab) => v ? `<line x1="${L}" x2="${W-R+10}" y1="${Y(v)}" y2="${Y(v)}" stroke="${col}" stroke-width="${dash?1.5:2}" ${dash?`stroke-dasharray="${dash}"`:""}/><text x="${W-R+14}" y="${Y(v)+4}" style="fill:${col};font-weight:600">${lab} ${fmt(v,2)}</text>` : "";
-  s += line(ucl, "var(--warn)", "3 4", "UCL") + line(lcl, "var(--ink-3)", "3 4", "LCL") + line(pitch, "var(--thread)", "", t("yz_pitch")) + line(takt, "var(--bad)", "7 4", t("yz_takt"));
+  s += line(ucl, "var(--warn)", "3 4", t("L_ucl")) + line(lcl, "var(--ink-3)", "3 4", t("L_lcl")) + line(pitch, "var(--thread)", "", t("yz_pitch")) + line(takt, "var(--bad)", "7 4", t("yz_takt"));
   s += `</svg>`;
   return `<div class="chart">${s}</div><div class="legend"><span><i style="background:var(--bad)"></i>${t("yz_over")}</span><span><i style="background:var(--warn)"></i>${t("yz_high")}</span><span><i style="background:var(--ok)"></i>${t("yz_ok")}</span><span><i style="background:var(--denim);opacity:.55"></i>${t("yz_low")}</span><span><i style="background:var(--thread)"></i>${t("yz_pitch")}</span><span><i style="background:var(--bad)"></i>${t("yz_takt")}</span></div>`;
 }
@@ -1315,7 +1338,7 @@ async function loadOrderPlan(n){
     <div class="kpis">
       <div class="kpi"><div class="l">${t("op_left")}</div><div class="v">${fmt(o.left)}</div><div class="s">${t("pcs")}</div></div>
       <div class="kpi"><div class="l">${t("op_pace")}</div><div class="v">${fmt(o.pace)}</div><div class="s">${t("pcs")}</div></div>
-      <div class="kpi ${o.late>0?"bad":o.late!=null?"ok":""}"><div class="l">${t("op_finish")}</div><div class="v" style="font-size:1.25rem">${o.finish?esc(o.finish):"–"}</div><div class="s">${l.shipDate?t("shipDate")+": "+esc(l.shipDate):""}</div></div>
+      <div class="kpi ${o.late>0?"bad":o.late!=null?"ok":""}"><div class="l">${t("op_finish")}</div><div class="v" style="font-size:1.25rem">${o.finish?esc(fdate(o.finish)):"–"}</div><div class="s">${l.shipDate?t("shipDate")+": "+esc(fdate(l.shipDate)):""}</div></div>
       ${o.reqPace!=null?`<div class="kpi"><div class="l">${t("op_req")}</div><div class="v">${fmt(o.reqPace)}</div><div class="s">${t("pcs")}</div></div>`:""}
     </div>
     ${o.late==null?"":o.late>0?`<div class="note bad">${t("op_late",{d:fmt(o.late),r:fmt(o.reqPace)})}</div>`:`<div class="note ok">${t("op_ok",{d:fmt(-o.late)})}</div>`}`;
@@ -1360,7 +1383,7 @@ function costPanel(){
     const avail = r.activeMp*(r.logged*60 - r.npt), e = r.out*r.smv; earned += e; lost += Math.max(0, avail*r.effPlan/100 - e); }
   return `<section class="panel"><h2>${t("cost_title")}</h2><p class="small muted" style="margin-top:-4px">${t("cpm_sub")}</p>
     <div class="row" style="align-items:flex-end"><div class="f" style="width:200px"><label for="cpmIn">${t("cpm")}</label><input id="cpmIn" type="number" min="0" step="0.01" data-set="cpm" value="${cpm||""}" ${S.canEdit?"":"disabled"}></div>
-    ${cpm?`<div class="kpis" style="flex:1;min-width:260px"><div class="kpi ${lost>0?"bad":"ok"}"><div class="l">${t("cost_loss")}</div><div class="v">৳${fmt(lost*cpm)}</div><div class="s">${fmt(lost)} ${t("min")}</div></div></div>`:""}</div></section>`;
+    ${cpm?`<div class="kpis" style="flex:1;min-width:260px"><div class="kpi ${lost>0?"bad":"ok"}"><div class="l">${t("cost_loss")}</div><div class="v">${cur()}${fmt(lost*cpm)}</div><div class="s">${fmt(lost)} ${t("min")}</div></div></div>`:""}</div></section>`;
 }
 
 /* ---------- Time study ---------- */
@@ -1375,7 +1398,7 @@ function tsFromSaved(){
   const l = getLine(S.lineNo), st = (l.studies||{})[S.ts.pid];
   S.ts.obs = st ? st.obs.slice() : []; S.ts.rating = st ? st.rating : 100; S.ts.allow = st ? st.allow : 15; tsStop();
 }
-function tsFmt(ms){ const s = ms/1000; return s < 60 ? s.toFixed(1) : Math.floor(s/60)+":"+pad2(Math.floor(s%60))+"."+Math.floor((s*10)%10); }
+function tsFmt(ms){ const s = ms/1000; return ldig(s < 60 ? s.toFixed(1) : Math.floor(s/60)+":"+pad2(Math.floor(s%60))+"."+Math.floor((s*10)%10)); }
 function tsTick(){ const d = $("#tsDisp"); if (!S.ts.running || !d) { S.ts.raf = 0; return; } d.textContent = tsFmt(performance.now() - S.ts.lapStart); S.ts.raf = requestAnimationFrame(tsTick); }
 function tsStop(){ S.ts.running = false; if (S.ts.raf) cancelAnimationFrame(S.ts.raf); S.ts.raf = 0; }
 function viewStudy(){
@@ -1383,16 +1406,16 @@ function viewStudy(){
   const n = S.lineNo, l = getLine(n), p = l.processes.find(x => x.id === S.ts.pid);
   let h = `<div class="phead"><div class="row"><div><h1 class="vh">${t("ts_title")}</h1><p class="vsub">${t("ts_sub")}</p></div></div></div><!--B-->
   <div class="row" style="margin-bottom:14px"><div class="f" style="min-width:220px"><select data-act="selline" aria-label="${t("choose_line")}">${lineOptions(n)}</select></div>
-   ${l.processes.length?`<div class="f" style="min-width:260px;flex:1;max-width:460px"><select data-act="ts_proc" aria-label="${t("ts_op")}">${l.processes.map((x,i)=>`<option value="${x.id}" ${x.id===S.ts.pid?"selected":""}>${fmt(i+1)}. ${esc(x.name)} (${esc(x.machine)})</option>`).join("")}</select></div>`:""}</div>`;
+   ${l.processes.length?`<div class="f" style="min-width:260px;flex:1;max-width:460px"><select data-act="ts_proc" aria-label="${t("ts_op")}">${l.processes.map((x,i)=>`<option value="${x.id}" ${x.id===S.ts.pid?"selected":""}>${fmt(i+1)}. ${esc(x.name)} (${esc(mcLabel(x.machine))})</option>`).join("")}</select></div>`:""}</div>`;
   if (!p) return h + `<div class="panel empty"><p>${t("ts_noproc")}</p><a class="btn pri" href="#line">${t("go_balance")}</a></div>`;
   const last = (l.studies||{})[p.id];
   h += `<div class="grid2"><section class="panel sw">
-    <div class="swd"><span id="tsDisp" class="num">${S.ts.running?"":"0.0"}</span><small>${t("sec_short")}</small></div>
+    <div class="swd"><span id="tsDisp" class="num">${S.ts.running?"":ldig("0.0")}</span><small>${t("sec_short")}</small></div>
     <div class="row" style="justify-content:center;gap:12px;margin:6px 0 14px">
       ${S.ts.running?`<button class="btn spool big" data-act="ts_lap">${t("ts_lap")}</button><button class="btn big" data-act="ts_stop">${t("ts_stop")}</button>`
         :`<button class="btn pri big" data-act="ts_start">${t("ts_start")}</button><button class="btn big" data-act="ts_reset" ${S.ts.obs.length?"":"disabled"}>${t("ts_reset")}</button>`}
     </div>
-    <p class="small muted" style="text-align:center;margin:0 0 12px">${esc(p.name)}, ${esc(p.machine)}${last?`. ${t("ts_last",{d:esc(last.date),s:fmt(last.sam,3)})}`:""}</p>
+    <p class="small muted" style="text-align:center;margin:0 0 12px">${esc(p.name)}, ${esc(mcLabel(p.machine))}${last?`. ${t("ts_last",{d:esc(fdate(last.date)),s:fmt(last.sam,3)})}`:""}</p>
     <h2>${t("ts_obs")} <span class="muted small">(${fmt(S.ts.obs.length)})</span></h2>
     <div class="chips" id="tsObs">${S.ts.obs.map((v,k)=>`<button type="button" class="chip" data-act="ts_del" data-k="${k}" title="${t("del")}">${fmt(v,1)} ${t("sec_short")} ✕</button>`).join("") || `<span class="muted small">—</span>`}</div>
     <div class="row" style="margin-top:12px"><div class="f" style="width:150px"><input type="number" id="tsManual" min="0" step="0.1" placeholder="${t("ts_manual")}" aria-label="${t("ts_manual")}"></div><button class="btn" data-act="ts_add">${t("ts_add")}</button></div>
@@ -1411,7 +1434,7 @@ function tsStatsHtml(p){
   const diff = num(p.sam) ? (st.sam - num(p.sam))/num(p.sam)*100 : 0;
   return `<div class="kpis">
     <div class="kpi"><div class="l">${t("ts_avg")}</div><div class="v">${fmt(st.avg,1)}</div><div class="s">${t("sec_short")}, ${t("ts_minmax")} ${fmt(st.min,1)} / ${fmt(st.max,1)}</div></div>
-    <div class="kpi ${st.cv>15?"bad":st.cv>8?"warn":"ok"}"><div class="l">${t("ts_cv")}</div><div class="v">${fmt(st.cv,1)}%</div><div class="s">σ ${fmt(st.sd,2)}</div></div>
+    <div class="kpi ${st.cv>15?"bad":st.cv>8?"warn":"ok"}"><div class="l">${t("ts_cv")}</div><div class="v">${fmt(st.cv,1)}%</div><div class="s">${t("L_sd")} ${fmt(st.sd,2)}</div></div>
     <div class="kpi ${st.nReq!=null&&st.nReq>st.n?"warn":"ok"}"><div class="l">${t("ts_nreq")}</div><div class="v">${st.nReq==null?"–":fmt(st.nReq)}</div><div class="s">${t("ts_nreq_sub")}</div></div>
     <div class="kpi"><div class="l">${t("ts_basic")}</div><div class="v">${fmt(st.basic,1)}</div><div class="s">${t("sec_short")}</div></div>
   </div>
@@ -1444,6 +1467,29 @@ document.addEventListener("keydown", e => {
   if (/INPUT|SELECT|TEXTAREA/.test((document.activeElement||{}).tagName||"")) return;
   e.preventDefault(); tsAction("ts_lap");
 });
+
+/* ---------- Language-pure inputs: Bangla digits in number fields, Bangla dates and times ---------- */
+function lzText(el){
+  const v = el.value;
+  if (!v) return el.type === "date" ? t("lz_empty") : "–";
+  if (el.type === "date") return fdate(v);
+  return ldig(v);
+}
+function lzSync(el){ const w = el.closest(".lz"); if (w) { const s = w.querySelector(".lzv"); s.textContent = lzText(el); s.classList.toggle("ph", !el.value); } }
+function localizeInputs(root){
+  if (!root) return;
+  const bn = S.lang === "bn";
+  root.querySelectorAll('input[type=number],input[data-num]').forEach(el => {
+    if (bn) { if (el.type === "number") { el.dataset.num = "1"; el.type = "text"; el.inputMode = "decimal"; el.setAttribute("autocomplete","off"); } el.value = ldig(toLat(el.value)); }
+  });
+  root.querySelectorAll('input[type=date],input[type=time]').forEach(el => {
+    if (!bn || el.closest(".lz")) return;
+    const w = document.createElement("span"); w.className = "lz"; el.parentNode.insertBefore(w, el); w.appendChild(el);
+    const s = document.createElement("span"); s.className = "lzv"; s.setAttribute("aria-hidden","true"); w.appendChild(s); lzSync(el);
+    el.addEventListener("input", () => lzSync(el));
+  });
+  root.querySelectorAll('input[placeholder]').forEach(el => { if (bn) el.placeholder = ldig(el.placeholder); });
+}
 /* ===================== Full PDF report ===================== */
 const PDF_LIBS = ["https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"];
 function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
@@ -1467,16 +1513,16 @@ function buildPdfItems(trend, hist){
   const kpi = (l, v, c, s) => `<div class="pk"><div class="l">${l}</div><div class="v" style="color:${c||PC.ink}">${v}</div>${s?`<div class="s">${s}</div>`:""}</div>`;
   const gen = new Date().toLocaleString(S.lang==="bn"?"bn-BD":"en-GB",{dateStyle:"medium",timeStyle:"short"});
   B(`<div class="phead">
-    <div style="display:flex;align-items:center;gap:14px"><div class="plogo">BGL</div><div><div class="pco">${t("brand")}</div><div class="pgr">${t("group")}, ${t("addr")}</div></div></div>
-    <div style="text-align:right"><div class="ptitle">${t("pdf_title")}</div><div class="pgr">${esc(niceDate())} (${esc(S.date)})</div><div class="pgr">${t("pdf_gen",{d:esc(gen)})}</div></div></div>
+    <div style="display:flex;align-items:center;gap:14px"><div class="plogo">${t("L_logo")}</div><div><div class="pco">${t("brand")}</div><div class="pgr">${t("group")}, ${t("addr")}</div></div></div>
+    <div style="text-align:right"><div class="ptitle">${t("pdf_title")}</div><div class="pgr">${esc(niceDate())}</div><div class="pgr">${t("pdf_gen",{d:esc(gen)})}</div></div></div>
     <div class="pmotto">${t("motto")}  <span>${t("values_lbl")}: ${t("values")}</span></div>`);
   // 1. summary
   B(pSec(t("pdf_s1"), "", `<div class="pkg">
     ${kpi(t("s_target"), fmt(tg))}${kpi(t("s_output"), fmt(o), stCol(ach))}${kpi(t("ach"), ach==null?"–":fmt(ach,0)+"%", stCol(ach))}${kpi(t("s_eff"), feff==null?"–":fmt(feff,1)+"%")}
     ${kpi(t("s_dhu"), o?fmt(d/o*100,1)+"%":"–")}${kpi(t("s_running"), fmt(running)+" / "+fmt(LINE_COUNT))}${kpi(t("s_behind"), fmt(behind), behind?PC.bad:PC.ink)}${kpi(t("issues_title"), fmt(open), open?PC.warn:PC.ink)}
-    ${kpi(t("pdf_npt"), fmt(npt)+" "+t("min"))}${kpi(t("pdf_lostmin"), fmt(lost)+" "+t("min"), lost?PC.bad:PC.ink)}${cpm?kpi(t("cost_loss"), "৳"+fmt(lost*cpm), PC.bad):""}</div>`));
+    ${kpi(t("pdf_npt"), fmt(npt)+" "+t("min"))}${kpi(t("pdf_lostmin"), fmt(lost)+" "+t("min"), lost?PC.bad:PC.ink)}${cpm?kpi(t("cost_loss"), cur()+fmt(lost*cpm), PC.bad):""}</div>`));
   // 2. line-wise
-  T(t("pdf_s2"), "", `<tr><th>${t("line")}</th><th>${t("buyer")} / ${t("style")}</th><th class="r">${t("run_day")}</th><th class="r">SMV</th><th class="r">MP</th><th class="r">${t("pdf_plan")}</th><th class="r">${t("s_target")}</th><th class="r">${t("out")}</th><th class="r">${t("r_var")}</th><th class="r">${t("eff")}</th><th class="r">DHU</th><th class="r">NPT</th><th class="r">${t("fc_title")}</th><th style="min-width:150px">${t("r_bneck")}</th><th class="r">${t("k_bal")}</th><th>${t("h_status")}</th></tr>`,
+  T(t("pdf_s2"), "", `<tr><th>${t("line")}</th><th>${t("buyer")} / ${t("style")}</th><th class="r">${t("run_day")}</th><th class="r">${t("L_smv")}</th><th class="r">${t("L_mp")}</th><th class="r">${t("pdf_plan")}</th><th class="r">${t("s_target")}</th><th class="r">${t("out")}</th><th class="r">${t("r_var")}</th><th class="r">${t("eff")}</th><th class="r">${t("L_dhu")}</th><th class="r">${t("L_npt")}</th><th class="r">${t("fc_title")}</th><th>${t("r_bneck")}</th><th class="r">${t("k_bal")}</th><th>${t("h_status")}</th></tr>`,
     rows.map(({n,l,r}) => { const v = r.out - r.tgtSoFar;
     return `<tr><td><b>${fmt(n)}</b></td><td>${esc([l.buyer,l.style].filter(Boolean).join(", "))}</td><td class="r">${r.runDay?fmt(r.runDay):"–"}</td><td class="r">${fmt(r.smv,2)}</td><td class="r">${fmt(r.activeMp)}</td><td class="r">${fmt(r.effPlan,0)}%</td><td class="r">${fmt(r.tgtSoFar)}</td><td class="r"><b>${fmt(r.out)}</b></td><td class="r" style="color:${v<0?PC.bad:PC.ok};font-weight:700">${r.logged?(v>0?"+":"")+fmt(v):"–"}</td><td class="r">${r.eff==null?"–":fmt(r.eff,1)+"%"}</td><td class="r" style="color:${r.dhu!=null&&r.dhu>=r.dhuT?PC.bad:PC.ink}">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</td><td class="r">${fmt(r.npt)}</td><td class="r">${r.forecast==null?"–":fmt(r.forecast)+" / "+fmt(r.targetDaily)}</td><td>${r.bn?esc(r.bn.name)+" ("+fmt(r.minCap)+")":"–"}</td><td class="r">${fmt(r.balEff,0)}%</td><td>${pTag(r.status, r.status==="idle"?t("no_data"):t("status_"+r.status))}</td></tr>`; }), t("not_setup"));
   // 3. hourly matrix
@@ -1490,20 +1536,20 @@ function buildPdfItems(trend, hist){
     smartAlerts().map(x => `<tr><td><b>${fmt(x.n)}</b></td><td>${pTag(x.lv==="info"?"idle":x.lv, lvName[x.lv])}</td><td>${esc(t(x.k, x.v))}</td></tr>`), t("al_none"));
   // 5. action tracker
   const iss = []; for (let n=1;n<=LINE_COUNT;n++) (getProd(n).hours||[]).forEach((x,i) => { if (x && x.p) iss.push({n,i,x}); });
-  T(t("issues_title"), "", `<tr><th>${t("line")}</th><th>${t("h_hour")}</th><th>${t("h_prob")}</th><th>${t("h_action")}</th><th>${t("h_who")}</th><th>${t("h_tts")}</th><th class="r">NPT</th><th>${t("h_status")}</th></tr>`,
-    iss.map(({n,i,x}) => `<tr><td><b>${fmt(n)}</b></td><td>${fmt(i+1)}</td><td>${t("pt_"+x.p)}</td><td>${esc(x.r||"")}</td><td>${esc(x.w||"")}</td><td>${esc(x.tm||"")}</td><td class="r">${fmt(num(x.n))}</td><td>${pTag(x.s==="done"?"ok":"warn", x.s==="done"?t("st_done"):t("st_pending"))}</td></tr>`), t("issues_none"));
+  T(t("issues_title"), "", `<tr><th>${t("line")}</th><th>${t("h_hour")}</th><th>${t("h_prob")}</th><th>${t("h_action")}</th><th>${t("h_who")}</th><th>${t("h_tts")}</th><th class="r">${t("L_npt")}</th><th>${t("h_status")}</th></tr>`,
+    iss.map(({n,i,x}) => `<tr><td><b>${fmt(n)}</b></td><td>${fmt(i+1)}</td><td>${t("pt_"+x.p)}</td><td>${esc(x.r||"")}</td><td>${esc(x.w||"")}</td><td>${esc(ldig(x.tm||""))}</td><td class="r">${fmt(num(x.n))}</td><td>${pTag(x.s==="done"?"ok":"warn", x.s==="done"?t("st_done"):t("st_pending"))}</td></tr>`), t("issues_none"));
   // 6. pareto
   const agg = {}; let tot = 0;
   for (let n=1;n<=LINE_COUNT;n++){ const r = calcLine(getLine(n), getProd(n)); (getProd(n).hours||[]).forEach(x => { if (!x || (!x.p && !num(x.n))) return; const k = x.p || "_none"; const a = agg[k] || (agg[k] = {min:0,cnt:0,mm:0}); a.min += num(x.n); a.cnt++; a.mm += num(x.n)*r.activeMp; tot += num(x.n); }); }
   const pr = Object.entries(agg).sort((a,b) => b[1].min-a[1].min || b[1].cnt-a[1].cnt); let cum = 0; const pmax = Math.max(1, ...pr.map(x => x[1].min));
-  B(pSec(t("pa_title"), t("pa_sub"), pr.length ? pr.map(([k,a]) => { cum += a.min; return `<div class="ppr"><span class="pl">${k==="_none"?t("pa_noreason"):t("pt_"+k)}</span><span class="pb"><i style="width:${a.min/pmax*100}%"></i></span><span class="pv"><b>${fmt(a.min)}</b> ${t("pa_min")}, ${fmt(a.cnt)} ${t("pa_cnt")}</span><span class="pv">${tot?fmt(cum/tot*100,0)+"%":"–"}${cpm&&a.mm?`, ৳${fmt(a.mm*cpm)}`:""}</span></div>`; }).join("") : `<p class="psub">${t("pa_none")}</p>`));
+  B(pSec(t("pa_title"), t("pa_sub"), pr.length ? pr.map(([k,a]) => { cum += a.min; return `<div class="ppr"><span class="pl">${k==="_none"?t("pa_noreason"):t("pt_"+k)}</span><span class="pb"><i style="width:${a.min/pmax*100}%"></i></span><span class="pv"><b>${fmt(a.min)}</b> ${t("pa_min")}, ${fmt(a.cnt)} ${t("pa_cnt")}</span><span class="pv">${tot?fmt(cum/tot*100,0)+"%":"–"}${cpm&&a.mm?`, ${cur()}${fmt(a.mm*cpm)}`:""}</span></div>`; }).join("") : `<p class="psub">${t("pa_none")}</p>`));
   // 7. quality
-  T(t("q_title"), "", `<tr><th>${t("line")}</th><th class="r">${t("h_def")}</th><th class="r">DHU</th><th class="r">${t("dhuTarget")}</th><th>${t("q_defects")}</th><th>${t("q_audit")}</th><th>${t("q_feedback")}</th></tr>`,
+  T(t("q_title"), "", `<tr><th>${t("line")}</th><th class="r">${t("h_def")}</th><th class="r">${t("L_dhu")}</th><th class="r">${t("dhuTarget")}</th><th>${t("q_defects")}</th><th>${t("q_audit")}</th><th>${t("q_feedback")}</th></tr>`,
     rows.map(({n,r}) => { const q = getProd(n).q || {}; return `<tr><td><b>${fmt(n)}</b></td><td class="r">${fmt(r.def)}</td><td class="r" style="color:${r.dhu!=null&&r.dhu>=r.dhuT?PC.bad:PC.ok};font-weight:700">${r.dhu==null?"–":fmt(r.dhu,1)+"%"}</td><td class="r">&lt;${fmt(r.dhuT)}%</td><td>${esc((q.def||[]).filter(x=>x&&x.n).map(x=>x.n+" ("+fmt(num(x.c))+")").join(", "))}</td><td>${esc(q.audit||"")}</td><td>${esc(q.fb||"")}</td></tr>`; }), t("not_setup"));
   // 8. orders
   const ords = rows.map(x => ({...x, op: orderPlan(x.n, hist)})).filter(x => x.op);
   if (ords.length) T(t("op_title"), "", `<tr><th>${t("line")}</th><th>${t("style")}</th><th class="r">${t("orderQty")}</th><th class="r">${t("op_made")}</th><th class="r">${t("op_left")}</th><th class="r">${t("op_pace")}</th><th>${t("op_finish")}</th><th>${t("shipDate")}</th><th class="r">${t("op_req")}</th><th>${t("h_status")}</th></tr>`,
-    ords.map(({n,l,op}) => `<tr><td><b>${fmt(n)}</b></td><td>${esc(l.style||"")}</td><td class="r">${fmt(op.qty)}</td><td class="r">${fmt(op.made)} (${fmt(op.pct,0)}%)</td><td class="r">${fmt(op.left)}</td><td class="r">${fmt(op.pace)}</td><td>${esc(op.finish||"–")}</td><td>${esc(l.shipDate||"–")}</td><td class="r">${op.reqPace==null?"–":fmt(op.reqPace)}</td><td>${op.late==null?"–":op.late>0?pTag("bad", t("pdf_late",{d:fmt(op.late)})):pTag("ok", t("pdf_ontime"))}</td></tr>`));
+    ords.map(({n,l,op}) => `<tr><td><b>${fmt(n)}</b></td><td>${esc(l.style||"")}</td><td class="r">${fmt(op.qty)}</td><td class="r">${fmt(op.made)} (${fmt(op.pct,0)}%)</td><td class="r">${fmt(op.left)}</td><td class="r">${fmt(op.pace)}</td><td>${esc(fdate(op.finish))}</td><td>${esc(fdate(l.shipDate))}</td><td class="r">${op.reqPace==null?"–":fmt(op.reqPace)}</td><td>${op.late==null?"–":op.late>0?pTag("bad", t("pdf_late",{d:fmt(op.late)})):pTag("ok", t("pdf_ontime"))}</td></tr>`));
   // 9. trend (div bars, no SVG, so the rasteriser draws it reliably)
   const days = Array.from({length:7},(_,i)=>addDays(S.date, i-6));
   const pts = days.map(dt => { let a=0,b=0; const day = trend[dt] || {}; for (let n=1;n<=LINE_COUNT;n++){ const p = day[lineId(n)]; if (!p) continue; const r = calcLine(getLine(n), p); if (r.logged){ a += r.out*r.smv; b += r.activeMp*(r.logged*60-r.npt); } } return b ? a/b*100 : null; });
@@ -1511,26 +1557,28 @@ function buildPdfItems(trend, hist){
   B(`<div class="psign"><div>${t("pdf_prep")}</div><div>${t("pdf_check")}</div><div>${t("pdf_appr")}</div></div>`);
   return items;
 }
-const PDF_CSS = `
-.pdfdoc{width:1100px;background:#fff;color:${PC.ink};font-family:"Hind Siliguri","Noto Sans Bengali","Nirmala UI",sans-serif;font-size:12px;line-height:1.45;padding:0}
+function pdfCss(){ const bn = S.lang === "bn"; const D = bn ? `"Anek Bangla",sans-serif` : `"Anek Latin","Anek Bangla",sans-serif`, Bd = bn ? `"Hind Siliguri","Noto Sans Bengali","Nirmala UI",sans-serif` : `"Hind","Hind Siliguri",sans-serif`;
+return `
+.pdfdoc{width:1100px;background:#fff;color:${PC.ink};font-family:${Bd};font-size:12px;line-height:1.45;padding:0}
 .pdfdoc *{box-sizing:border-box}
 .pdfdoc .phead{display:flex;justify-content:space-between;align-items:center;background:${PC.hero};color:#fff;padding:16px 20px;border-radius:12px}
-.pdfdoc .plogo{width:46px;height:46px;border-radius:11px;background:${PC.spool};color:#2A1A00;display:flex;align-items:center;justify-content:center;font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:15px}
-.pdfdoc .pco{font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:22px;line-height:1.1}
+.pdfdoc .plogo{width:46px;height:46px;border-radius:11px;background:${PC.spool};color:#2A1A00;display:flex;align-items:center;justify-content:center;font-family:${D};font-weight:800;font-size:15px}
+.pdfdoc .pco{font-family:${D};font-weight:800;font-size:22px;line-height:1.1}
 .pdfdoc .pgr{color:#A4ACD8;font-size:11px}
-.pdfdoc .ptitle{font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:18px;color:${PC.spool}}
+.pdfdoc .ptitle{font-family:${D};font-weight:800;font-size:18px;color:${PC.spool}}
 .pdfdoc .pmotto{margin:8px 0 4px;padding:6px 12px;border-left:4px solid ${PC.thread};background:${PC.soft};border-radius:0 8px 8px 0;font-weight:700;color:${PC.denim};font-size:12px}
 .pdfdoc .pmotto span{font-weight:400;color:${PC.ink2};margin-left:10px}
 .pdfdoc .psec{margin-top:14px;break-inside:auto}
-.pdfdoc h2{font-family:"Anek Bangla",sans-serif;font-size:15px;font-weight:800;margin:0 0 6px;padding-bottom:4px;border-bottom:2px dashed ${PC.rule};color:${PC.ink}}
+.pdfdoc h2{font-family:${D};font-size:15px;font-weight:800;margin:0 0 6px;padding-bottom:4px;border-bottom:2px dashed ${PC.rule};color:${PC.ink}}
 .pdfdoc .psub{color:${PC.ink3};margin:0 0 6px;font-size:11px}
 .pdfdoc .pkg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .pdfdoc .pk{background:${PC.soft};border-top:3px solid ${PC.denim};border-radius:8px;padding:7px 10px}
 .pdfdoc .pk .l{font-size:10px;color:${PC.ink2}}
-.pdfdoc .pk .v{font-family:"Anek Bangla",sans-serif;font-weight:800;font-size:19px;line-height:1.2}
-.pdfdoc .pt{width:100%;border-collapse:collapse;font-size:10.5px}
-.pdfdoc .pt th{white-space:normal;line-height:1.25;background:${PC.hero};color:#fff;font-weight:600;padding:5px 6px;text-align:left;white-space:nowrap}
-.pdfdoc .pt td{padding:4px 6px;border-bottom:1px solid ${PC.rule};vertical-align:top}
+.pdfdoc .pk .v{font-family:${D};font-weight:800;font-size:19px;line-height:1.2}
+.pdfdoc .pt{width:100%;max-width:100%;border-collapse:collapse;font-size:10px}
+.pdfdoc .pt th,.pdfdoc .pt td{overflow-wrap:anywhere}
+.pdfdoc .pt th{white-space:normal;line-height:1.2;padding:4px 4px!important;background:${PC.hero};color:#fff;font-weight:600;padding:5px 6px;text-align:left;white-space:nowrap}
+.pdfdoc .pt td{padding:4px 4px;border-bottom:1px solid ${PC.rule};vertical-align:top}
 .pdfdoc .pt tr:nth-child(even) td{background:#FAFBFE}
 .pdfdoc .pt .r{text-align:right} .pdfdoc .pt .c{text-align:center}
 .pdfdoc .pt tr{break-inside:avoid}
@@ -1550,7 +1598,8 @@ const PDF_CSS = `
 .pdfdoc .ptd{color:${PC.ink3};font-size:10px;margin-top:3px}
 .pdfdoc .psign{display:flex;justify-content:space-between;gap:30px;margin-top:46px;break-inside:avoid}
 .pdfdoc .psign div{flex:1;border-top:1px solid ${PC.ink2};padding-top:4px;text-align:center;color:${PC.ink2};font-size:11px}
-`;
+.pdfdoc .pfoot{position:absolute;left:${PAD}px;right:${PAD}px;bottom:12px;display:flex;justify-content:space-between;color:${PC.ink3};font-size:10px;border-top:1px solid ${PC.rule};padding-top:5px}
+`; }
 const PW = 1100, PH = Math.round(1100*210/297), PAD = 26, FOOT = 22;
 function paginate(items, box){
   const avail = PH - PAD*2 - FOOT, pages = []; let cur = [], used = 0;
@@ -1585,7 +1634,7 @@ async function exportFullPdf(btn){
     const [lib, trend, hist] = await Promise.all([loadPdfLib(), Store.trend(7), getHistory()]);
     holder = document.createElement("div");
     holder.style.cssText = `position:absolute;left:0;top:0;width:${PW}px;z-index:-1;pointer-events:none`;
-    holder.innerHTML = `<style>${PDF_CSS}</style><div class="pdfdoc" id="pdfMeasure" style="width:${PW-PAD*2}px"></div><div id="pdfPage"></div>`;
+    holder.innerHTML = `<style>${pdfCss()}</style><div class="pdfdoc" id="pdfMeasure" style="width:${PW-PAD*2}px"></div><div id="pdfPage"></div>`;
     document.body.appendChild(holder);
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     const pages = paginate(buildPdfItems(trend, hist), holder.querySelector("#pdfMeasure"));
@@ -1593,12 +1642,10 @@ async function exportFullPdf(btn){
     const pdf = new lib.jsPDF({unit:"mm", format:"a4", orientation:"landscape", compress:true});
     const slot = holder.querySelector("#pdfPage"); window.scrollTo(0, 0);
     for (let p=0; p<pages.length; p++){
-      slot.innerHTML = `<div class="pdfdoc" style="width:${PW}px;height:${PH}px;padding:${PAD}px ${PAD}px ${PAD+FOOT}px;overflow:hidden">${pages[p].join("")}</div>`;
+      slot.innerHTML = `<div class="pdfdoc" style="position:relative;width:${PW}px;height:${PH}px;padding:${PAD}px ${PAD}px ${PAD+FOOT}px;overflow:hidden">${pages[p].join("")}<div class="pfoot"><span>${t("brand")} (${t("group")}), ${t("pdf_title")}, ${esc(fdate(S.date))}</span><span>${t("pdf_page",{a:fmt(p+1),b:fmt(pages.length)})}</span></div></div>`;
       const canvas = await lib.h2c(slot.firstElementChild, {scale:2, backgroundColor:"#ffffff", useCORS:true, logging:false, windowWidth:PW, scrollX:0, scrollY:0});
       if (p) pdf.addPage();
       pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, 297, 210);
-      pdf.setFontSize(8); pdf.setTextColor(135,144,174);
-      pdf.text(`Baridhi Garments Limited (Bitopi Group) | IE Report ${S.date}`, 8, 205); pdf.text(`${p+1} / ${pages.length}`, 289, 205, {align:"right"});
     }
     await saveFile(`BGL_Full_Report_${S.date}.pdf`, pdf.output("blob"));
   } catch(e){ console.warn(e); toast(t("pdf_fail")); }
@@ -1642,7 +1689,7 @@ function findCols(rows, wants){
   return null;
 }
 function parseOB(rows){
-  const f = findCols(rows, {name:["operation","process","প্রসেস","অপারেশন","description"], machine:["machine","m/c","মেশিন"], sam:["sam","smv","time","সময়"], mp:["mp","manpower","operator","জনবল","man"]});
+  const f = findCols(rows, {name:["operation","process","প্রসেস","অপারেশন","description"], machine:["machine","m/c","মেশিন"], sam:["sam","smv","time","সময়","এসএএম","এসএমভি"], mp:["mp","manpower","operator","জনবল","man"]});
   if (!f) return null;
   const out = [];
   for (let r=f.row+1; r<rows.length; r++){
@@ -1654,9 +1701,9 @@ function parseOB(rows){
 }
 function obRows(l){
   const r = calcLine(l, getProd(l.no));
-  return [[t("c_no"), t("c_op"), t("c_mc"), "SAM", "MP", t("c_cap"), t("c_load")+" %"]].concat(
-    r.procs.map((x,i) => [i+1, x.p.name, x.p.machine, num(x.p.sam), num(x.p.mp), Math.round(x.cap), Math.round(x.load)]),
-    [[], ["SMV", r.sumSam], [t("k_hourly"), r.targetHourly], [t("k_bneck"), Math.round(r.minCap)], [t("k_bal")+" %", Math.round(r.balEff*10)/10]]);
+  return [[t("c_no"), t("c_op"), t("c_mc"), t("L_sam"), t("L_mp"), t("c_cap"), t("c_load")+" %"]].concat(
+    r.procs.map((x,i) => [i+1, x.p.name, mcLabel(x.p.machine), num(x.p.sam), num(x.p.mp), Math.round(x.cap), Math.round(x.load)]),
+    [[], [t("L_smv"), r.sumSam], [t("k_hourly"), r.targetHourly], [t("k_bneck"), Math.round(r.minCap)], [t("k_bal")+" %", Math.round(r.balEff*10)/10]]);
 }
 
 /* ---------- clipboard / WhatsApp ---------- */
@@ -1669,8 +1716,8 @@ function waFloor(){
   const rows = reportRows(); let tg=0, o=0, d=0, sm=0, av=0;
   const lines = rows.filter(x=>x.r.logged).map(({n,l,r}) => { tg+=r.tgtSoFar; o+=r.out; d+=r.def; sm+=r.out*r.smv; av+=r.activeMp*(r.logged*60-r.npt);
     const ic = r.status==="ok"?"🟢":r.status==="warn"?"🟡":"🔴";
-    return `${ic} ${t("line")} ${fmt(n)}: ${fmt(r.out)}/${fmt(r.tgtSoFar)} | ${t("eff")} ${r.eff==null?"–":fmt(r.eff,0)+"%"} | DHU ${r.dhu==null?"–":fmt(r.dhu,1)+"%"}`; });
-  return `${t("wa_head")}\n📅 ${S.date}\n🎯 ${t("s_target")}: ${fmt(tg)} | ${t("s_output")}: ${fmt(o)}\n📊 ${t("s_eff")}: ${av?fmt(sm/av*100,1)+"%":"–"} | DHU: ${o?fmt(d/o*100,1)+"%":"–"}\n\n${lines.join("\n")}`;
+    return `${ic} ${t("line")} ${fmt(n)}: ${fmt(r.out)}/${fmt(r.tgtSoFar)} | ${t("eff")} ${r.eff==null?"–":fmt(r.eff,0)+"%"} | ${t("L_dhu")} ${r.dhu==null?"–":fmt(r.dhu,1)+"%"}`; });
+  return `${t("wa_head")}\n📅 ${fdate(S.date)}\n🎯 ${t("s_target")}: ${fmt(tg)} | ${t("s_output")}: ${fmt(o)}\n📊 ${t("s_eff")}: ${av?fmt(sm/av*100,1)+"%":"–"} | ${t("L_dhu")}: ${o?fmt(d/o*100,1)+"%":"–"}\n\n${lines.join("\n")}`;
 }
 
 /* ---------- Claude analysis ---------- */
@@ -1707,10 +1754,10 @@ V.addEventListener("input", e => {
   const el = e.target;
   if (el.dataset.ts) { S.ts[el.dataset.ts] = num(el.value); tsRefresh(); return; }
   if (el.dataset.set) { S.settings[el.dataset.set] = num(el.value); Store.save("settings", "factory", () => S.settings); return; }
-  if (el.dataset.lf) { const l = getLine(S.lineNo); const k = el.dataset.lf; l[k] = el.type==="checkbox" ? el.checked : el.type==="number" ? num(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return; }
+  if (el.dataset.lf) { const l = getLine(S.lineNo); const k = el.dataset.lf; l[k] = el.type==="checkbox" ? el.checked : (el.type==="number" || el.dataset.num) ? num(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return; }
   if (el.dataset.pf) {
     const l = getLine(S.lineNo), pid = el.closest("tr").dataset.pid, p = l.processes.find(x=>x.id===pid); if (!p) return;
-    p[el.dataset.pf] = el.type==="number" ? num(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return;
+    p[el.dataset.pf] = (el.type==="number" || el.dataset.num) ? num(el.value) : el.dataset.pf === "machine" ? mcCode(el.value) : el.value; Store.saveLine(S.lineNo); refreshLineDerived(); return;
   }
   if (el.dataset.hf) {
     const n = +el.dataset.n, i = +el.dataset.i, id = lineId(n);
@@ -1741,6 +1788,8 @@ V.addEventListener("input", e => {
 });
 V.addEventListener("change", e => {
   const el = e.target, act = el.dataset.act;
+  if (el.dataset.num && S.lang === "bn") el.value = ldig(toLat(el.value));
+  if (el.closest && el.closest(".lz")) lzSync(el);
   if (act === "selline") { S.lineNo = +el.value; lsSet("ielb.line", S.lineNo); render(); }
   else if (act === "ts_proc") { S.ts.pid = el.value; tsFromSaved(); render(); }
   else if (act === "qhour") { S.quickHour = +el.value; render(); }
@@ -1760,17 +1809,17 @@ V.addEventListener("click", async e => {
     case "hmode": S.hourlyMode = b.dataset.v; render(); break;
     case "addproc": l.processes.push({id:uid(), name:S.lang==="bn"?"নতুন অপারেশন":"New operation", machine:"SNLS", sam:0.8, mp:1}); Store.saveLine(S.lineNo); render(); break;
     case "delproc": l.processes = l.processes.filter(p => p.id !== b.dataset.pid); Store.saveLine(S.lineNo); render(); break;
-    case "sampleob": l.processes = SAMPLE_OB.map(p => ({...p, id:uid()})); if (!num(l.smv)) { l.smv = 14.5; l.op = l.op||28; l.hp = l.hp||6; } Store.saveLine(S.lineNo); render(); break;
+    case "sampleob": l.processes = SAMPLE_OB.map(p => ({name:p[S.lang], machine:p.machine, sam:p.sam, mp:p.mp, id:uid()})); if (!num(l.smv)) { l.smv = 14.5; l.op = l.op||28; l.hp = l.hp||6; } Store.saveLine(S.lineNo); render(); break;
     case "applysug": { const r = calcLine(l, getProd(S.lineNo)), s = suggestMp(l.processes, r.sumMp); if (s) { l.processes.forEach(p => { if (s.alloc[p.id] != null) p.mp = s.alloc[p.id]; }); Store.saveLine(S.lineNo); render(); toast(t("applied")); } break; }
     case "importob": pickFile(rows => { const ob = parseOB(rows); if (!ob) return toast(t("import_fail")); l.processes = ob; if (!num(l.smv)) l.smv = Math.round(ob.reduce((a,p)=>a+p.sam,0)*100)/100; Store.saveLine(S.lineNo); render(); toast(t("imported",{n:fmt(ob.length)})); }); break;
-    case "exportob": saveSheets(`BGL_OB_Line${pad2(S.lineNo)}_${(l.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [["OB", obRows(l)]]); break;
+    case "exportob": saveSheets(`BGL_OB_Line${pad2(S.lineNo)}_${(l.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [[t("L_ob"), obRows(l)]]); break;
     case "savetpl": { const id = uid(); S.templates[id] = {buyer:l.buyer, style:l.style || (t("line")+" "+S.lineNo), smv:num(l.smv), processes:clone(l.processes), updated:new Date().toISOString()}; Store.saveTpl(id); toast(t("tpl_saved")); break; }
     case "ai": runAI(); break;
     case "addop": { const id = uid(); S.operators[id] = {code:"", name:"", line: S.opsLine==="all" ? lineId(S.lineNo) : lineId(+S.opsLine), proc:"", skills:{}}; Store.saveOp(id); render(); const inp = $(`tr[data-oid="${id}"] input[data-of="code"]`); if (inp) inp.focus(); break; }
     case "delop": if (await confirmBox(t("confirm_del"))) { delete S.operators[b.dataset.oid]; Store.saveOp(b.dataset.oid); render(); } break;
-    case "exportops": { const mcs = opMachines(); const rows = [[t("o_code"), t("o_name"), t("o_line"), t("o_proc"), ...mcs]];
+    case "exportops": { const mcs = opMachines(); const rows = [[t("o_code"), t("o_name"), t("o_line"), t("o_proc"), ...mcs.map(mcLabel)]];
       Object.values(S.operators).filter(o => S.opsLine==="all" || o.line===lineId(+S.opsLine)).forEach(o => { const ln = o.line?+o.line.slice(1):0; const p = ln ? getLine(ln).processes.find(x=>x.id===o.proc) : null; rows.push([o.code, o.name, ln||"", p?p.name:"", ...mcs.map(m => (o.skills||{})[m] ?? "")]); });
-      saveSheets("BGL_Skill_matrix.xlsx", [["Skills", rows]]); break; }
+      saveSheets("BGL_Skill_matrix.xlsx", [[t("sh_skills"), rows]]); break; }
     case "importops": pickFile(rows => {
       const f = findCols(rows, {name:["name","নাম"], sam:["card","code","id","কার্ড"], line:["line","লাইন"]});
       if (!f) return toast(t("import_fail"));
@@ -1784,17 +1833,17 @@ V.addEventListener("click", async e => {
     case "applytpl": { const tp = S.templates[b.dataset.tid]; const n = +b.closest("tr").querySelector("[data-tline]").value; const tl = getLine(n);
       tl.processes = (tp.processes||[]).map(p => ({...p, id:uid()})); tl.buyer = tp.buyer || tl.buyer; tl.style = tp.style || tl.style; tl.smv = num(tp.smv) || Math.round(tl.processes.reduce((a,p)=>a+num(p.sam),0)*100)/100;
       Store.saveLine(n); S.lineNo = n; lsSet("ielb.line", n); toast(t("tpl_applied")); go("line"); break; }
-    case "exporttpl": { const tp = S.templates[b.dataset.tid]; saveSheets(`BGL_OB_${(tp.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [["OB", [[t("c_no"),t("c_op"),t("c_mc"),"SAM","MP"], ...(tp.processes||[]).map((p,i)=>[i+1,p.name,p.machine,num(p.sam),num(p.mp)])]]]); break; }
+    case "exporttpl": { const tp = S.templates[b.dataset.tid]; saveSheets(`BGL_OB_${(tp.style||"style").replace(/[^\w\-]+/g,"_")}.xlsx`, [[t("L_ob"), [[t("c_no"),t("c_op"),t("c_mc"),t("L_sam"),t("L_mp")], ...(tp.processes||[]).map((p,i)=>[i+1,p.name,mcLabel(p.machine),num(p.sam),num(p.mp)])]]]); break; }
     case "deltpl": if (await confirmBox(t("confirm_del"))) { delete S.templates[b.dataset.tid]; Store.saveTpl(b.dataset.tid); render(); } break;
-    case "exportrep": { const rows = [[t("line"), t("buyer"), t("style"), "SMV", t("k_mp"), t("k_hourly"), t("hrs_logged",{n:""}).trim(), t("s_target"), t("out"), t("r_var"), t("eff")+" %", "DHU %", t("h_npt"), t("fc_title"), t("k_daily"), t("r_bneck"), t("k_bneck"), t("k_bal")+" %"]];
+    case "exportrep": { const rows = [[t("line"), t("buyer"), t("style"), t("L_smv"), t("k_mp"), t("k_hourly"), t("hrs_logged",{n:""}).trim(), t("s_target"), t("out"), t("r_var"), t("eff")+" %", t("L_dhu")+" %", t("h_npt"), t("fc_title"), t("k_daily"), t("r_bneck"), t("k_bneck"), t("k_bal")+" %"]];
       reportRows().forEach(({n,l,r}) => rows.push([n, l.buyer, l.style, r.smv, r.activeMp, r.targetHourly, r.logged, r.tgtSoFar, r.out, r.out-r.tgtSoFar, r.eff==null?"":Math.round(r.eff*10)/10, r.dhu==null?"":Math.round(r.dhu*10)/10, r.npt, r.forecast??"", r.targetDaily, r.bn?r.bn.name:"", Math.round(r.minCap), Math.round(r.balEff*10)/10]));
       const hourly = [[t("line"), ...Array.from({length:12},(_,i)=>t("hour_n",{n:i+1}))]];
       reportRows().forEach(({n}) => hourly.push([n, ...Array.from({length:12},(_,i)=>{ const h=(getProd(n).hours||[])[i]; return h&&h.o!==""?h.o:""; })]));
       const iss = [[t("line"), t("h_hour"), t("h_prob"), t("h_action"), t("h_who"), t("h_tts"), t("h_status")]];
       for (let n=1;n<=LINE_COUNT;n++) (getProd(n).hours||[]).forEach((h,i) => { if (h && h.p) iss.push([n, i+1, t("pt_"+h.p), h.r||"", h.w||"", h.tm||"", h.s==="done"?t("st_done"):t("st_pending")]); });
-      const ql = [[t("line"), "DHU %", t("dhuTarget"), t("q_defects"), t("q_audit"), t("q_feedback")]];
+      const ql = [[t("line"), t("L_dhu")+" %", t("dhuTarget"), t("q_defects"), t("q_audit"), t("q_feedback")]];
       reportRows().forEach(({n,r}) => { const q = getProd(n).q || {}; ql.push([n, r.dhu==null?"":Math.round(r.dhu*10)/10, r.dhuT, (q.def||[]).filter(d=>d&&d.n).map(d=>d.n+" ("+(d.c||0)+")").join(", "), q.audit||"", q.fb||""]); });
-      saveSheets(`BGL_IE_Report_${S.date}.xlsx`, [["Summary", rows], ["Hourly", hourly], ["Action tracker", iss], ["Quality", ql]]); break; }
+      saveSheets(`BGL_IE_Report_${S.date}.xlsx`, [[t("sh_summary"), rows], [t("sh_hourly"), hourly], [t("sh_actions"), iss], [t("sh_quality"), ql]]); break; }
     case "wafloor": copyText(waFloor()); break;
     case "print": window.print(); break;
     case "backup": { const b = {app:"ie-line-balancer", version:1, exported:new Date().toISOString(), lines:S.lines, operators:S.operators, templates:S.templates, prod: await Store.allProd()};
